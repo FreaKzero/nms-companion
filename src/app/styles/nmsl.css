@@ -1,0 +1,72 @@
+@layer components {
+.btn-glyph {
+    width: 5px !important;
+  }
+
+  .btn {
+    @apply rounded-md bg-gray-600 px-3.5 py-2.5 text-sm font-semibold text-white
+    hover:bg-gray-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white
+  }
+
+  .sidebar-icon {
+    @apply relative flex items-center justify-center 
+    h-12 w-12 mt-2 mb-2 mx-auto  
+  bg-gray-400 hover:bg-green-600 bg-gray-800 
+  text-green-500 hover:text-white
+    hover:rounded-xl rounded-3xl
+    transition-all duration-300 ease-linear
+    cursor-pointer shadow-lg ;
+  }
+
+  .sidebar-icon-active {
+    @apply relative flex items-center justify-center 
+    h-12 w-12 mt-2 mb-2 mx-auto  
+   bg-indigo-500
+   text-white
+    rounded-xl
+    shadow-lg 
+    transition-all duration-150 ease-linear;
+  }
+
+
+  .sidebar-tooltip {
+    @apply absolute w-auto p-2 m-2 min-w-max left-14 rounded-md shadow-md
+    text-white bg-gray-900 
+    text-xs font-bold 
+    transition-all duration-100 scale-0 origin-left;
+  }
+
+  .sidebar-hr {
+    @apply bg-gray-200 bg-gray-800 
+    border border-gray-200 border-gray-800 rounded-full
+    mx-2;
+  }
+
+  
+  .top-navigation {
+    @apply
+    bg-gray-300 bg-gray-700 
+    w-full 
+    m-0 
+    shadow-lg;
+  }
+
+  .top-navigation-icon {
+    @apply text-gray-500
+    mr-3 ml-4
+    transition duration-300 ease-in-out 
+    hover:text-pink-400 
+    cursor-pointer;
+  }
+
+  .top-navigation-icon:first {
+    @apply ml-auto mr-4;
+  }
+
+    .title-text {
+    @apply text-xl text-gray-500 tracking-wider font-semibold 
+    mr-auto ml-2 my-auto 
+    transition duration-300 ease-in-out;
+  }
+
+}
