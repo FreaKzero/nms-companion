@@ -1,66 +1,39 @@
 import React, { useState, useEffect, ClipboardEvent } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
-import useListStore from '../stores/useListStore';
+import { Nullable } from '../stores/apiInterfaces';
+import useListStore, { ListState } from '../stores/useListStore';
 import usePositionStore from '../stores/usePositionStore';
-
-type Nullable<T> = T | null;
-
-type FormValues = {
-  GalaxyIndex: number;
-  GalaxyName: string;
-  PortalCode: string;
-  ShareCode: string;
-  Description: string;
-  Screenshot: string;
-  Tag: string;
-};
 
 interface iPreview {
   preview: Nullable<string>;
-  blob: Nullable<File>;
+  buffer: Nullable<ArrayBuffer>;
 }
 
 function CurrentPage () {
   const position = usePositionStore();
-  const [screen, setScreen] = useState<iPreview>({ preview: null, blob: null });
+  const [screen, setScreen] = useState<iPreview>({ preview: null, buffer: null });
   const handleAddLocation = useListStore((state) => state.add);
   const getCurrentPosition = usePositionStore((s) => s.getCurrent);
+  const navigate = useNavigate();
+  const { register, handleSubmit, setValue } = useForm<ListState>();
 
-  const { register, handleSubmit, setValue } = useForm<FormValues>();
-
-  const onPicPaste = (evt: ClipboardEvent<HTMLInputElement>) => {
+  const onPicPaste = async (evt: ClipboardEvent<HTMLInputElement>) => {
     const data = evt.clipboardData.items[0];
     if (data.kind === 'file') {
       const img = data.getAsFile();
       if (img !== null) {
-        setScreen({ blob: img, preview: URL.createObjectURL(img) });
+        const arrayBuffer = await img.arrayBuffer();
+        setScreen({ buffer: arrayBuffer, preview: URL.createObjectURL(img) });
       }
     }
   };
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    handleAddLocation(data);
-    //
-    // const formData = new FormData();
-    //
-    // Object.entries(data).forEach((item) => {
-    // if (item[0] !== 'Screenshot') {
-    //     formData.append(item[0], item[1].toString());
-    // }
-    // });
-    //
-    // if (screen.blob?.name) {
-    // formData.append('Screenshot', screen.blob);
-    // }
-    //
-    // const response = await fetch('http://localhost:3001/entries', {
-    // method: 'POST',
-    // body: formData
-    // });
-    //
-    // navigate('/test', { replace: true });
-    // https://www.raymondcamden.com/2018/10/05/storing-retrieving-photos-in-indexeddb
+  const onSubmit: SubmitHandler<ListState> = async (data) => {
+    handleAddLocation(data, screen?.buffer);
+
+    // navigate('/test');
   };
 
   useEffect(() => {

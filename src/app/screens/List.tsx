@@ -8,8 +8,6 @@ interface EnhancedListState extends ListState {
   onDelete: () => void;
 }
 
-// <img className='w-full h-32 md:h-36 object-cover' src={props.Screenshot.length ? props.Screenshot : 'http://localhost:3001/assets/noscreen.png'} />;
-
 const EntryItem = ({ ...props }: EnhancedListState) => {
   <span className='px-3 py-1 text-xs font-medium bg-green-900 bg-opacity-50 text-green-200 rounded-full border border-green-800'>{props.id} asdf</span>;
 
@@ -19,7 +17,10 @@ const EntryItem = ({ ...props }: EnhancedListState) => {
         <div className='md:w-48 flex-shrink-0'>
           <div className='relative'>
             <div className='absolute inset-0 opacity-20 bg-gradient-to-r from-purple-950 via-purple-900 to-purple-950 rounded-xl filter blur-2xl' />
-            <div className='relative border border-white border-opacity-20 rounded-xl overflow-hidden' />
+            <div className='relative border border-white border-opacity-20 rounded-xl overflow-hidden'>
+              <img className='w-full h-32 md:h-36 object-cover' src={`${props.Screenshot}`} />;
+
+            </div>
           </div>
         </div>
         <div className='flex-1'>

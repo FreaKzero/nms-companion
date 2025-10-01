@@ -1,4 +1,8 @@
+// import { ipcRenderer } from 'electron';
+import { v4 } from 'uuid';
 import { create } from 'zustand';
+
+import { Nullable } from './apiInterfaces';
 
 import getDB from '../lib/db';
 
@@ -12,13 +16,14 @@ export interface ListState {
   ShareCode: string;
   Description: string;
   Screenshot: string;
+  GalaxyIndex: number;
   Tag: string;
 }
 
 interface iListStore {
   loading: boolean;
   entries: ListState[];
-  add: (item: ListState) => Promise<ListState>;
+  add: (item: ListState, file: Nullable<ArrayBuffer>) => Promise<void>;
   delete: (key: string) => Promise<void>;
   getAll: () => Promise<void>;
 }
@@ -27,21 +32,23 @@ const useListStore = create<iListStore>()((set, get) => ({
   loading: true,
   entries: [],
 
-  add: async (item: ListState) => {
-    const res = await getDB().collection(COLLECTION)
-      .add(item);
+  add: async (item: ListState, file: Nullable<ArrayBuffer>) => {
+    const ID = v4();
 
-    const newItem = {
-      id: res.data.key,
-      ...res.data.data
+    const entry = {
+      id: ID,
+      ...item
     };
 
-    await getDB().collection(COLLECTION)
-      .doc(newItem.id)
-      .set(newItem);
+    if (file) {
+      const fileName = await electron.ipcRenderer.invoke('SAVE_SCREEN', file, ID);
+      entry.Screenshot = fileName;
+    }
 
-    set({ loading: false, entries: [...get().entries, newItem] });
-    return newItem;
+    await getDB().collection(COLLECTION)
+      .add(entry);
+
+    set({ loading: false, entries: [...get().entries, entry] });
   },
 
   delete: async (key: string) => {
