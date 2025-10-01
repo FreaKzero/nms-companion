@@ -32,8 +32,7 @@ function CurrentPage () {
 
   const onSubmit: SubmitHandler<ListState> = async (data) => {
     handleAddLocation(data, screen?.buffer);
-
-    // navigate('/test');
+    navigate('/list');
   };
 
   useEffect(() => {

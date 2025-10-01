@@ -14,17 +14,17 @@ const routes = [
     order: 1
   },
   {
-    text: 'Missions',
-    location: '/',
-    Icon: ListTodo,
-    Component: LandingScreen,
-    order: 2
-  },
-  {
     text: 'Add Manual Position',
     location: '/manual',
     Icon: MapPlusIcon,
     Component: ManualPage,
+    order: 2
+  },
+  {
+    text: 'Missions',
+    location: '/',
+    Icon: ListTodo,
+    Component: LandingScreen,
     order: 3
   },
   {

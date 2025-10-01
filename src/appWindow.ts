@@ -26,7 +26,7 @@ export function createAppWindow (): BrowserWindow {
     frame: true,
     backgroundColor: '#1a1a1a',
     webPreferences: {
-      webSecurity: process.env.NODE_ENV !== 'development',
+      webSecurity: app.isPackaged,
       nodeIntegration: false,
       contextIsolation: true,
       nodeIntegrationInWorker: false,

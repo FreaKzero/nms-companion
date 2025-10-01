@@ -1,5 +1,6 @@
 import React, { useState, ClipboardEvent } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import GlyphInput from '../components/GlyphInput';
 import Glyphs from '../components/ui/Glyphs';
@@ -20,23 +21,24 @@ type FormValues = {
 
 interface iPreview {
   preview: Nullable<string>;
-  blob: Nullable<File>;
+  buffer: Nullable<ArrayBuffer>;
 }
 
 function ManualPage () {
-  const [screen, setScreen] = useState<iPreview>({ preview: null, blob: null });
+  const [screen, setScreen] = useState<iPreview>({ preview: null, buffer: null });
   const handleAddLocation = useListStore((state) => state.add);
-
+  const navigate = useNavigate();
   const { register, handleSubmit, setValue, getValues, watch } = useForm<FormValues>();
 
   const GlyphPortalCode = watch('PortalCode');
 
-  const onPicPaste = (evt: ClipboardEvent<HTMLInputElement>) => {
+  const onPicPaste = async (evt: ClipboardEvent<HTMLInputElement>) => {
     const data = evt.clipboardData.items[0];
     if (data.kind === 'file') {
       const img = data.getAsFile();
       if (img !== null) {
-        setScreen({ blob: img, preview: URL.createObjectURL(img) });
+        const arrayBuffer = await img.arrayBuffer();
+        setScreen({ buffer: arrayBuffer, preview: URL.createObjectURL(img) });
       }
     }
   };
@@ -50,7 +52,8 @@ function ManualPage () {
   };
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    handleAddLocation(data);
+    handleAddLocation(data, screen?.buffer);
+    navigate('/list');
   };
 
   return (

@@ -36,7 +36,7 @@ const registerNmsIpc = () => {
     ev.sender.send('GET_LIST_EXEC', POS);
   });
 
-  ipcMain.handle('SAVE_SCREEN', async (ev, arrayBuffer: ArrayBuffer, id: string) => {
+  ipcMain.handle('SAVE_SCREEN', async (_ev, arrayBuffer: ArrayBuffer, id: string) => {
     try {
       const buffer = Buffer.from(arrayBuffer);
       const image = nativeImage.createFromBuffer(buffer);
