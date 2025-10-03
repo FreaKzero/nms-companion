@@ -1,4 +1,4 @@
-import Glyphs from './ui/Glyphs';
+import Glyphs from './Glyphs';
 
 import usePositionStore from '../stores/usePositionStore';
 

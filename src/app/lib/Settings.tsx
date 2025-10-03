@@ -1,0 +1,55 @@
+import { useEffect } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+
+import { OptionManagerType } from './OptionManager';
+
+import { FormDirectoryPicker } from '../components/FormDirectoryPicker';
+import { FormFilePicker } from '../components/FormFilePicker';
+
+function SettingsPage () {
+  const { register, handleSubmit, setValue, control } = useForm<OptionManagerType>();
+
+  useEffect(() => {
+    const getSettings = async () => {
+      const settings = await electron.ipcRenderer.invoke('GET_SETTINGS');
+      setValue('savePath', settings.savePath, { shouldValidate: true, shouldDirty: true });
+      setValue('locationThumbDir', settings.locationThumbDir, { shouldValidate: true, shouldDirty: true });
+    };
+
+    getSettings();
+  }, []);
+
+  const onSubmit: SubmitHandler<OptionManagerType> = async (data) => {
+    await electron.ipcRenderer.invoke('SAVE_SETTINGS', data);
+  };
+
+  return (
+    <div className='h-screen w-full'>
+      <form action='#' method='POST' className='mx-auto p-10 w-xlsm:mt-20' onSubmit={handleSubmit(onSubmit)}>
+        <div className='grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2'>
+          <FormFilePicker
+            label='NMS Save File'
+            name='savePath'
+            control={control}
+            onlyPath
+          />
+
+          <FormDirectoryPicker
+            label='Select Thumbnails Folder'
+            name='locationThumbDir'
+            control={control}
+          />
+          <button
+            type='submit'
+            className='button'
+          >
+            Save
+          </button>
+        </div>
+
+      </form>
+    </div>
+  );
+}
+
+export default SettingsPage;

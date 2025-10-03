@@ -4,10 +4,9 @@ import { writeFile } from 'node:fs';
 import path from 'node:path';
 
 import getSave, { createFrigateMissions, createPosition, createSettlementMissions } from '@/app/lib/getNmsSave';
+import OptionManager, { OptionManagerType } from '@/app/lib/OptionManager';
 
-import { app, ipcMain, nativeImage } from 'electron';
-
-// TestBlock
+import { app, dialog, ipcMain, nativeImage } from 'electron';
 
 export interface PositionType {
   Raw: RawType;
@@ -27,11 +26,30 @@ interface RawType {
   galaxy: number;
 }
 
-const registerNmsIpc = () => {
-  const savePath = 'C:/Users/FreaKzero/AppData/Roaming/HelloGames/NMS/st_76561197991901848/save3.hg';
-  ipcMain.on('GET_LIST', (ev) => {
-    const x = getSave(savePath);
+let OPTIONS = OptionManager.load();
 
+const registerNmsIpc = () => {
+  ipcMain.handle('FILEPICKER_DIALOG', async () => {
+    const result = await dialog.showOpenDialog({
+      properties: ['openDirectory']
+    });
+
+    if (result.canceled) return null;
+    return result.filePaths[0];
+  });
+
+  ipcMain.handle('GET_SETTINGS', (_ev) => {
+    OPTIONS = OptionManager.load();
+    return OPTIONS;
+  });
+
+  ipcMain.handle('SAVE_SETTINGS', (_ev, data: OptionManagerType) => {
+    OPTIONS = OptionManager.update(data);
+    return OPTIONS;
+  });
+
+  ipcMain.on('GET_LIST', (ev) => {
+    const x = getSave(OPTIONS.savePath);
     const POS = createPosition(x.BaseContext.PlayerStateData.UniverseAddress, x.BaseContext.PlayerStateData.SaveSummary);
     ev.sender.send('GET_LIST_EXEC', POS);
   });
@@ -57,7 +75,7 @@ const registerNmsIpc = () => {
   });
 
   ipcMain.on('GET_TASKS', (ev) => {
-    const x = getSave(savePath);
+    const x = getSave(OPTIONS.savePath);
 
     const frigates = createFrigateMissions(x.BaseContext);
     const settlements = createSettlementMissions(x.BaseContext);

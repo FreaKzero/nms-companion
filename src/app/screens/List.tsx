@@ -1,7 +1,7 @@
 import { CameraIcon, TrashIcon } from 'lucide-react';
 import React, { useEffect } from 'react';
 
-import Glyphs from '../components/ui/Glyphs';
+import Glyphs from '../components/Glyphs';
 import { Nullable } from '../stores/apiInterfaces';
 import useListStore, { ListState } from '../stores/useListStore';
 

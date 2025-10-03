@@ -1,43 +1,33 @@
-import React, { useState, useEffect, ClipboardEvent } from 'react';
+import React, { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { Nullable } from '../stores/apiInterfaces';
+import { FormInput } from '../components/FormInput';
+import { FormScreenShotPaster, ScreenshotValue } from '../components/FormScreenShotPaster';
+import { FormTextArea } from '../components/FormTextArea';
 import useListStore, { ListState } from '../stores/useListStore';
 import usePositionStore from '../stores/usePositionStore';
 
-interface iPreview {
-  preview: Nullable<string>;
-  buffer: Nullable<ArrayBuffer>;
-}
-
 function CurrentPage () {
   const position = usePositionStore();
-  const [screen, setScreen] = useState<iPreview>({ preview: null, buffer: null });
   const handleAddLocation = useListStore((state) => state.add);
   const getCurrentPosition = usePositionStore((s) => s.getCurrent);
   const navigate = useNavigate();
-  const { register, handleSubmit, setValue } = useForm<ListState>();
 
-  const onPicPaste = async (evt: ClipboardEvent<HTMLInputElement>) => {
-    const data = evt.clipboardData.items[0];
-    if (data.kind === 'file') {
-      const img = data.getAsFile();
-      if (img !== null) {
-        const arrayBuffer = await img.arrayBuffer();
-        setScreen({ buffer: arrayBuffer, preview: URL.createObjectURL(img) });
-      }
-    }
-  };
+  const { register, handleSubmit, setValue } = useForm<ListState>();
+  const [screenshot, setScreenshot] = React.useState<ScreenshotValue>({
+    preview: null,
+    buffer: null
+  });
 
   const onSubmit: SubmitHandler<ListState> = async (data) => {
-    handleAddLocation(data, screen?.buffer);
+    handleAddLocation(data, screenshot.buffer);
     navigate('/list');
   };
 
   useEffect(() => {
     getCurrentPosition();
-  }, []);
+  }, [getCurrentPosition]);
 
   useEffect(() => {
     setValue('GalaxyName', position.GalaxyName);
@@ -49,74 +39,52 @@ function CurrentPage () {
 
   return (
     <div className='h-screen w-full'>
-      <form action='#' method='POST' className='mx-auto p-10 w-xlsm:mt-20' onSubmit={handleSubmit(onSubmit)}>
-        <input
-          {...register('ShareCode')}
-          type='hidden'
-        />
-
-        <input
-          {...register('GalaxyIndex')}
-          type='hidden'
-        />
+      <form
+        action='#'
+        method='POST'
+        className='mx-auto p-10 w-xlsm:mt-20'
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        {/* Hidden Inputs */}
+        <input type='hidden' {...register('ShareCode')} />
+        <input type='hidden' {...register('GalaxyIndex')} />
 
         <div className='grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2'>
-          <div>
-            <label htmlFor='galaxy-name' className='input-text-label'>
-              Galaxy Name
-            </label>
-            <input
-              {...register('GalaxyName')}
-              className='input-text' disabled
-            />
-          </div>
-          <div>
-            <label htmlFor='last-name' className='input-text-label'>
-              Portal Code
-            </label>
-            <input
-              className='input-text'
-              {...register('PortalCode')}
-              disabled
-            />
-          </div>
-          <div>
-            <label htmlFor='Screen' className='input-text-label'>
-              Screenshot
-            </label>
+          <FormInput
+            label='Galaxy Name'
+            id='GalaxyName'
+            register={register('GalaxyName')}
+            disabled
+          />
 
-            <div className='w-44 h-28 border border-white rounded-md text-white p-2 text-center in-focus-visible:border-amber-400' onPaste={onPicPaste} tabIndex={-1}>
-              {screen.preview === null && <span>Paste here</span>}
-              {screen.preview !== null && <img src={screen.preview} />}
-            </div>
-          </div>
+          <FormInput
+            label='Portal Code'
+            id='PortalCode'
+            register={register('PortalCode')}
+            disabled
+          />
 
-          <div>
-            <label htmlFor='tag' className='input-text-label'>
-              Tag
-            </label>
-            <input
-              {...register('Tag')}
-              className='input-text'
-            />
-          </div>
+          <FormScreenShotPaster
+            label='Screenshot'
+            onScreenshotChange={setScreenshot}
+          />
+
+          <FormInput
+            label='Tag'
+            id='Tag'
+            register={register('Tag')}
+          />
+
           <div className='sm:col-span-2'>
-            <label htmlFor='message' className='input-text-label'>
-              Description
-            </label>
-
-            <textarea
-              {...register('Description')}
+            <FormTextArea
+              label='Description'
               id='Description'
-              name='Description'
               rows={4}
-              className='input-text' defaultValue=''
+              register={register('Description')}
             />
           </div>
-          <button
-            type='submit'
-            className='button'
-          >
+
+          <button type='submit' className='button'>
             Save
           </button>
         </div>

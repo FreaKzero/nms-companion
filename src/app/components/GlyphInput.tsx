@@ -1,4 +1,4 @@
-import { glyphMap } from './ui/Glyphs';
+import { glyphMap } from './Glyphs';
 
 const GlyphInput: React.FC<{ onClick: (glyph: string) => void }> = ({ onClick }) => {
   const glyphs = Object.keys(glyphMap);
