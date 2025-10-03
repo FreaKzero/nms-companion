@@ -1,4 +1,4 @@
-import { PowerCircle, RefreshCcw } from 'lucide-react';
+import { RefreshCcw } from 'lucide-react';
 import { Link, useLocation } from 'react-router';
 
 import routes from '../routes';
@@ -13,33 +13,13 @@ const SideBar = () => {
     >
       <SidebarGetPosition />
       <Divider />
-      {routes.map((route) => {
-        return route.order >= 0
-          ? (
+      {routes.map((route, idx) => {
+        return route.divider
+          ? <Divider key={`loc-${idx}`} />
+          : (
             <SideBarIcon key={`loc-${route.location}`} location={route.location} text={route.text} Icon={route.Icon} active={loc.pathname === route.location} />
-            )
-          : null;
+            );
       })}
-      <Divider />
-      <SidebarQuitAction />
-    </div>
-  );
-};
-
-const SidebarQuitAction: React.FC = () => {
-  //
-  // const quitCommand = () => {
-  // fetch('http://localhost:3001/quit');
-  // navigate('/end');
-  // };
-  //
-
-  return (
-    <div className='sidebar-icon group' onClick={() => console.log('quit')}>
-      <PowerCircle size='20' />
-      <span className='sidebar-tooltip group-hover:scale-100'>
-        Quit
-      </span>
     </div>
   );
 };

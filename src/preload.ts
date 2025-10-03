@@ -1,4 +1,4 @@
-import { type IpcRendererEvent, contextBridge, ipcRenderer } from 'electron';
+import { type IpcRendererEvent, contextBridge, ipcRenderer, webUtils } from 'electron';
 
 const versions: Record<string, unknown> = {};
 
@@ -24,11 +24,11 @@ export type RendererListener = (event: IpcRendererEvent, ...args: unknown[]) => 
 export const globals = {
   /** Processes versions **/
   versions,
-
-  /**
-   * A minimal set of methods exposed from Electron's `ipcRenderer`
-   * to support communication to main process.
-   */
+  webUtils: {
+    getPathForFile (file: File) {
+      return webUtils.getPathForFile(file);
+    }
+  },
   ipcRenderer: {
     send (channel: string, ...args: unknown[]) {
       if (validateIPC(channel)) {

@@ -1,9 +1,10 @@
-import { PlusCircle, ListChecksIcon, MapPlusIcon, ListTodo } from 'lucide-react';
+import { PlusCircle, ListChecksIcon, MapPlusIcon, ListTodo, SettingsIcon } from 'lucide-react';
 
+import SettingsPage from './lib/Settings';
 import CurrentPage from './screens/Current';
-import { LandingScreen } from './screens/landing';
 import ListPage from './screens/List';
 import ManualPage from './screens/Manual';
+import MissionsPage from './screens/Missions';
 
 const routes = [
   {
@@ -24,7 +25,7 @@ const routes = [
     text: 'Missions',
     location: '/',
     Icon: ListTodo,
-    Component: LandingScreen,
+    Component: MissionsPage,
     order: 3
   },
   {
@@ -33,8 +34,17 @@ const routes = [
     Icon: ListChecksIcon,
     Component: ListPage,
     order: 4
+  },
+  {
+    divider: true
+  },
+  {
+    text: 'Settings',
+    location: '/settings',
+    Icon: SettingsIcon,
+    Component: SettingsPage,
+    order: 5
   }
-
 ];
 
 export default routes;
