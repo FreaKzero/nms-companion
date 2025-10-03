@@ -45,7 +45,6 @@ function CurrentPage () {
         className='mx-auto p-10 w-xlsm:mt-20'
         onSubmit={handleSubmit(onSubmit)}
       >
-        {/* Hidden Inputs */}
         <input type='hidden' {...register('ShareCode')} />
         <input type='hidden' {...register('GalaxyIndex')} />
 

@@ -10,7 +10,6 @@ interface GlyphInputControlProps {
   portalCode?: string;
   width?: string;
   className?: string;
-  onClick?: () => void;
   onClear?: () => void;
 }
 
@@ -21,7 +20,6 @@ export const FormGlyphInput: React.FC<GlyphInputControlProps> = ({
   portalCode = '',
   width = 'w-5',
   className = '',
-  onClick,
   onClear
 }) => {
   return (
@@ -35,7 +33,6 @@ export const FormGlyphInput: React.FC<GlyphInputControlProps> = ({
         render={({ field }) => (
           <div
             className={`relative h-10 mb-5 block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 flex items-center ${className}`}
-            onClick={onClick}
           >
             <Glyphs portalCode={field.value || portalCode} width={width} />
 

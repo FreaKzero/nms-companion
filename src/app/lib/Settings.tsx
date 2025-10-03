@@ -7,7 +7,7 @@ import { FormDirectoryPicker } from '../components/FormDirectoryPicker';
 import { FormFilePicker } from '../components/FormFilePicker';
 
 function SettingsPage () {
-  const { register, handleSubmit, setValue, control } = useForm<OptionManagerType>();
+  const { handleSubmit, setValue, control } = useForm<OptionManagerType>();
 
   useEffect(() => {
     const getSettings = async () => {

@@ -2,6 +2,7 @@ import { CameraIcon, TrashIcon } from 'lucide-react';
 import React, { useEffect } from 'react';
 
 import Glyphs from '../components/Glyphs';
+import { TagList } from '../components/TagList';
 import { Nullable } from '../stores/apiInterfaces';
 import useListStore, { ListState } from '../stores/useListStore';
 
@@ -42,9 +43,7 @@ const ListItem: React.FC<EnhancedListState> = (loc) => {
         </div>
 
         <div className='flex flex-col mt-3 sm:mt-0 justify-between items-end'>
-          <span className='text-green-400 text-sm font-medium'>
-            {loc.Tag}
-          </span>
+          <TagList tags={loc.Tag} />
           <span className='text-gray-400 text-sm flex items-center gap-1'>
             <button className='button' onClick={() => loc.onDelete(loc.id)}><TrashIcon size='20' /></button>
           </span>

@@ -9,7 +9,6 @@ import { FormScreenShotPaster, ScreenshotValue } from '../components/FormScreenS
 import { FormSelect } from '../components/FormSelect';
 import { FormTextArea } from '../components/FormTextArea';
 import GlyphInput from '../components/GlyphInput';
-import Glyphs from '../components/Glyphs';
 import { GalaxyNames } from '../mappings/GalaxyNames';
 import useListStore from '../stores/useListStore';
 
@@ -31,9 +30,7 @@ function ManualPage () {
 
   const handleAddLocation = useListStore((state) => state.add);
   const navigate = useNavigate();
-  const { register, handleSubmit, setValue, getValues, watch, control } = useForm<FormValues>();
-
-  const GlyphPortalCode = watch('PortalCode');
+  const { register, handleSubmit, setValue, getValues, control } = useForm<FormValues>();
 
   const handleSelectGlyph = (glyph: string) => {
     const x = getValues();
@@ -75,7 +72,6 @@ function ManualPage () {
             label='Portal Code'
             name='PortalCode'
             control={control}
-            onClear={() => console.log('Cleared!')}
           />
 
           <FormHidden id='PortalCode' register={register('PortalCode')} />
