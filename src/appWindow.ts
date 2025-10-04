@@ -5,7 +5,10 @@ import appMenu from '@/menu/appMenu';
 
 import { BrowserWindow, Menu, app } from 'electron';
 
+import { registerDbIpc } from './ipc/dbIPC';
+import { registerDialogIpc } from './ipc/dialogIPC';
 import registerNmsIpc from './ipc/nmsIPC';
+import registerSystemIpc from './ipc/systemIPC';
 
 let appWindow: BrowserWindow;
 
@@ -76,4 +79,7 @@ function registerMainIPC () {
    */
   registerNmsIpc();
   registerMenuIpc(appWindow);
+  registerDbIpc();
+  registerDialogIpc(appWindow);
+  registerSystemIpc();
 }

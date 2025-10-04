@@ -1,12 +1,10 @@
-// import { writeFileSync } from 'node:fs';
-
 import { writeFile } from 'node:fs';
 import path from 'node:path';
 
 import getSave, { createFrigateMissions, createPosition, createSettlementMissions } from '@/app/lib/getNmsSave';
-import OptionManager, { OptionManagerType } from '@/app/lib/OptionManager';
+import OptionManager from '@/app/lib/OptionManager';
 
-import { app, dialog, ipcMain, nativeImage } from 'electron';
+import { app, ipcMain, nativeImage } from 'electron';
 
 export interface PositionType {
   Raw: RawType;
@@ -26,28 +24,9 @@ interface RawType {
   galaxy: number;
 }
 
-let OPTIONS = OptionManager.load();
+const OPTIONS = OptionManager.load();
 
 const registerNmsIpc = () => {
-  ipcMain.handle('FILEPICKER_DIALOG', async () => {
-    const result = await dialog.showOpenDialog({
-      properties: ['openDirectory']
-    });
-
-    if (result.canceled) return null;
-    return result.filePaths[0];
-  });
-
-  ipcMain.handle('GET_SETTINGS', (_ev) => {
-    OPTIONS = OptionManager.load();
-    return OPTIONS;
-  });
-
-  ipcMain.handle('SAVE_SETTINGS', (_ev, data: OptionManagerType) => {
-    OPTIONS = OptionManager.update(data);
-    return OPTIONS;
-  });
-
   ipcMain.on('GET_LIST', (ev) => {
     const x = getSave(OPTIONS.savePath);
     const POS = createPosition(x.BaseContext.PlayerStateData.UniverseAddress, x.BaseContext.PlayerStateData.SaveSummary);
