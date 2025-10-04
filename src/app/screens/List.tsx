@@ -1,13 +1,14 @@
 import { CameraIcon, TrashIcon } from 'lucide-react';
 import React, { useEffect } from 'react';
 
+import { confirmModal } from '../components/ConfirmModal';
 import Glyphs from '../components/Glyphs';
 import { TagList } from '../components/TagList';
 import { Nullable } from '../stores/apiInterfaces';
 import useListStore, { ListState } from '../stores/useListStore';
 
 interface EnhancedListState extends ListState {
-  onDelete?: (key: string) => Promise<void>;
+  onDelete?: (key: number) => Promise<void>;
 }
 
 interface ScreenshotProps {
@@ -64,20 +65,23 @@ function ListPage () {
     getEntries();
   }, []);
 
-  const handleDelete = async (id: string) => {
-    if (confirm('Do you really want to delete this entry ?')) {
+  const handleDelete = async (id: number) => {
+    if (await confirmModal('Do you really want to delete this Location?')) {
       await deleteEntry(id);
     }
   };
 
   return (
-    <div className='bg-gray-900 text-white rounded-lg shadow-md p-4 w-full'>
-      <div className='divide-y divide-gray-800'>
-        {locations.map((loc) => (
-          <ListItem key={loc.id} {...loc} onDelete={handleDelete} />
-        ))}
+    <div>
+      <div className='bg-gray-900 text-white rounded-lg shadow-md p-4 w-full'>
+        <div className='divide-y divide-gray-800'>
+          {locations.map((loc) => (
+            <ListItem key={`location-${loc.id}`} {...loc} onDelete={handleDelete} />
+          ))}
+        </div>
       </div>
     </div>
+
   );
 }
 

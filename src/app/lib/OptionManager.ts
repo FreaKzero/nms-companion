@@ -6,26 +6,35 @@ import { app } from 'electron';
 export interface OptionManagerType {
   savePath: string;
   locationThumbDir: string;
+  databasePath: string;
 }
+
+const BASE_DIR = path.join(app.getPath('home'), '.nms-log');
 
 const DEFAULT: OptionManagerType = {
   savePath: '',
-  locationThumbDir: ''
+  locationThumbDir: path.join(BASE_DIR, 'thumbs'),
+  databasePath: path.join(BASE_DIR, 'nms-log.sqlite')
 };
+
+if (!fs.existsSync(BASE_DIR)) {
+  fs.mkdirSync(BASE_DIR, { recursive: true });
+}
+
+const SETTINGS_FILE = path.join(BASE_DIR, 'nms-log-settings.json');
 
 const OptionManager = {
   update: (newData: OptionManagerType) => {
-    fs.writeFileSync(path.join(app.getPath('home'), 'nms-log-settings.json'), JSON.stringify(newData, null, 2));
+    fs.writeFileSync(SETTINGS_FILE, JSON.stringify(newData, null, 2));
     return newData;
   },
-  load: () => {
-    const setJsonFile = path.join(app.getPath('home'), 'nms-log-settings.json');
-    if (!fs.existsSync(setJsonFile)) {
-      fs.writeFileSync(setJsonFile, JSON.stringify(DEFAULT, null, 2));
+  load: (): OptionManagerType => {
+    if (!fs.existsSync(SETTINGS_FILE)) {
+      fs.writeFileSync(SETTINGS_FILE, JSON.stringify(DEFAULT, null, 2));
       return DEFAULT;
     }
 
-    const settings = JSON.parse(fs.readFileSync(setJsonFile, 'utf-8'));
+    const settings = JSON.parse(fs.readFileSync(SETTINGS_FILE, 'utf-8'));
     return settings;
   }
 };

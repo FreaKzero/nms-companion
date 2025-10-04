@@ -1,16 +1,9 @@
-// import { ipcRenderer } from 'electron';
-import { v4 } from 'uuid';
 import { create } from 'zustand';
 
 import { Nullable } from './apiInterfaces';
 
-import getDB from '../lib/db';
-
-const COLLECTION = 'list';
-
 export interface ListState {
-  key?: string;
-  id?: string;
+  id?: number; // SQLite ID
   GalaxyName: string;
   PortalCode: string;
   ShareCode: string;
@@ -23,49 +16,72 @@ export interface ListState {
 interface iListStore {
   loading: boolean;
   entries: ListState[];
-  add: (item: ListState, file: Nullable<ArrayBuffer>) => Promise<void>;
-  delete: (key: string) => Promise<void>;
+  add: (item: ListState, file?: Nullable<ArrayBuffer>) => Promise<void>;
+  delete: (id: number) => Promise<void>;
+  update: (id: number, item: ListState) => Promise<void>;
   getAll: () => Promise<void>;
+  getPage: (page?: number, pageSize?: number) => Promise<void>;
+  totalEntries: number;
+  currentPage: number;
+  pageSize: number;
 }
 
 const useListStore = create<iListStore>()((set, get) => ({
   loading: true,
   entries: [],
+  totalEntries: 0,
+  currentPage: 1,
+  pageSize: 10,
 
-  add: async (item: ListState, file: Nullable<ArrayBuffer>) => {
-    const ID = v4();
-
-    const entry = {
-      id: ID,
-      ...item
-    };
+  add: async (item: ListState, file?: Nullable<ArrayBuffer>) => {
+    set({ loading: true });
+    const ID = await electron.ipcRenderer.invoke('DB-CREATE', item);
 
     if (file) {
       const fileName = await electron.ipcRenderer.invoke('SAVE_SCREEN', file, ID);
-      entry.Screenshot = fileName;
+      item.Screenshot = fileName;
+      await electron.ipcRenderer.invoke('DB-UPDATE', ID, item);
     }
 
-    await getDB().collection(COLLECTION)
-      .add(entry);
-
-    set({ loading: false, entries: [...get().entries, entry] });
+    set({ loading: false, entries: [...get().entries, { ...item, id: ID }] });
   },
 
-  delete: async (key: string) => {
-    await getDB().collection(COLLECTION)
-      .doc({ id: key })
-      .delete();
+  delete: async (id: number) => {
+    set({ loading: true });
+    await electron.ipcRenderer.invoke('DB-DELETE', id);
+    set({
+      loading: false,
+      entries: get().entries.filter((item) => item.id !== id),
+      totalEntries: get().totalEntries - 1
+    });
+  },
 
-    set({ loading: false, entries: get().entries.filter((item) => item.id !== key) });
+  update: async (id: number, item: ListState) => {
+    set({ loading: true });
+    await electron.ipcRenderer.invoke('DB-UPDATE', id, item);
+    set({
+      loading: false,
+      entries: get().entries.map((e) => (e.id === id ? { ...item, id } : e))
+    });
   },
 
   getAll: async () => {
-    const list = await getDB().collection(COLLECTION)
-      .get();
+    set({ loading: true });
+    const list: ListState[] = await electron.ipcRenderer.invoke('DB-READ-ALL');
+    set({ loading: false, entries: list, totalEntries: list.length });
+  },
 
-    set({ loading: false, entries: list });
+  getPage: async (page = 1, pageSize = 10) => {
+    set({ loading: true });
+    const { rows, total } = await electron.ipcRenderer.invoke('DB-GET-PAGE', page, pageSize);
+    set({
+      loading: false,
+      entries: rows,
+      totalEntries: total,
+      currentPage: page,
+      pageSize
+    });
   }
-
 }));
 
 export default useListStore;
