@@ -11,7 +11,7 @@ export interface SettlementType {
   category: string;
   estimate: Date;
   needsJudgement: boolean;
-  judgementType: string;  // Conflict
+  judgementType: string; // 'Conflict' | 'StrangerVisit' | 'Policy';
   race: string;
 }
 
@@ -277,18 +277,21 @@ export function decompress (data: Buffer) {
 }
 
 export default function getSave (savePath: string) {
-  const data = readFileSync(savePath);
-  let processed;
+  try {
+    const data = readFileSync(savePath);
+    let processed;
 
-  if (!(data[0] === 0x7B && data[1] === 0x22)) {
-    processed = decompress(data);
-  } else {
-    processed = data;
+    if (!(data[0] === 0x7B && data[1] === 0x22)) {
+      processed = decompress(data);
+    } else {
+      processed = data;
+    }
+
+    // @ts-expect-error complexity
+    const json = JSON.parse(processed.slice(0, -1));
+    const mapped = mapKeys(json, mapping.Mapping);
+    return mapped;
+  } catch (err) {
+    console.log(err);
   }
-
-  // @ts-expect-error complexity
-  const json = JSON.parse(processed.slice(0, -1));
-  const mapped = mapKeys(json, mapping.Mapping);
-
-  return mapped;
 }
