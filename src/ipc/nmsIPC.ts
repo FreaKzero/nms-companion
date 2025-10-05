@@ -27,10 +27,18 @@ interface RawType {
 const OPTIONS = OptionManager.load();
 
 const registerNmsIpc = () => {
-  ipcMain.on('GET_LIST', (ev) => {
-    const x = getSave(OPTIONS.savePath);
-    const POS = createPosition(x.BaseContext.PlayerStateData.UniverseAddress, x.BaseContext.PlayerStateData.SaveSummary);
-    ev.sender.send('GET_LIST_EXEC', POS);
+  ipcMain.handle('GET_LIST', async () => {
+    try {
+      const saveData = getSave(OPTIONS.savePath);
+      const position: PositionType = createPosition(
+        saveData.BaseContext.PlayerStateData.UniverseAddress,
+        saveData.BaseContext.PlayerStateData.SaveSummary
+      );
+      return position;
+    } catch (err) {
+      console.error('Fehler beim Abrufen der Position:', err);
+      throw err;
+    }
   });
 
   ipcMain.handle('SAVE_SCREEN', async (_ev, arrayBuffer: ArrayBuffer, id: string) => {
@@ -53,18 +61,18 @@ const registerNmsIpc = () => {
     }
   });
 
-  ipcMain.on('GET_TASKS', (ev) => {
-    const x = getSave(OPTIONS.savePath);
+  ipcMain.handle('GET_TASKS', async () => {
+    try {
+      const saveData = getSave(OPTIONS.savePath);
 
-    const frigates = createFrigateMissions(x.BaseContext);
-    const settlements = createSettlementMissions(x.BaseContext);
+      const frigates = createFrigateMissions(saveData.BaseContext);
+      const settlements = createSettlementMissions(saveData.BaseContext);
 
-    const output = {
-      frigates,
-      settlements
-    };
-
-    ev.sender.send('GET_TASKS_EXEC', output);
+      return { frigates, settlements };
+    } catch (err) {
+      console.error('Fehler beim Abrufen der Missionen:', err);
+      throw err;
+    }
   });
 };
 

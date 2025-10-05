@@ -21,16 +21,18 @@ interface PositionStoreState {
   Summary: string;
 }
 
-const usePositionStore = create<PositionStoreState>()((set) => ({
+const usePositionStore = create<PositionStoreState >()((set) => ({
   ...defState,
   getCurrent: async () => {
-    set({ ...defState });
-    electron.ipcRenderer.on('GET_LIST_EXEC', (_evt, arg) => {
-      const f = arg as unknown as PositionType;
-      set({ loading: false, ...f });
-    });
+    set({ ...defState, loading: true });
 
-    electron.ipcRenderer.send('GET_LIST');
+    try {
+      const position: PositionType = await electron.ipcRenderer.invoke('GET_LIST');
+      set({ ...position, loading: false });
+    } catch (err) {
+      console.error('Fehler beim Laden der Position:', err);
+      set({ ...defState, loading: false });
+    }
   }
 }));
 

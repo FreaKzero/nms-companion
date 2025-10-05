@@ -1,6 +1,5 @@
 import path from 'node:path';
 
-import { registerMenuIpc } from '@/ipc/menuIPC';
 import appMenu from '@/menu/appMenu';
 
 import { BrowserWindow, Menu, app } from 'electron';
@@ -78,7 +77,6 @@ function registerMainIPC () {
    * to Communicate asynchronously from the main process to renderer processes.
    */
   registerNmsIpc();
-  registerMenuIpc(appWindow);
   registerDbIpc();
   registerDialogIpc(appWindow);
   registerSystemIpc();

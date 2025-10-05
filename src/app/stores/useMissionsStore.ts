@@ -23,17 +23,16 @@ const defState: Omit<MissionsStoreState, 'getMissions'> = {
 const useMissionsStore = create<MissionsStoreState>()((set) => ({
   ...defState,
   getMissions: async () => {
-    set({ ...defState });
-    electron.ipcRenderer.on('GET_TASKS_EXEC', (_evt, entries: MissionsType) => {
-      set({
-        loading: false,
-        ...entries
-      });
-    });
+    set({ ...defState, loading: true });
 
-    electron.ipcRenderer.send('GET_TASKS');
+    try {
+      const missions: MissionsType = await electron.ipcRenderer.invoke('GET_TASKS');
+      set({ ...missions, loading: false });
+    } catch (err) {
+      console.error('Fehler beim Laden der Missionen:', err);
+      set({ ...defState, loading: false });
+    }
   }
-
 }));
 
 export default useMissionsStore;
