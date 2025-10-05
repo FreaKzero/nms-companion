@@ -4,7 +4,7 @@ import { Route, HashRouter as Router, Routes } from 'react-router-dom';
 
 import ContentContainer from './components/ContentContainer';
 import SideBar from './components/Sidebar';
-import routes from './routes';
+import { routes } from './routes';
 
 export default function App () {
   return (
@@ -15,7 +15,7 @@ export default function App () {
           <ContentContainer>
             <Routes>
               {routes.map((item, idx) => {
-                return (<Route key={`route-${idx}`} path={item.location} Component={item.Component} />);
+                return (<Route key={`route-${idx}`} path={item.location} Component={item.Component} index={item?.index} />);
               })}
             </Routes>
           </ContentContainer>

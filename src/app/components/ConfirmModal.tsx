@@ -27,7 +27,6 @@ const ConfirmDialog: React.FC<{
     container.remove();
   };
 
-  // ESC key handling
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {

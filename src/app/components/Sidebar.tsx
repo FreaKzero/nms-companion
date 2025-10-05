@@ -1,11 +1,26 @@
 import { RefreshCcw } from 'lucide-react';
-import { Link, useLocation } from 'react-router';
+import { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router';
 
-import routes from '../routes';
+import { OptionManagerType } from '../lib/OptionManager';
+import { routes } from '../routes';
 import usePositionStore from '../stores/usePositionStore';
 
 const SideBar = () => {
   const loc = useLocation();
+
+  const [noSave, setNoSave] = useState(false);
+
+  useEffect(() => {
+    const buildSidebar = async () => {
+      const settings = await electron.ipcRenderer.invoke('GET_SETTINGS') as OptionManagerType;
+      setNoSave(settings.savePath !== '');
+    };
+
+    buildSidebar();
+  }, []);
+
+  const menu = routes.filter(() => noSave);
 
   return (
     <div className='fixed top-0 left-0 h-screen w-16 flex flex-col
@@ -13,7 +28,7 @@ const SideBar = () => {
     >
       <SidebarGetPosition />
       <Divider />
-      {routes.map((route, idx) => {
+      {menu.map((route, idx) => {
         return route.divider
           ? <Divider key={`loc-${idx}`} />
           : (
