@@ -90,7 +90,7 @@ function ManualPage () {
               })}
             />
             {errors.PortalCode && (
-              <p className='text-indigo-500 text-sm mt-1'>{errors.PortalCode.message}</p>
+              <p className='text-indigo-500 text-sm' style={{ marginTop: '-15px' }}>{errors.PortalCode.message}</p>
             )}
           </div>
 

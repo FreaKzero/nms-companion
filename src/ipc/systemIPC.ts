@@ -1,6 +1,10 @@
+import { writeFileSync } from 'node:fs';
+
 import OptionManager, { OptionManagerType } from '@/app/lib/OptionManager';
 
 import { ipcMain, app } from 'electron';
+
+import getSave from '../app/lib/getNmsSave';
 
 let OPTIONS = OptionManager.load();
 
@@ -10,7 +14,7 @@ const registerSystemIpc = () => {
     return OPTIONS;
   });
 
-  ipcMain.handle('SAVE_SETTINGS', (_ev, data: OptionManagerType) => {
+  ipcMain.handle('SET_SETTINGS', (_ev, data: OptionManagerType) => {
     OPTIONS = OptionManager.update(data);
     return OPTIONS;
   });
@@ -18,6 +22,11 @@ const registerSystemIpc = () => {
   ipcMain.handle('APP_RESTART', () => {
     app.relaunch();
     app.exit(0);
+  });
+
+  ipcMain.handle('DEBUG_SAVE', () => {
+    const saveData = getSave(OPTIONS.savePath);
+    writeFileSync('./devSave.json', JSON.stringify(saveData, null, 2));
   });
 };
 

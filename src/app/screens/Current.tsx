@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { FormGlyphInput } from '../components/FormGlyphInput';
+import { FormHidden } from '../components/FormHidden';
 import { FormInput } from '../components/FormInput';
 import { FormScreenShotPaster, ScreenshotValue } from '../components/FormScreenShotPaster';
 import { FormTextArea } from '../components/FormTextArea';
@@ -15,6 +17,7 @@ function CurrentPage () {
   const navigate = useNavigate();
 
   const {
+    control,
     register,
     handleSubmit,
     setValue,
@@ -62,11 +65,13 @@ function CurrentPage () {
             disabled
           />
 
-          <FormInput
-            label='Portal Code'
+          <FormGlyphInput label='Portal Code' name='PortalCode' control={control} />
+          <FormHidden
             id='PortalCode'
-            register={register('PortalCode')}
-            disabled
+            register={register('PortalCode', {
+              required: 'Portal code is required',
+              validate: (value) => value?.length === 12 || 'Portal code must be exactly 12 characters'
+            })}
           />
 
           <FormScreenShotPaster

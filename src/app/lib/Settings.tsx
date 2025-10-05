@@ -22,10 +22,15 @@ function SettingsPage () {
   }, []);
 
   const onSubmit: SubmitHandler<OptionManagerType> = async (data) => {
-    await electron.ipcRenderer.invoke('SAVE_SETTINGS', data);
+    await electron.ipcRenderer.invoke('SET_SETTINGS', data);
     if (await confirmModal('Applikation should be restarted, restart ?')) {
       electron.ipcRenderer.invoke('APP_RESTART');
     }
+  };
+
+  const handleDebugSave = async () => {
+    await electron.ipcRenderer.invoke('DEBUG_SAVE');
+    await confirmModal('Debug Save done');
   };
 
   return (
@@ -61,6 +66,13 @@ function SettingsPage () {
         </div>
 
       </form>
+      <button
+        className='button'
+        onClick={handleDebugSave}
+      >
+        Debug Save
+      </button>
+
     </div>
   );
 }

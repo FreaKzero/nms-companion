@@ -36,7 +36,7 @@ const registerNmsIpc = () => {
       );
       return position;
     } catch (err) {
-      console.error('Fehler beim Abrufen der Position:', err);
+      console.error('Position Error:', err);
       throw err;
     }
   });
@@ -57,7 +57,7 @@ const registerNmsIpc = () => {
 
       return outPath;
     } catch (err) {
-      console.error('Fehler beim Resizen:', err);
+      console.error('Save Screen Error:', err);
     }
   });
 
@@ -70,7 +70,7 @@ const registerNmsIpc = () => {
 
       return { frigates, settlements };
     } catch (err) {
-      console.error('Fehler beim Abrufen der Missionen:', err);
+      console.error('Mission Error:', err);
       throw err;
     }
   });
