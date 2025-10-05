@@ -1,4 +1,4 @@
-import { HammerIcon, LucideIcon, SectionIcon, SkullIcon, UserPlusIcon, HourglassIcon } from 'lucide-react';
+import { HammerIcon, LucideIcon, SectionIcon, SkullIcon, UserPlusIcon, HourglassIcon, Building2Icon } from 'lucide-react';
 
 import { SettlementType } from '../lib/getNmsSave';
 import getRelativeTime from '../lib/getRelativeTime';
@@ -24,6 +24,12 @@ const judementMap: Record<string, { icon: LucideIcon; color: string; text: strin
     color: 'bg-amber-600',
     text: 'Settlement needs Management'
   },
+  BuildingChoice: {
+    icon: Building2Icon,
+    color: 'bg-amber-600',
+    text: 'Settlement has a new Building Choice'
+  },
+
   None: {
     icon: HourglassIcon,
     color: 'bg-green-700',

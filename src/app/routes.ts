@@ -1,10 +1,11 @@
-import { PlusCircle, ListChecksIcon, MapPlusIcon, SettingsIcon, MapPinIcon } from 'lucide-react';
+import { PlusCircle, ListChecksIcon, MapPlusIcon, SettingsIcon, MapPinIcon, TestTube } from 'lucide-react';
 
 import SettingsPage from './lib/Settings';
 import CurrentPage from './screens/Current';
 import ListPage from './screens/List';
 import ManualPage from './screens/Manual';
 import MissionsPage from './screens/Missions';
+import TestPage from './screens/Test';
 
 export const routes = [
   {
@@ -45,5 +46,13 @@ export const routes = [
     Icon: SettingsIcon,
     Component: SettingsPage,
     order: 5
+  },
+  {
+    text: 'test',
+    location: '/test',
+    Icon: TestTube,
+    Component: TestPage,
+    order: 6
   }
+
 ].sort((a, b) => a.order - b.order);
