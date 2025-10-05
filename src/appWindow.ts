@@ -17,8 +17,8 @@ let appWindow: BrowserWindow;
  * @returns { BrowserWindow } Application Window Instance
  */
 export function createAppWindow (): BrowserWindow {
-  const minWidth = 960;
-  const minHeight = 660;
+  const minWidth = 1024;
+  const minHeight = 768;
 
   const windowOptions: Electron.BrowserWindowConstructorOptions = {
     minWidth,
