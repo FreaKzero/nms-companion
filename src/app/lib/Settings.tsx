@@ -29,7 +29,7 @@ function SettingsPage () {
   };
 
   return (
-    <div className='h-screen w-full'>
+    <div className='w-full'>
       <form action='#' method='POST' className='mx-auto p-10 w-xlsm:mt-20' onSubmit={handleSubmit(onSubmit)}>
         <div className='grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2'>
           <FormFilePicker
