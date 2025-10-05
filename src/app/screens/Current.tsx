@@ -14,7 +14,13 @@ function CurrentPage () {
   const getCurrentPosition = usePositionStore((s) => s.getCurrent);
   const navigate = useNavigate();
 
-  const { register, handleSubmit, setValue } = useForm<ListState>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors }
+  } = useForm<ListState>();
+
   const [screenshot, setScreenshot] = React.useState<ScreenshotValue>({
     preview: null,
     buffer: null
@@ -38,7 +44,7 @@ function CurrentPage () {
   }, [position, setValue]);
 
   return (
-    <div className='h-screen w-full'>
+    <div className='w-full'>
       <form
         action='#'
         method='POST'
@@ -68,19 +74,29 @@ function CurrentPage () {
             onScreenshotChange={setScreenshot}
           />
 
-          <FormInput
-            label='Tag'
-            id='Tag'
-            register={register('Tag')}
-          />
+          <div>
+            <FormInput
+              label='Tag'
+              id='Tag'
+              register={register('Tag', { required: 'Tag is required' })}
+            />
+            {errors.Tag && (
+              <p className='text-indigo-500 text-sm mt-1'>{errors.Tag.message}</p>
+            )}
+          </div>
 
           <div className='sm:col-span-2'>
             <FormTextArea
               label='Description'
               id='Description'
               rows={4}
-              register={register('Description')}
+              register={register('Description', { required: 'Description is required' })}
             />
+            {errors.Description && (
+              <p className='text-indigo-500 text-sm mt-1'>
+                {errors.Description.message}
+              </p>
+            )}
           </div>
 
           <button type='submit' className='button'>

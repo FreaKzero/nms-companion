@@ -30,7 +30,15 @@ function ManualPage () {
 
   const handleAddLocation = useListStore((state) => state.add);
   const navigate = useNavigate();
-  const { register, handleSubmit, setValue, getValues, control } = useForm<FormValues>();
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    control,
+    formState: { errors }
+  } = useForm<FormValues>();
 
   const handleSelectGlyph = (glyph: string) => {
     const x = getValues();
@@ -47,7 +55,7 @@ function ManualPage () {
   };
 
   return (
-    <div className='h-screen w-full'>
+    <div className='w-full'>
       <GlyphInput onClick={handleSelectGlyph} />
 
       <form
@@ -56,40 +64,64 @@ function ManualPage () {
         className='mx-auto p-10 w-xlsm:mt-20'
         onSubmit={handleSubmit(onSubmit)}
       >
-
         <FormHidden id='ShareCode' register={register('ShareCode')} />
-        <FormHidden id='GalaxyIndex' register={register('GalaxyIndex')} />
+        <FormHidden id='GalaxyIndex' register={register('GalaxyIndex', { required: 'Galaxy index is required' })} />
 
         <div className='grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2'>
-          <FormSelect
-            label='Galaxy Name'
-            id='GalaxyName'
-            options={GalaxyNames}
-            register={register('GalaxyIndex')}
-          />
+          <div>
+            <FormSelect
+              label='Galaxy Name'
+              id='GalaxyName'
+              options={GalaxyNames}
+              register={register('GalaxyIndex', { required: 'Galaxy index is required' })}
+            />
+            {errors.GalaxyIndex && (
+              <p className='text-indigo-500 text-sm mt-1'>{errors.GalaxyIndex.message}</p>
+            )}
+          </div>
 
-          <FormGlyphInput
-            label='Portal Code'
-            name='PortalCode'
-            control={control}
-          />
-
-          <FormHidden id='PortalCode' register={register('PortalCode')} />
+          <div>
+            <FormGlyphInput label='Portal Code' name='PortalCode' control={control} />
+            <FormHidden
+              id='PortalCode'
+              register={register('PortalCode', {
+                required: 'Portal code is required',
+                validate: (value) => value?.length === 12 || 'Portal code must be exactly 12 characters'
+              })}
+            />
+            {errors.PortalCode && (
+              <p className='text-indigo-500 text-sm mt-1'>{errors.PortalCode.message}</p>
+            )}
+          </div>
 
           <FormScreenShotPaster
             label='Screenshot'
             onScreenshotChange={setScreenshot}
           />
 
-          <FormInput label='Tag' id='Tag' register={register('Tag')} />
+          <div>
+            <FormInput
+              label='Tag'
+              id='Tag'
+              register={register('Tag', { required: 'Tag is required' })}
+            />
+            {errors.Tag && (
+              <p className='text-indigo-500 text-sm mt-1'>{errors.Tag.message}</p>
+            )}
+          </div>
 
           <div className='sm:col-span-2'>
             <FormTextArea
               label='Description'
               id='Description'
               rows={4}
-              register={register('Description')}
+              register={register('Description', { required: 'Description is required' })}
             />
+            {errors.Description && (
+              <p className='text-indigo-500 text-sm mt-1'>
+                {errors.Description.message}
+              </p>
+            )}
           </div>
 
           <button
