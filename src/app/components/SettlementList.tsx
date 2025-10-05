@@ -27,7 +27,7 @@ const SettleListItem = (settle: SettlementType) => {
       <div className='flex flex-col flex-1 text-sm text-gray-900 dark:text-gray-100 overflow-hidden'>
         <p className='font-medium line-clamp-2 text-lg'>{settle.name} • {settle.race}</p>
         {settle.buildActive && <p className='text-gray-600 dark:text-gray-400 text-xs'>Build started {getRelativeTime(settle.startTime)} • Done {getRelativeTime(settle.estimate)}</p>}
-        {settle.needsJudgement && <span className='text-xs'>Settlement needs a Judgement</span>}
+        {settle.needsJudgement && <span className='text-xs'>Settlement needs a Judgement ({settle.judgementType})</span>}
         {shouldVisit && <span className='text-xs text-gray-600'>Nothing to Report</span>}
       </div>
     </li>

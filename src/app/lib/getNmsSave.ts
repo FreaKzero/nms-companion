@@ -11,6 +11,7 @@ export interface SettlementType {
   category: string;
   estimate: Date;
   needsJudgement: boolean;
+  judgementType: string;  // Conflict
   race: string;
 }
 
@@ -117,6 +118,7 @@ export const createSettlementMissions = (BaseContext: BaseContext): SettlementTy
       category: item.NextBuildingUpgradeClass.BuildingClass,
       estimate: new Date(estimate),
       needsJudgement: item.PendingJudgementType.SettlementJudgementType !== 'None',
+      judgementType: item.PendingJudgementType.SettlementJudgementType,
       race: item.Race.AlienRace
     };
   });

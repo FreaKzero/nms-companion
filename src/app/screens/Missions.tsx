@@ -3,17 +3,14 @@ import { useEffect } from 'react';
 import FrigateList from '../components/FrigatesList';
 import SettlementsList from '../components/SettlementList';
 import useMissionsStore from '../stores/useMissionsStore';
-import usePositionStore from '../stores/usePositionStore';
 
 export default function MissionsPage () {
   const getMissions = useMissionsStore((s) => s.getMissions);
   const frigates = useMissionsStore((s) => s.frigates);
   const settlements = useMissionsStore((s) => s.settlements);
-  const getCurrentPosition = usePositionStore((s) => s.getCurrent);
 
   useEffect(() => {
     getMissions();
-    getCurrentPosition();
   }, []);
 
   return (
