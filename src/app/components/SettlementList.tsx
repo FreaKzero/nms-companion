@@ -34,6 +34,11 @@ const judementMap: Record<string, { icon: LucideIcon; color: string; text: strin
     color: 'bg-amber-600',
     text: 'Settlement has a Settler Request'
   },
+  JobPerkRelated: {
+    icon: UsersIcon,
+    color: 'bg-amber-600',
+    text: 'Settlement has a Settler Request'
+  },
   None: {
     icon: HourglassIcon,
     color: 'bg-green-700',
@@ -61,7 +66,7 @@ const SettleListItem = (settle: SettlementType) => {
 
   return (
     <li className='flex items-start gap-3 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transtion-all duration-200 rounded-lg'>
-      {settle.estimate === null && <p className='bg-red-500'>CHECK ESTIMATE ({settle.buildClass})</p>}
+      {settle.needsJudgement && settle.estimate === null && <p className='bg-red-500'>CHECK ESTIMATE ({settle.buildClass})</p>}
       <div className={`w-15 h-15 rounded-lg flex items-center justify-center ${prog(settle.buildActive)}`}>
         {settle.buildActive ? <HammerIcon /> : <HourglassIcon />}
       </div>
