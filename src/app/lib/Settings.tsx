@@ -28,11 +28,6 @@ function SettingsPage () {
     }
   };
 
-  const handleDebugSave = async () => {
-    await electron.ipcRenderer.invoke('DEBUG_SAVE');
-    await confirmModal('Debug Save done');
-  };
-
   return (
     <div className='w-full'>
       <form action='#' method='POST' className='mx-auto p-10 w-xlsm:mt-20' onSubmit={handleSubmit(onSubmit)}>
@@ -66,13 +61,6 @@ function SettingsPage () {
         </div>
 
       </form>
-      <button
-        className='button'
-        onClick={handleDebugSave}
-      >
-        Debug Save
-      </button>
-
     </div>
   );
 }

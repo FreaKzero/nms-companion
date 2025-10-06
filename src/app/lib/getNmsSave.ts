@@ -6,6 +6,7 @@ import mapping from '../mappings/save.json';
 
 export interface SettlementType {
   buildActive: boolean;
+  buildClass: string;
   name: string;
   startTime: Date;
   category: string;
@@ -96,12 +97,16 @@ export const createSettlementMissions = (BaseContext: BaseContext): SettlementTy
     const start = item.LastBuildingUpgradesTimestamps[item.NextBuildingUpgradeIndex];
     const NOW = Math.floor(new Date().getTime());
 
+    // nulls we dont know yet
     const getEstimate = (timestamp: number, buildClass: string) => {
       const times: Record<string, number> = {
         Settlement_Small: 1200,
         Settlement_Medium: 3600,
         Settlement_Large: 7200,
-        Settlement_Marget: 0
+        Settlement_LandingZone: 3600,
+        Settlement_Market: null,
+        Settlement_SmallIndustrial: null,
+        DroneHive: null
       };
 
       return (timestamp + times[buildClass]) * 1000;
@@ -112,11 +117,12 @@ export const createSettlementMissions = (BaseContext: BaseContext): SettlementTy
     const buildActive = NOW < estimate;
 
     return {
+      buildClass: item.NextBuildingUpgradeClass.BuildingClass,
       buildActive,
       name: item.Name,
       startTime,
       category: item.NextBuildingUpgradeClass.BuildingClass,
-      estimate: new Date(estimate),
+      estimate: estimate ? new Date(estimate) : null,
       needsJudgement: item.PendingJudgementType.SettlementJudgementType !== 'None',
       judgementType: item.PendingJudgementType.SettlementJudgementType,
       race: item.Race.AlienRace
