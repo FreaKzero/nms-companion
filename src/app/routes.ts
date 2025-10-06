@@ -9,20 +9,6 @@ import TestPage from './screens/Test';
 
 export const routes = [
   {
-    text: 'Add Current Location',
-    location: '/current',
-    Icon: PlusCircle,
-    Component: CurrentPage,
-    order: 3
-  },
-  {
-    text: 'Add Manual Location',
-    location: '/manual',
-    Icon: MapPlusIcon,
-    Component: ManualPage,
-    order: 4
-  },
-  {
     text: 'Missions',
     location: '/',
     Icon: ListChecksIcon,
@@ -38,21 +24,40 @@ export const routes = [
     order: 2
   },
   {
-    divider: true
+    divider: true,
+    order: 3
+  },
+  {
+    text: 'Add Current Location',
+    location: '/current',
+    Icon: PlusCircle,
+    Component: CurrentPage,
+    order: 4
+  },
+  {
+    text: 'Add Manual Location',
+    location: '/manual',
+    Icon: MapPlusIcon,
+    Component: ManualPage,
+    order: 5
+  },
+  {
+    divider: true,
+    order: 6
   },
   {
     text: 'Settings',
     location: '/settings',
     Icon: SettingsIcon,
     Component: SettingsPage,
-    order: 5
+    order: 7
   },
   {
     text: 'test',
     location: '/test',
     Icon: TestTube,
     Component: TestPage,
-    order: 6
+    order: 8
   }
 
 ].sort((a, b) => a.order - b.order);
