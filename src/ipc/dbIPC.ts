@@ -97,18 +97,35 @@ export function registerDbIpc () {
     return db.prepare('DELETE FROM locations WHERE id = ?').run(id).changes;
   });
 
-  ipcMain.handle('DB-GET-PAGE', (_ev, page: number = 1, pageSize: number = 10) => {
+  ipcMain.handle('DB-GET-PAGE', (_ev, page: number = 1, pageSize: number = 10, search: string = '') => {
     const offset = (page - 1) * pageSize;
+    let rows, totalRow;
 
-    const rows = db.prepare(`
+    if (search && search.trim() !== '') {
+      const likeTerm = `%${search}%`;
+      rows = db.prepare(`
+      SELECT * FROM locations
+      WHERE Description LIKE @term OR Tag LIKE @term OR GalaxyName LIKE @term
+      ORDER BY ID DESC
+      LIMIT @limit OFFSET @offset
+    `).all({ term: likeTerm, limit: pageSize, offset });
+
+      totalRow = db.prepare(`
+      SELECT COUNT(*) as count FROM locations
+      WHERE Description LIKE @term OR Tag LIKE @term OR GalaxyName LIKE @term
+    `).get({ term: likeTerm });
+    } else {
+      rows = db.prepare(`
       SELECT * FROM locations
       ORDER BY ID DESC
       LIMIT ? OFFSET ?
     `).all(pageSize, offset);
 
-    const totalRow = db.prepare('SELECT COUNT(*) as count FROM locations').get() as { count: number };
-    const total = totalRow.count;
+      totalRow = db.prepare('SELECT COUNT(*) as count FROM locations').get();
+    }
 
+    // @ts-expect-error lazy
+    const total = totalRow.count;
     return { rows, total, page, pageSize };
   });
 

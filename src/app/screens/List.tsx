@@ -1,7 +1,8 @@
 import { CameraIcon, TrashIcon } from 'lucide-react';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { confirmModal } from '../components/ConfirmModal';
+import { FormInput } from '../components/FormInput';
 import Glyphs from '../components/Glyphs';
 import Pagination from '../components/Pagination';
 import { TagList } from '../components/TagList';
@@ -65,10 +66,18 @@ const ListItem: React.FC<EnhancedListState> = (loc) => {
 function ListPage () {
   const { getPage, delete: deleteEntry, entries, currentPage, pageSize, totalEntries } =
     useListStore();
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     getPage(1, pageSize);
   }, []);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      getPage(1, pageSize, search);
+    }, 300);
+    return () => clearTimeout(timeout);
+  }, [search]);
 
   const handleDelete = async (id: number) => {
     if (await confirmModal('Do you really want to delete this Location?')) {
@@ -87,6 +96,15 @@ function ListPage () {
 
   return (
     <div className='bg-gray-900 text-white rounded-lg shadow-md p-4 w-full'>
+      <div className='mb-4'>
+        <FormInput
+          id='search'
+          label='Search'
+          placeholder='Search by Tag, Title or Description...'
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
       <div className='divide-y divide-gray-800'>
         {entries.map((loc) => (
           <ListItem key={`location-${loc.id}`} {...loc} onDelete={handleDelete} />
