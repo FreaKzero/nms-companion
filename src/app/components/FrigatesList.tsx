@@ -16,21 +16,17 @@ const FrigateListItem = (frigate: FrigateType) => {
     Exploration: F_EXPLORE
   };
 
-  const progressMap = {
-    idle: 'bg-amber-600',
-    success: 'bg-green-700',
-    fail: 'bg-red-800'
+  const getProgressClass = (success: number, events: number, fail: number) => {
+    if (fail > 0) return 'bg-red-800';
+
+    const ratio = success / events; // 0 → 1
+    if (ratio === 0) return 'bg-amber-600';
+    if (ratio < 0.25) return 'bg-amber-500';
+    if (ratio < 0.5) return 'bg-yellow-500';
+    if (ratio < 0.75) return 'bg-lime-500';
+    return 'bg-green-700';
   };
-
-  let progClass = progressMap.idle;
-
-  if (frigate.done === frigate.events) {
-    progClass = progressMap.success;
-  }
-
-  if (frigate.fail > 0) {
-    progClass = progressMap.fail;
-  }
+  const progClass = getProgressClass(frigate.success, frigate.events, frigate.fail);
 
   return (
     <li className='flex items-start gap-3 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transtion-all duration-200 rounded-lg'>
@@ -49,10 +45,16 @@ const FrigateListItem = (frigate: FrigateType) => {
 };
 
 function FrigateList ({ frigates }: { frigates: FrigateType[] }) {
+  const sortedFrigates = [...frigates].sort((a, b) => {
+    const ratioA = a.events > 0 ? a.success / a.events : 0;
+    const ratioB = b.events > 0 ? b.success / b.events : 0;
+    return ratioB - ratioA;
+  });
+
   return (
     <div>
       <ul className='flex flex-col'>
-        {frigates.map((a, i) => {
+        {sortedFrigates.map((a, i) => {
           return (<FrigateListItem key={`frigate-${i}`} {...a} />);
         })}
       </ul>
