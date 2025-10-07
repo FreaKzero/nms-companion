@@ -50,7 +50,14 @@ export default function MissionsPage () {
             className={`button ${autoRefresh ? 'bg-green-600' : ''}`}
             onClick={toggleAutoRefresh}
           >
-            {autoRefresh ? <RefreshCcwDot /> : <RefreshCcw />}
+            {autoRefresh
+              ? (
+                <RefreshCcwDot className='w-6 h-6 animate-spin-pause' />
+                )
+              : (
+                <RefreshCcwDot className='w-6 h-6' />
+                )}
+
           </button>
           <Timer active={autoRefresh} />
 
