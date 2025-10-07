@@ -1,4 +1,4 @@
-import { RefreshCcw, RefreshCcwDot } from 'lucide-react';
+import { RefreshCcwDot } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 import FrigateList from '../components/FrigatesList';
@@ -66,17 +66,28 @@ export default function MissionsPage () {
           </span>
         </div>
 
-        <div className='mt-3 flex flex-1'>
-          <div className='w-full bg-gray-900 mr-5 p-5 border border-neutral-700 rounded-xl'>
-            <h2 className='text-2xl mb-2 pl-2'>Frigates</h2>
-            <FrigateList frigates={frigates} />
+        <div className='mt-3 flex flex-1 gap-5'>
+          <div className='w-full bg-gray-900 border border-neutral-700 rounded-xl overflow-hidden'>
+            <div className='bg-gray-700 p-2'>
+              <h2 className='text-2xl text-white ml-5'>Frigates</h2>
+            </div>
+            <div className='border-b border-neutral-700' />
+            <div className='p-5'>
+              <FrigateList frigates={frigates} />
+            </div>
           </div>
 
-          <div className='w-full bg-gray-900 p-5 border border-neutral-700 rounded-xl'>
-            <h2 className='text-2xl mb-2 pl-2'>Settlements</h2>
-            <SettlementsList settlements={settlements} />
+          <div className='w-full bg-gray-900 border border-neutral-700 rounded-xl overflow-hidden'>
+            <div className='bg-gray-700 p-2'>
+              <h2 className='text-2xl text-white ml-5'>Settlements</h2>
+            </div>
+            <div className='border-b border-neutral-700' />
+            <div className='p-5'>
+              <SettlementsList settlements={settlements} />
+            </div>
           </div>
         </div>
+
       </div>
       );
 }

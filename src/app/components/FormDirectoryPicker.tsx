@@ -45,7 +45,7 @@ export const FormDirectoryPicker: React.FC<DirectoryPickerProps> = ({
               placeholder={placeholder}
               readOnly
               disabled={disabled}
-              className='flex-1 px-3 py-2 bg-transparent text-white placeholder-gray-400 focus:outline-none'
+              className='flex-1 px-3 py-2 input-text'
             />
 
             <button
