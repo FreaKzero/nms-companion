@@ -53,7 +53,6 @@ export default function MissionsPage () {
       )
     : (
       <div>
-        {JSON.stringify(error)}
         <div className='group w-10'>
           <button
             className={`button ${autoRefresh ? 'bg-green-600' : ''}`}
