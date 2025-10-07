@@ -1,8 +1,9 @@
-import { CameraIcon, ClipboardIcon, Trash2Icon } from 'lucide-react';
+import { CameraIcon, ClipboardIcon, SearchIcon, Trash2Icon } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 import { confirmModal } from '../components/ConfirmModal';
 import { FormInput } from '../components/FormInput';
+import { openGlyphOverlay } from '../components/GlyphOverlay';
 import Glyphs from '../components/Glyphs';
 import Pagination from '../components/Pagination';
 import { TagList } from '../components/TagList';
@@ -13,6 +14,7 @@ interface EnhancedListState extends ListState {
   onDelete?: (key: number) => Promise<void>;
   onCopy?: (portalCode: string) => void;
   onTagClick?: (tag: string) => void;
+  onSelect: (portalCode: string, galaxy: string) => Promise<void>;
 }
 
 interface ScreenshotProps {
@@ -56,12 +58,19 @@ const ListItem: React.FC<EnhancedListState> = (loc) => {
           <span className='text-gray-400 text-sm flex items-center gap-2'>
             <button
               className='button'
+              onClick={() => loc.onSelect(loc.PortalCode, loc.GalaxyName)}
+            >
+              <SearchIcon size='20' />
+            </button>
+
+            <button
+              className='button'
               onClick={() => loc.onCopy?.(loc.PortalCode!)}
             >
               <ClipboardIcon size='20' />
             </button>
             <button
-              className='button bg-red-500'
+              className='button bg-red-500 hover:bg-red-400'
               onClick={() => loc.onDelete?.(loc.id!)}
             >
               <Trash2Icon size='20' />
@@ -110,6 +119,10 @@ function ListPage () {
     await navigator.clipboard.writeText(portalCode);
   };
 
+  const handleonSelect = async (portcalCode: string, galaxyName: string) => {
+    openGlyphOverlay(portcalCode, galaxyName);
+  };
+
   return (
     <div className='bg-gray-900 text-white rounded-lg shadow-md p-4 w-full'>
       <div className='mb-4'>
@@ -124,7 +137,7 @@ function ListPage () {
       </div>
       <div className='divide-y divide-gray-800'>
         {entries.map((loc) => (
-          <ListItem key={`location-${loc.id}`} {...loc} onDelete={handleDelete} onTagClick={handleTagClick} onCopy={handleOnCopy} />
+          <ListItem key={`location-${loc.id}`} {...loc} onDelete={handleDelete} onTagClick={handleTagClick} onCopy={handleOnCopy} onSelect={handleonSelect} />
         ))}
       </div>
 

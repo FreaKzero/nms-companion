@@ -21,7 +21,8 @@ export const FormScreenShotPaster: React.FC<FormScreenshotPasterProps> = ({
 
   const handlePaste = async (evt: ClipboardEvent<HTMLDivElement>) => {
     const item = evt.clipboardData.items[0];
-    if (item && item.kind === 'file') {
+
+    if (item && (item.kind === 'file')) {
       const img = item.getAsFile();
       if (img) {
         const arrayBuffer = await img.arrayBuffer();
