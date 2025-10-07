@@ -1,6 +1,6 @@
 import { RefreshCcw } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router';
+import { Link, useLocation } from 'react-router';
 
 import { OptionManagerType } from '../lib/OptionManager';
 import { routes } from '../routes';

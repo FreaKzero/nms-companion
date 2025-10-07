@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import FrigateList from '../components/FrigatesList';
 import Loader from '../components/Loader';
 import SettlementsList from '../components/SettlementList';
+import Timer from '../components/Timer';
 import useMissionsStore from '../stores/useMissionsStore';
 
 export default function MissionsPage () {
@@ -51,6 +52,8 @@ export default function MissionsPage () {
           >
             {autoRefresh ? <RefreshCcwDot /> : <RefreshCcw />}
           </button>
+          <Timer active={autoRefresh} />
+
           <span className='scale-0 absolute group-hover:scale-100 transition-all duration-100 text-white bg-gray-900 p-2 rounded-md shadow-md text-xs mt-1 ml-2'>
             Autorefresh (all 2 Minutes)
           </span>

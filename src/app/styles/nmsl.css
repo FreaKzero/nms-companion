@@ -68,4 +68,10 @@
     transition duration-300 ease-in-out;
   }
 
+    @keyframes progress {
+          to {
+            transform: scaleX(1);
+          }
+        }
+        
 }

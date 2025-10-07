@@ -1,4 +1,4 @@
-import { HammerIcon, LucideIcon, SectionIcon, SkullIcon, UserPlusIcon, HourglassIcon, Building2Icon, UsersIcon } from 'lucide-react';
+import { HammerIcon, LucideIcon, SectionIcon, SkullIcon, UserPlusIcon, HourglassIcon, Building2Icon, UsersIcon, CrownIcon } from 'lucide-react';
 
 import { SettlementType } from '../lib/getNmsSave';
 import getRelativeTime from '../lib/getRelativeTime';
@@ -44,6 +44,11 @@ const judementMap: Record<string, { icon: LucideIcon; color: string; text: strin
     color: 'bg-amber-600',
     text: 'Settlement has a Settler Request'
   },
+  BlessingPerkRelated: {
+    icon: CrownIcon,
+    color: 'bg-amber-600',
+    text: 'Settlement can get a Blessing'
+  },
   None: {
     icon: HourglassIcon,
     color: 'bg-green-700',
@@ -68,12 +73,13 @@ const JudgementIcon = ({ type }: { type: string }) => {
 
 const SettleListItem = (settle: SettlementType) => {
   const status = judementMap[settle.judgementType]?.text || settle.judgementType;
+  const isDone = !settle.buildActive && settle.buildClass !== 'None';
 
   return (
     <li className='flex items-start gap-3 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transtion-all duration-200 rounded-lg'>
       {settle.buildActive && settle.estimate === null && <p className='bg-red-500'>CHECK ESTIMATE ({settle.buildClass})</p>}
-      <div className={`w-15 h-15 rounded-lg flex items-center justify-center ${prog(settle.buildActive)}`}>
-        {settle.buildActive ? <HammerIcon /> : <HourglassIcon />}
+      <div className={`w-15 h-15 rounded-lg flex items-center justify-center ${prog(isDone)}`}>
+        {!settle.buildActive && settle.buildClass === 'None' ? <HourglassIcon /> : isDone ? <Building2Icon /> : <HammerIcon />}
       </div>
       <div className={`w-15 h-15 rounded-lg flex items-center justify-center ${prog(settle.needsJudgement)}`}>
         <JudgementIcon type={settle.judgementType} />
@@ -81,8 +87,10 @@ const SettleListItem = (settle: SettlementType) => {
 
       <div className='flex flex-col flex-1 text-sm text-gray-900 dark:text-gray-100 overflow-hidden'>
         <p className='font-medium line-clamp-2 text-lg'>{settle.name} • {settle.race}</p>
+        {isDone && <p className='text-gray-600 dark:text-gray-400 text-xs'>Building can be reopened</p>}
         {settle.buildActive && <p className='text-gray-600 dark:text-gray-400 text-xs'>Build started {getRelativeTime(settle.startTime)} • Done {getRelativeTime(settle.estimate)}</p>}
         <span className='text-xs text-gray-400'>{status}</span>
+        {settle.buildActive && settle.estimate === null && <span>{settle.buildClass}</span>}
 
       </div>
     </li>
