@@ -1,10 +1,10 @@
-import { writeFile } from 'node:fs';
+import { existsSync, mkdirSync, writeFile } from 'node:fs';
 import path from 'node:path';
 
 import getSave, { createFrigateMissions, createPosition, createSettlementMissions } from '@/app/lib/getNmsSave';
 import OptionManager from '@/app/lib/OptionManager';
 
-import { app, ipcMain, nativeImage } from 'electron';
+import { ipcMain, nativeImage } from 'electron';
 
 export interface PositionType {
   error?: boolean;
@@ -47,7 +47,11 @@ const registerNmsIpc = () => {
       const image = nativeImage.createFromBuffer(buffer);
       const resized = image.resize({ width: 500 });
       const outBuffer = resized.toPNG();
-      const outPath = path.join(app.getPath('desktop'), `${id}.png`);
+      const outPath = path.join(OPTIONS.locationThumbDir, `${id}.png`);
+
+      if (!existsSync(OPTIONS.locationThumbDir)) {
+        mkdirSync(OPTIONS.locationThumbDir);
+      }
 
       await writeFile(outPath, outBuffer, (err) => {
         if (err) {

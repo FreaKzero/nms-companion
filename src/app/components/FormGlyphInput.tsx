@@ -1,6 +1,6 @@
 import { ClipboardIcon } from 'lucide-react';
 import React from 'react';
-import { Controller, Control, Noop, RefCallBack } from 'react-hook-form';
+import { Controller, Control } from 'react-hook-form';
 
 interface GlyphInputControlProps {
   name: string;
@@ -48,7 +48,7 @@ export const FormGlyphInput: React.FC<GlyphInputControlProps> = ({
             }}
             className='flex h-10 items-center justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-xs font-semibold uppercase text-white hover:bg-indigo-500 active:bg-indigo-700 transition-colors'
           >
-            <ClipboardIcon />
+            <ClipboardIcon size='20' />
           </button>
         )}
         <Controller
