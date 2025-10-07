@@ -9,7 +9,7 @@ import { FormFilePicker } from '../components/FormFilePicker';
 import { FormInput } from '../components/FormInput';
 
 function SettingsPage () {
-  const { handleSubmit, setValue, control, register, formState: { errors } } = useForm<OptionManagerType>();
+  const { handleSubmit, setValue, control, register } = useForm<OptionManagerType>();
 
   useEffect(() => {
     const getSettings = async () => {

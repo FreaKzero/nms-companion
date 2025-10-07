@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/jsx-indent */
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import React from 'react';
 
