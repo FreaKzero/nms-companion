@@ -37,7 +37,7 @@ const registerNmsIpc = () => {
       );
       return position;
     } catch (err) {
-      return { error: 'Cannot read Save File' };
+      return { error: err };
     }
   });
 
@@ -74,7 +74,7 @@ const registerNmsIpc = () => {
 
       return { frigates, settlements, position };
     } catch (err) {
-      return { error: 'Cannot read Save File' };
+      return { error: err };
     }
   });
 };

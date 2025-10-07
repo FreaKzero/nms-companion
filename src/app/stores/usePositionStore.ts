@@ -43,7 +43,7 @@ const usePositionStore = create<PositionStoreState >()((set) => ({
       }
 
       set({ ...position, loading: false });
-    } catch (err) {
+    } catch (_err) {
       set({ ...defState, loading: false, error: true });
     }
   }

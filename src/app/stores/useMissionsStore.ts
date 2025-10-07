@@ -39,7 +39,7 @@ const useMissionsStore = create<MissionsStoreState>()((set) => ({
       }
       set({ frigates: mis.frigates, settlements: mis.settlements, loading: false });
       usePositionStore.getState().setCurrent(mis.position);
-    } catch (err) {
+    } catch (_err) {
       set({ ...defState, loading: false, error: true });
     }
   }

@@ -7,7 +7,6 @@ import { FormGlyphInput } from '../components/FormGlyphInput';
 import { FormHidden } from '../components/FormHidden';
 import { FormInput } from '../components/FormInput';
 import { FormScreenShotPaster, ScreenshotValue } from '../components/FormScreenShotPaster';
-import { FormSelect } from '../components/FormSelect';
 import { FormTextArea } from '../components/FormTextArea';
 import GlyphInput from '../components/GlyphInput';
 import { GalaxyNames } from '../mappings/GalaxyNames';
