@@ -7,6 +7,7 @@ export interface OptionManagerType {
   savePath: string;
   locationThumbDir: string;
   databasePath: string;
+  charName: string;
 }
 
 const BASE_DIR = path.join(app.getPath('home'), '.nms-log');
@@ -14,7 +15,8 @@ const BASE_DIR = path.join(app.getPath('home'), '.nms-log');
 const DEFAULT: OptionManagerType = {
   savePath: '',
   locationThumbDir: path.join(BASE_DIR, 'thumbs'),
-  databasePath: path.join(BASE_DIR, 'nms-log.sqlite')
+  databasePath: path.join(BASE_DIR, 'nms-log.sqlite'),
+  charName: ''
 };
 
 if (!fs.existsSync(BASE_DIR)) {
