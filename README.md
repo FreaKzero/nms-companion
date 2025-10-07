@@ -15,6 +15,7 @@
 ![Screenshot of No Man's Sky Companion](screenshots/2.PNG)
 ![Screenshot of No Man's Sky Companion](screenshots/3.PNG)
 ![Screenshot of No Man's Sky Companion](screenshots/4.PNG)
+![Screenshot of No Man's Sky Companion](screenshots/5.PNG)
 
 ## License
 [MIT License]  
