@@ -1,3 +1,4 @@
+import { RefreshCcw, RefreshCcwDot } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 import FrigateList from '../components/FrigatesList';
@@ -26,6 +27,7 @@ export default function MissionsPage () {
   }, []);
 
   const toggleAutoRefresh = () => {
+    getMissions();
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
@@ -42,14 +44,17 @@ export default function MissionsPage () {
       )
     : (
       <div>
-        {!autoRefresh && <button className='button' onClick={getMissions}>Refresh Missions</button>}
-
-        <button
-          className={`button ml-5 ${autoRefresh ? 'bg-green-600' : ''}`}
-          onClick={toggleAutoRefresh}
-        >
-          {autoRefresh ? 'AUTOREFRESH ACTIVE' : 'AUTOREFRESH'}
-        </button>
+        <div className='group w-10'>
+          <button
+            className={`button ${autoRefresh ? 'bg-green-600' : ''}`}
+            onClick={toggleAutoRefresh}
+          >
+            {autoRefresh ? <RefreshCcwDot /> : <RefreshCcw />}
+          </button>
+          <span className='scale-0 absolute group-hover:scale-100 transition-all duration-100 text-white bg-gray-900 p-2 rounded-md shadow-md text-xs mt-1 ml-2'>
+            Autorefresh (all 2 Minutes)
+          </span>
+        </div>
 
         <div className='mt-3 flex flex-1'>
           <div className='w-full bg-gray-900 mr-5 p-5 border border-neutral-700 rounded-xl'>
