@@ -107,7 +107,8 @@ export const createSettlementMissions = (BaseContext: BaseContext, owner: string
         Settlement_Market: null,
         Settlement_SmallIndustrial: 1200,
         DroneHive: null,
-        Settlement_FishPond: 1200
+        Settlement_FishPond: 1200,
+        Settlement_Bar: 3600
       };
 
       return (timestamp + times[buildClass]) * 1000;
@@ -130,6 +131,7 @@ export const createSettlementMissions = (BaseContext: BaseContext, owner: string
     };
   });
 
+  console.log(x);
   return x;
 };
 

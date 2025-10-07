@@ -85,7 +85,7 @@ function ManualPage () {
           </div>
 
           <div>
-            <FormGlyphInput label='Portal Code' name='PortalCode' control={control} />
+            <FormGlyphInput label='Portal Code' name='PortalCode' control={control} onClear={() => setValue('PortalCode', '')} />
             <FormHidden
               id='PortalCode'
               register={register('PortalCode', {
