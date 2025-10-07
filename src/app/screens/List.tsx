@@ -1,4 +1,4 @@
-import { CameraIcon, TrashIcon } from 'lucide-react';
+import { CameraIcon, ClipboardIcon, Trash2Icon } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 import { confirmModal } from '../components/ConfirmModal';
@@ -11,6 +11,7 @@ import useListStore, { ListState } from '../stores/useListStore';
 
 interface EnhancedListState extends ListState {
   onDelete?: (key: number) => Promise<void>;
+  onCopy?: (portalCode: string) => void;
   onTagClick?: (tag: string) => void;
 }
 
@@ -52,12 +53,18 @@ const ListItem: React.FC<EnhancedListState> = (loc) => {
 
         <div className='flex flex-col mt-3 sm:mt-0 justify-between items-end'>
           <TagList tags={loc.Tag} onClick={() => handleTagClick(loc.Tag)} />
-          <span className='text-gray-400 text-sm flex items-center gap-1'>
+          <span className='text-gray-400 text-sm flex items-center gap-2'>
             <button
               className='button'
+              onClick={() => loc.onCopy?.(loc.PortalCode!)}
+            >
+              <ClipboardIcon size='20' />
+            </button>
+            <button
+              className='button bg-red-500'
               onClick={() => loc.onDelete?.(loc.id!)}
             >
-              <TrashIcon size='20' />
+              <Trash2Icon size='20' />
             </button>
           </span>
         </div>
@@ -99,6 +106,10 @@ function ListPage () {
 
   const handleTagClick = (tag: string) => setSearch(tag);
 
+  const handleOnCopy = async (portalCode: string) => {
+    await navigator.clipboard.writeText(portalCode);
+  };
+
   return (
     <div className='bg-gray-900 text-white rounded-lg shadow-md p-4 w-full'>
       <div className='mb-4'>
@@ -113,7 +124,7 @@ function ListPage () {
       </div>
       <div className='divide-y divide-gray-800'>
         {entries.map((loc) => (
-          <ListItem key={`location-${loc.id}`} {...loc} onDelete={handleDelete} onTagClick={handleTagClick} />
+          <ListItem key={`location-${loc.id}`} {...loc} onDelete={handleDelete} onTagClick={handleTagClick} onCopy={handleOnCopy} />
         ))}
       </div>
 
