@@ -67,8 +67,12 @@ const registerNmsIpc = () => {
 
       const frigates = createFrigateMissions(saveData.BaseContext);
       const settlements = OPTIONS.charName.trim() !== '' ? createSettlementMissions(saveData.BaseContext, OPTIONS.charName) : [];
+      const position: PositionType = createPosition(
+        saveData.BaseContext.PlayerStateData.UniverseAddress,
+        saveData.BaseContext.PlayerStateData.SaveSummary
+      );
 
-      return { frigates, settlements };
+      return { frigates, settlements, position };
     } catch (err) {
       console.error('Mission Error:', err);
       throw err;

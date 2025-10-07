@@ -31,7 +31,7 @@ export default function MissionsPage () {
       intervalRef.current = null;
       setAutoRefresh(false);
     } else {
-      intervalRef.current = setInterval(() => getMissions(), 120000);
+      intervalRef.current = setInterval(() => getMissions(), 2 * 60 * 1000);
       setAutoRefresh(true);
     }
   };

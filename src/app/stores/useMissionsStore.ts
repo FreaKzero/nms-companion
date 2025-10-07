@@ -1,10 +1,13 @@
 import { create } from 'zustand';
 
-import { FrigateType, SettlementType } from '../lib/getNmsSave';
+import usePositionStore from './usePositionStore';
+
+import { FrigateType, PositionType, SettlementType } from '../lib/getNmsSave';
 
 export interface MissionsType {
   frigates: FrigateType[];
   settlements: SettlementType[];
+  position: PositionType;
 }
 
 interface MissionsStoreState {
@@ -26,8 +29,9 @@ const useMissionsStore = create<MissionsStoreState>()((set) => ({
     set({ ...defState, loading: true });
 
     try {
-      const missions: MissionsType = await electron.ipcRenderer.invoke('GET_TASKS');
-      set({ ...missions, loading: false });
+      const mis: MissionsType = await electron.ipcRenderer.invoke('GET_TASKS');
+      set({ frigates: mis.frigates, settlements: mis.settlements, loading: false });
+      usePositionStore.getState().setCurrent(mis.position);
     } catch (err) {
       console.error('Fehler beim Laden der Missionen:', err);
       set({ ...defState, loading: false });

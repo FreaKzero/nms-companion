@@ -18,11 +18,18 @@ interface PositionStoreState {
   GalaxyName: string;
   GalaxyIndex: number;
   getCurrent: () => void;
+  setCurrent: (data: PositionType) => void;
   Summary: string;
 }
 
 const usePositionStore = create<PositionStoreState >()((set) => ({
   ...defState,
+  setCurrent: (data: PositionType) => {
+    set((state) => ({
+      ...state,
+      ...data
+    }));
+  },
   getCurrent: async () => {
     set({ ...defState, loading: true });
 
