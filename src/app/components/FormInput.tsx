@@ -5,7 +5,9 @@ interface FormInputProps {
   label: string;
   id: string;
   type?: string;
-  register: UseFormRegisterReturn;
+  register?: UseFormRegisterReturn;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
   placeholder?: string;
 }
@@ -15,6 +17,8 @@ export const FormInput: React.FC<FormInputProps> = ({
   id,
   type = 'text',
   register,
+  value,
+  onChange,
   disabled = false,
   placeholder
 }) => {
@@ -28,7 +32,9 @@ export const FormInput: React.FC<FormInputProps> = ({
         type={type}
         placeholder={placeholder}
         disabled={disabled}
-        {...register}
+        {...(register || {})}
+        value={value}
+        onChange={onChange}
         className='input-text'
       />
     </div>
