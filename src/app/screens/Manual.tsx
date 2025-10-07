@@ -109,7 +109,6 @@ function ManualPage () {
               label='Portal Code'
               name='PortalCode'
               control={control}
-              onClear={() => setValue('PortalCode', '')}
               onClickPaste={() => handlePastePortalCode()}
             />
             <FormHidden
