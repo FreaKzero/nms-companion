@@ -34,7 +34,7 @@ const usePositionStore = create<PositionStoreState >()((set) => ({
     set({ ...defState, loading: true });
 
     try {
-      const position: PositionType = await electron.ipcRenderer.invoke('GET_LIST');
+      const position: PositionType = await electron.ipcRenderer.invoke('GET_POSITION');
       set({ ...position, loading: false });
     } catch (err) {
       console.error('Fehler beim Laden der Position:', err);

@@ -29,7 +29,7 @@ const useMissionsStore = create<MissionsStoreState>()((set) => ({
     set({ ...defState, loading: true });
 
     try {
-      const mis: MissionsType = await electron.ipcRenderer.invoke('GET_TASKS');
+      const mis: MissionsType = await electron.ipcRenderer.invoke('GET_MISSIONS');
       set({ frigates: mis.frigates, settlements: mis.settlements, loading: false });
       usePositionStore.getState().setCurrent(mis.position);
     } catch (err) {

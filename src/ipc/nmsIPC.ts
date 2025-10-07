@@ -27,7 +27,7 @@ interface RawType {
 const OPTIONS = OptionManager.load();
 
 const registerNmsIpc = () => {
-  ipcMain.handle('GET_LIST', async () => {
+  ipcMain.handle('GET_POSITION', async () => {
     try {
       const saveData = getSave(OPTIONS.savePath);
       const position: PositionType = createPosition(
@@ -61,7 +61,7 @@ const registerNmsIpc = () => {
     }
   });
 
-  ipcMain.handle('GET_TASKS', async () => {
+  ipcMain.handle('GET_MISSIONS', async () => {
     try {
       const saveData = getSave(OPTIONS.savePath);
 
