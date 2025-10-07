@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, UseFormSetValue } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { FormDropdown } from '../components/FormDropdown';
@@ -56,6 +56,19 @@ function ManualPage () {
 
   const galaxyOptions = GalaxyNames.map((i, idx) => ({ label: i, value: idx }));
 
+  const handlePastePortalCode = async () => {
+    try {
+      const text = (await navigator.clipboard.readText()).trim();
+      const isValidHex = (/^[0-9A-Fa-f]{12}$/).test(text);
+
+      if (isValidHex) {
+        setValue('PortalCode', text);
+      }
+    } catch (err) {
+      console.error('Clipboard read failed:', err);
+    }
+  };
+
   return (
     <div className='w-full'>
       <GlyphInput onClick={handleSelectGlyph} />
@@ -85,7 +98,13 @@ function ManualPage () {
           </div>
 
           <div>
-            <FormGlyphInput label='Portal Code' name='PortalCode' control={control} onClear={() => setValue('PortalCode', '')} />
+            <FormGlyphInput
+              label='Portal Code'
+              name='PortalCode'
+              control={control}
+              onClear={() => setValue('PortalCode', '')}
+              onClickPaste={() => handlePastePortalCode()}
+            />
             <FormHidden
               id='PortalCode'
               register={register('PortalCode', {

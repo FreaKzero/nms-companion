@@ -51,7 +51,7 @@ export const FormScreenShotPaster: React.FC<FormScreenshotPasterProps> = ({
             <img src={screenshot.preview} alt='Screenshot preview' />
             )
           : (
-            <span>Paste here</span>
+            <span>CTRL + V</span>
             )}
       </div>
     </div>
