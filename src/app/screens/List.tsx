@@ -11,6 +11,7 @@ import useListStore, { ListState } from '../stores/useListStore';
 
 interface EnhancedListState extends ListState {
   onDelete?: (key: number) => Promise<void>;
+  onTagClick?: (tag: string) => void;
 }
 
 interface ScreenshotProps {
@@ -35,6 +36,8 @@ const Screenshot: React.FC<ScreenshotProps> = ({ screen, alt }) => {
 };
 
 const ListItem: React.FC<EnhancedListState> = (loc) => {
+  const handleTagClick = (tag: string) => loc.onTagClick(tag);
+
   return (
     <div className='flex flex-col justify-between items-start py-4 hover:bg-gray-800 transition rounded-lg px-2'>
       <div className='flex gap-3 w-full'>
@@ -48,7 +51,7 @@ const ListItem: React.FC<EnhancedListState> = (loc) => {
         </div>
 
         <div className='flex flex-col mt-3 sm:mt-0 justify-between items-end'>
-          <TagList tags={loc.Tag} />
+          <TagList tags={loc.Tag} onClick={() => handleTagClick(loc.Tag)} />
           <span className='text-gray-400 text-sm flex items-center gap-1'>
             <button
               className='button'
@@ -94,6 +97,8 @@ function ListPage () {
     await getPage(page, pageSize);
   };
 
+  const handleTagClick = (tag: string) => setSearch(tag);
+
   return (
     <div className='bg-gray-900 text-white rounded-lg shadow-md p-4 w-full'>
       <div className='mb-4'>
@@ -103,11 +108,12 @@ function ListPage () {
           placeholder='Search by Tag, Title or Description...'
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          onClear={() => setSearch('')}
         />
       </div>
       <div className='divide-y divide-gray-800'>
         {entries.map((loc) => (
-          <ListItem key={`location-${loc.id}`} {...loc} onDelete={handleDelete} />
+          <ListItem key={`location-${loc.id}`} {...loc} onDelete={handleDelete} onTagClick={handleTagClick} />
         ))}
       </div>
 

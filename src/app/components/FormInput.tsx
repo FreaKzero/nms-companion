@@ -10,6 +10,7 @@ interface FormInputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
   placeholder?: string;
+  onClear?: () => void;
 }
 
 export const FormInput: React.FC<FormInputProps> = ({
@@ -20,23 +21,35 @@ export const FormInput: React.FC<FormInputProps> = ({
   value,
   onChange,
   disabled = false,
-  placeholder
+  placeholder,
+  onClear
 }) => {
   return (
-    <div className='flex flex-col gap-1'>
+    <div className='flex flex-col gap-1 relative'>
       <label htmlFor={id} className='input-text-label'>
         {label}
       </label>
-      <input
-        id={id}
-        type={type}
-        placeholder={placeholder}
-        disabled={disabled}
-        {...(register || {})}
-        value={value}
-        onChange={onChange}
-        className='input-text'
-      />
+      <div className='relative w-full'>
+        <input
+          id={id}
+          type={type}
+          placeholder={placeholder}
+          disabled={disabled}
+          {...(register || {})}
+          value={value}
+          onChange={onChange}
+          className='input-text pr-8'
+        />
+        {onClear && value && value.length > 0 && (
+          <button
+            type='button'
+            onClick={onClear}
+            className='cursor-pointer absolute inset-y-0 right-2 flex items-center justify-center text-gray-400 hover:text-gray-200'
+          >
+            &#10005;
+          </button>
+        )}
+      </div>
     </div>
   );
 };

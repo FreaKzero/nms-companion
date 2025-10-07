@@ -20,7 +20,7 @@ interface iListStore {
   delete: (id: number) => Promise<void>;
   update: (id: number, item: ListState) => Promise<void>;
   getAll: () => Promise<void>;
-  getPage: (page?: number, pageSize?: number) => Promise<void>;
+  getPage: (page?: number, pageSize?: number, search?: string) => Promise<void>;
   totalEntries: number;
   currentPage: number;
   pageSize: number;
