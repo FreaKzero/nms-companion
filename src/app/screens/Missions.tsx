@@ -1,5 +1,6 @@
 import { RefreshCcwDot } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import FrigateList from '../components/FrigatesList';
 import Loader from '../components/Loader';
@@ -12,9 +13,16 @@ export default function MissionsPage () {
   const frigates = useMissionsStore((s) => s.frigates);
   const settlements = useMissionsStore((s) => s.settlements);
   const loading = useMissionsStore((s) => s.loading);
-
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [autoRefresh, setAutoRefresh] = useState(false);
+  const error = useMissionsStore((s) => s.error);
+  const nav = useNavigate();
+
+  useEffect(() => {
+    if (error) {
+      nav('/settings');
+    }
+  }, [error]);
 
   useEffect(() => {
     getMissions();
@@ -45,6 +53,7 @@ export default function MissionsPage () {
       )
     : (
       <div>
+        {JSON.stringify(error)}
         <div className='group w-10'>
           <button
             className={`button ${autoRefresh ? 'bg-green-600' : ''}`}

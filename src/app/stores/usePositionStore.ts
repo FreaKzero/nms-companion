@@ -8,10 +8,12 @@ const defState = {
   PortalCode: '',
   GalaxyName: '',
   GalaxyIndex: 0,
-  Summary: ''
+  Summary: '',
+  error: false
 };
 
 interface PositionStoreState {
+  error: boolean;
   loading: boolean;
   ShareCode: string;
   PortalCode: string;
@@ -35,10 +37,14 @@ const usePositionStore = create<PositionStoreState >()((set) => ({
 
     try {
       const position: PositionType = await electron.ipcRenderer.invoke('GET_POSITION');
+
+      if (position.error) {
+        return set({ ...defState, loading: false, error: true });
+      }
+
       set({ ...position, loading: false });
     } catch (err) {
-      console.error('Fehler beim Laden der Position:', err);
-      set({ ...defState, loading: false });
+      set({ ...defState, loading: false, error: true });
     }
   }
 }));

@@ -45,7 +45,7 @@ const FrigateListItem = (frigate: FrigateType) => {
 };
 
 function FrigateList ({ frigates }: { frigates: FrigateType[] }) {
-  const sortedFrigates = [...frigates].sort((a, b) => {
+  const sortedFrigates = frigates.sort((a, b) => {
     const ratioA = a.events > 0 ? a.success / a.events : 0;
     const ratioB = b.events > 0 ? b.success / b.events : 0;
     return ratioB - ratioA;

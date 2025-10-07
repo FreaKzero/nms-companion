@@ -262,8 +262,7 @@ export function decompress (data: Buffer) {
     offset += 4;
 
     if (magic !== 0xfeeda1e5) {
-      console.log('Invalid Block, bad file');
-      return Buffer.alloc(0);
+      throw new Error('Bad File');
     }
 
     const compressedSize = data.readUInt32LE(offset);

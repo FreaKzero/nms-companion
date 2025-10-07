@@ -5,6 +5,7 @@ import usePositionStore from './usePositionStore';
 import { FrigateType, PositionType, SettlementType } from '../lib/getNmsSave';
 
 export interface MissionsType {
+  error?: any;
   frigates: FrigateType[];
   settlements: SettlementType[];
   position: PositionType;
@@ -12,12 +13,14 @@ export interface MissionsType {
 
 interface MissionsStoreState {
   loading: boolean;
+  error: boolean;
   frigates: FrigateType[];
   settlements: SettlementType[];
   getMissions: () => void;
 }
 
 const defState: Omit<MissionsStoreState, 'getMissions'> = {
+  error: false,
   loading: true,
   frigates: [],
   settlements: []
@@ -30,11 +33,14 @@ const useMissionsStore = create<MissionsStoreState>()((set) => ({
 
     try {
       const mis: MissionsType = await electron.ipcRenderer.invoke('GET_MISSIONS');
+      if (mis.error) {
+        set({ ...defState, loading: false, error: true });
+        return;
+      }
       set({ frigates: mis.frigates, settlements: mis.settlements, loading: false });
       usePositionStore.getState().setCurrent(mis.position);
     } catch (err) {
-      console.error('Fehler beim Laden der Missionen:', err);
-      set({ ...defState, loading: false });
+      set({ ...defState, loading: false, error: true });
     }
   }
 }));

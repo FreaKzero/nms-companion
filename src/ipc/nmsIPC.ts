@@ -7,6 +7,7 @@ import OptionManager from '@/app/lib/OptionManager';
 import { app, ipcMain, nativeImage } from 'electron';
 
 export interface PositionType {
+  error?: boolean;
   Raw: RawType;
   PortalCode: string;
   GalaxyIndex: number;
@@ -36,8 +37,7 @@ const registerNmsIpc = () => {
       );
       return position;
     } catch (err) {
-      console.error('Position Error:', err);
-      throw err;
+      return { error: 'Cannot read Save File' };
     }
   });
 
@@ -74,8 +74,7 @@ const registerNmsIpc = () => {
 
       return { frigates, settlements, position };
     } catch (err) {
-      console.error('Mission Error:', err);
-      throw err;
+      return { error: 'Cannot read Save File' };
     }
   });
 };
