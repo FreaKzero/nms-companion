@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/jsx-closing-tag-location */
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 
@@ -65,7 +66,7 @@ const ConfirmDialog: React.FC<{
             className='px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition'
                     >
             {cancelText}
-                    </button>}
+          </button>}
           <button
             onClick={() => handleClose(true)}
             className='px-4 py-2 rounded-lg bg-indigo-700 hover:bg-indigo-600 transition font-bold'

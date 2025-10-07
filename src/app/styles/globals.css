@@ -108,7 +108,16 @@
   * {
     @apply border-border outline-ring/50;
   }
+  
+  @font-face {
+    font-family: 'NMS-Glyphs-Mono';
+    src: url('../../../assets/NMS-Glyphs-Mono.ttf');
+  }
 
+  .font-glyph {
+    font-family: "NMS-Glyphs-Mono";
+    font-size: 25px !important;
+  }
   html,
   body,
   #root {
