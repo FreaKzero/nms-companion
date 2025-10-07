@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { FormDropdown } from '../components/FormDropdown';
 import { FormGlyphInput } from '../components/FormGlyphInput';
 import { FormHidden } from '../components/FormHidden';
 import { FormInput } from '../components/FormInput';
@@ -54,6 +55,8 @@ function ManualPage () {
     navigate('/list');
   };
 
+  const galaxyOptions = GalaxyNames.map((i, idx) => ({ label: i, value: idx }));
+
   return (
     <div className='w-full'>
       <GlyphInput onClick={handleSelectGlyph} />
@@ -69,12 +72,14 @@ function ManualPage () {
 
         <div className='grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2'>
           <div>
-            <FormSelect
-              label='Galaxy Name'
-              id='GalaxyName'
-              options={GalaxyNames}
-              register={register('GalaxyIndex', { required: 'Galaxy index is required' })}
+
+            <FormDropdown
+              label='Galaxy'
+              id='GalaxyIndex'
+              register={register('GalaxyIndex', { required: 'Galaxy is required' })}
+              options={galaxyOptions}
             />
+
             {errors.GalaxyIndex && (
               <p className='text-indigo-500 text-sm mt-1'>{errors.GalaxyIndex.message}</p>
             )}

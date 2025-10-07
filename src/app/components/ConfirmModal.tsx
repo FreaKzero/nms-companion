@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 
 interface ConfirmOptions {
@@ -21,30 +21,39 @@ const ConfirmDialog: React.FC<{
     cancelText = 'Cancel'
   } = options;
 
+  const [visible, setVisible] = useState(false);
+
   const handleClose = (value: boolean) => {
-    resolve(value);
-    root.unmount();
-    container.remove();
+    // Sanft ausblenden, bevor zerstört wird
+    setVisible(false);
+    setTimeout(() => {
+      resolve(value);
+      root.unmount();
+      container.remove();
+    }, 150);
   };
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        handleClose(false);
-      }
+      if (e.key === 'Escape') handleClose(false);
     };
     window.addEventListener('keydown', onKeyDown);
+    setVisible(true);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, []);
 
   return (
     <div
-      className='fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm'
-      onClick={() => handleClose(false)} // backdrop click
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity duration-200 ${
+        visible ? 'opacity-100' : 'opacity-0'
+      }`}
+      onClick={() => handleClose(false)}
     >
       <div
-        className='bg-gray-900 text-white rounded-xl shadow-2xl w-full max-w-md p-6'
-        onClick={(e) => e.stopPropagation()} // prevent backdrop-close when clicking inside
+        onClick={(e) => e.stopPropagation()}
+        className={`bg-gray-900 text-white rounded-xl shadow-2xl w-full max-w-md p-6 transform transition-all duration-200 ${
+          visible ? 'scale-100 opacity-100' : 'scale-90 opacity-0'
+        }`}
       >
         <h2 className='text-xl font-bold mb-4'>{title}</h2>
         <p className='mb-6 text-gray-300'>{message}</p>
