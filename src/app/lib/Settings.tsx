@@ -6,9 +6,10 @@ import { OptionManagerType } from './OptionManager';
 import { confirmModal } from '../components/ConfirmModal';
 import { FormDirectoryPicker } from '../components/FormDirectoryPicker';
 import { FormFilePicker } from '../components/FormFilePicker';
+import { FormInput } from '../components/FormInput';
 
 function SettingsPage () {
-  const { handleSubmit, setValue, control } = useForm<OptionManagerType>();
+  const { handleSubmit, setValue, control, register, formState: { errors } } = useForm<OptionManagerType>();
 
   useEffect(() => {
     const getSettings = async () => {
@@ -16,6 +17,7 @@ function SettingsPage () {
       setValue('savePath', settings.savePath, { shouldValidate: true, shouldDirty: true });
       setValue('locationThumbDir', settings.locationThumbDir, { shouldValidate: true, shouldDirty: true });
       setValue('databasePath', settings.databasePath, { shouldValidate: true, shouldDirty: true });
+      setValue('charName', settings.charName);
     };
 
     getSettings();
@@ -39,6 +41,12 @@ function SettingsPage () {
             onlyPath
           />
 
+          <FormInput
+            id='charName'
+            label='NMS Character Name'
+            register={register('charName', { required: 'Character Name is required' })}
+          />
+
           <FormDirectoryPicker
             label='Select Thumbnails Folder'
             name='locationThumbDir'
@@ -51,7 +59,7 @@ function SettingsPage () {
             control={control}
             onlyPath
           />
-          <div />
+
           <button
             type='submit'
             className='button'

@@ -66,7 +66,7 @@ const registerNmsIpc = () => {
       const saveData = getSave(OPTIONS.savePath);
 
       const frigates = createFrigateMissions(saveData.BaseContext);
-      const settlements = createSettlementMissions(saveData.BaseContext);
+      const settlements = OPTIONS.charName.trim() !== '' ? createSettlementMissions(saveData.BaseContext, OPTIONS.charName) : [];
 
       return { frigates, settlements };
     } catch (err) {

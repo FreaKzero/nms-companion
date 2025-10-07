@@ -10,7 +10,8 @@ interface OptionManagerStoreState extends OptionManagerType {
 const defState: OptionManagerType = {
   savePath: '',
   locationThumbDir: '',
-  databasePath: ''
+  databasePath: '',
+  charName: ''
 };
 
 const useOptionManagerStore = create<OptionManagerStoreState>((set) => ({

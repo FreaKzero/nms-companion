@@ -92,8 +92,8 @@ export function voxelToPortal (P: number, X: number, Y: number, Z: number, SSI: 
 
 export const getGalaxyName = (galaxy: number) => PlanetNames[galaxy] || `Unknown (${galaxy})`;
 
-export const createSettlementMissions = (BaseContext: BaseContext): SettlementType[] => {
-  const x = BaseContext.PlayerStateData.SettlementStatesV2.filter((item) => item.Owner.USN === 'FreaKzero').map((item) => {
+export const createSettlementMissions = (BaseContext: BaseContext, owner: string): SettlementType[] => {
+  const x = BaseContext.PlayerStateData.SettlementStatesV2.filter((item) => item.Owner.USN === owner).map((item) => {
     const start = item.LastBuildingUpgradesTimestamps[item.NextBuildingUpgradeIndex];
     const NOW = Math.floor(new Date().getTime());
 
@@ -105,7 +105,7 @@ export const createSettlementMissions = (BaseContext: BaseContext): SettlementTy
         Settlement_Large: 7200,
         Settlement_LandingZone: 3600,
         Settlement_Market: null,
-        Settlement_SmallIndustrial: null,
+        Settlement_SmallIndustrial: 1200,
         DroneHive: null
       };
 
