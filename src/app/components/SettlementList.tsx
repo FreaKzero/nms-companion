@@ -77,7 +77,6 @@ const SettleListItem = (settle: SettlementType) => {
 
   return (
     <li className='flex items-start gap-3 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transtion-all duration-200 rounded-lg'>
-      {settle.buildActive && settle.estimate === null && <p className='bg-red-500'>CHECK ESTIMATE ({settle.buildClass})</p>}
       <div className={`w-15 h-15 rounded-lg flex items-center justify-center ${prog(isDone)}`}>
         {!settle.buildActive && settle.buildClass === 'None' ? <HourglassIcon /> : isDone ? <Building2Icon /> : <HammerIcon />}
       </div>

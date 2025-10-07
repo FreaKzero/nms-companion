@@ -81,7 +81,8 @@ export default function MissionsPage () {
             </div>
             <div className='border-b border-neutral-700' />
             <div className='p-5'>
-              <FrigateList frigates={frigates} />
+              {frigates.length ? <FrigateList frigates={frigates} /> : <h2 className='text-lg text-center font-medium'>No active Frigate Missions</h2>}
+
             </div>
           </div>
 
