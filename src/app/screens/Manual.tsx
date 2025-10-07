@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { confirmModal } from '../components/ConfirmModal';
 import { FormDropdown } from '../components/FormDropdown';
 import { FormGlyphInput } from '../components/FormGlyphInput';
 import { FormHidden } from '../components/FormHidden';
@@ -63,6 +64,12 @@ function ManualPage () {
 
       if (isValidHex) {
         setValue('PortalCode', text);
+      } else {
+        await confirmModal({
+          message: 'Pasted Data is not an valid Portal Code (12 Chars Hexadecimal)',
+          title: 'Portal Code invalid',
+          info: true
+        });
       }
     } catch (err) {
       console.error('Clipboard read failed:', err);

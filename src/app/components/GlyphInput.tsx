@@ -13,7 +13,7 @@ const GlyphInput: React.FC<{ onClick: (glyph: string) => void }> = ({ onClick })
                 key={`glyphmanual-${i}`} src={glyphMap[a]}
                 onClick={() => onClick(a)}
                 width='60' className={`border border-white rounded-2xl hover:cursor-pointer 
-                       hover:saturate-[10000%] hover:hue-rotate-30 transition-all duration-300 ease-in`}
+                       hover:saturate-[10000%] hover:hue-rotate-30 transition-all duration-150 ease-in`}
               />
             );
           })}

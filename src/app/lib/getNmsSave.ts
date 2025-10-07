@@ -104,11 +104,12 @@ export const createSettlementMissions = (BaseContext: BaseContext, owner: string
         Settlement_Medium: 3600,
         Settlement_Large: 7200,
         Settlement_LandingZone: 3600,
-        Settlement_Market: null,
+        Settlement_Market: 3600,
         Settlement_SmallIndustrial: 1200,
         DroneHive: null,
         Settlement_FishPond: 1200,
-        Settlement_Bar: 3600
+        Settlement_Bar: 3600,
+        Settlement_Tower: 3600
       };
 
       return (timestamp + times[buildClass]) * 1000;
