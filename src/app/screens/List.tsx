@@ -46,7 +46,7 @@ const ListItem: React.FC<EnhancedListState> = (loc) => {
       <div className='flex gap-3 w-full'>
         <Screenshot alt={loc.Description} screen={loc.Screenshot} />
         <div className='w-full'>
-          <h3 className='text-blue-400 font-bold text-xl'>
+          <h3 className='text-indigo-400 hover:text-indigo-300 font-bold text-xl cursor-pointer transition-colors duration-300' onClick={() => handleTagClick(loc.GalaxyName)}>
             {loc.GalaxyName}
           </h3>
           <Glyphs portalCode={loc.PortalCode} width='w-7' />
@@ -113,7 +113,7 @@ function ListPage () {
     await getPage(page, pageSize);
   };
 
-  const handleTagClick = (tag: string) => setSearch(tag);
+  const handleTagClick = (tag: string) => setSearch((s) => `${s} ${tag}`);
 
   const handleOnCopy = async (portalCode: string) => {
     await navigator.clipboard.writeText(portalCode);
