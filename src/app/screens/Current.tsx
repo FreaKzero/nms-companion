@@ -7,6 +7,7 @@ import { FormHidden } from '../components/FormHidden';
 import { FormInput } from '../components/FormInput';
 import { FormScreenShotPaster, ScreenshotValue } from '../components/FormScreenShotPaster';
 import { FormTextArea } from '../components/FormTextArea';
+import Loader from '../components/Loader';
 import useListStore, { ListState } from '../stores/useListStore';
 import usePositionStore from '../stores/usePositionStore';
 
@@ -14,6 +15,8 @@ function CurrentPage () {
   const position = usePositionStore();
   const handleAddLocation = useListStore((state) => state.add);
   const getCurrentPosition = usePositionStore((s) => s.getCurrent);
+  const loading = usePositionStore((s) => s.loading);
+
   const navigate = useNavigate();
 
   const {
@@ -48,6 +51,7 @@ function CurrentPage () {
 
   return (
     <div className='w-full'>
+      {loading && <Loader message='Loading current Position ...' />}
       <form
         action='#'
         method='POST'

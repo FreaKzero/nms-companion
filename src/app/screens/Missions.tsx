@@ -48,7 +48,7 @@ export default function MissionsPage () {
   };
 
   const sett = settlements.filter((settle) => {
-    return (settle.buildActive === true && settle.buildClass !== 'None') || settle.needsJudgement === true;
+    return settle.buildActive === true || settle.buildClass !== 'None' || settle.needsJudgement === true;
   });
 
   return (

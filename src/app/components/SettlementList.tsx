@@ -1,4 +1,4 @@
-import { HammerIcon, LucideIcon, SectionIcon, SkullIcon, UserPlusIcon, HourglassIcon, Building2Icon, UsersIcon, CrownIcon } from 'lucide-react';
+import { HammerIcon, LucideIcon, SectionIcon, UserPlusIcon, HourglassIcon, Building2Icon, UsersIcon, AngryIcon, UserStarIcon, WandSparklesIcon } from 'lucide-react';
 
 import { SettlementType } from '../lib/getNmsSave';
 import getRelativeTime from '../lib/getRelativeTime';
@@ -10,9 +10,9 @@ const progressMap: Record<string, string> = {
 
 const judementMap: Record<string, { icon: LucideIcon; color: string; text: string }> = {
   Conflict: {
-    icon: SkullIcon,
+    icon: AngryIcon,
     color: 'bg-amber-600',
-    text: 'Settlement in Conflict'
+    text: 'Settlers have a Conflict'
   },
   StrangerVisit: {
     icon: UserPlusIcon,
@@ -22,7 +22,7 @@ const judementMap: Record<string, { icon: LucideIcon; color: string; text: strin
   Policy: {
     icon: SectionIcon,
     color: 'bg-amber-600',
-    text: 'Settlement needs Management'
+    text: 'Settlement needs Policy Management'
   },
   BuildingChoice: {
     icon: Building2Icon,
@@ -32,20 +32,20 @@ const judementMap: Record<string, { icon: LucideIcon; color: string; text: strin
   ProcPerkRelated: {
     icon: UsersIcon,
     color: 'bg-amber-600',
-    text: 'Settlement has a Settler Request'
+    text: 'Settler has a Request'
   },
   JobPerkRelated: {
-    icon: UsersIcon,
+    icon: UserStarIcon,
     color: 'bg-amber-600',
     text: 'Settlement has a job related Request'
   },
   Request: {
     icon: UsersIcon,
     color: 'bg-amber-600',
-    text: 'Settlement has a Settler Request'
+    text: 'Settler has a Request'
   },
   BlessingPerkRelated: {
-    icon: CrownIcon,
+    icon: WandSparklesIcon,
     color: 'bg-amber-600',
     text: 'Settlement can get a Blessing'
   },

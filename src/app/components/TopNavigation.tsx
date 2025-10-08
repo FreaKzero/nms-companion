@@ -7,17 +7,19 @@ const TopNavigation = () => {
   const galaxy = usePositionStore((state) => state.GalaxyName);
   const summary = usePositionStore((state) => state.Summary);
 
-  return (
-    <div className='top-navigation'>
-      <div className='flex flex-row items-center justify-between p-2'>
-        <div>
-          <h2 className='font-bold font-nms text-3xl'>{galaxy}</h2>
-          <h3 className='font-nms text-gray-400'>{summary}</h3>
+  return portalCode
+    ? (
+      <div className='top-navigation'>
+        <div className='flex flex-row items-center justify-between p-2'>
+          <div>
+            <h2 className='font-bold font-nms text-3xl'>{galaxy}</h2>
+            <h3 className='font-nms text-gray-400'>{summary}</h3>
+          </div>
+          <Glyphs portalCode={portalCode} />
         </div>
-        <Glyphs portalCode={portalCode} />
       </div>
-    </div>
-  );
+      )
+    : null;
 };
 
 export default TopNavigation;
