@@ -102,18 +102,31 @@ export function registerDbIpc () {
     let rows, totalRow;
 
     if (search && search.trim() !== '') {
-      const likeTerm = `%${search}%`;
-      rows = db.prepare(`
+      const terms = search.split(/\s+/).filter(Boolean);
+
+      const whereClauses = terms
+        .map((_, i) => `(Description LIKE @term${i} OR Tag LIKE @term${i} OR GalaxyName LIKE @term${i})`)
+        .join(' AND ');
+
+      const params: Record<string, string | number> = { limit: pageSize, offset };
+      terms.forEach((t, i) => {
+        params[`term${i}`] = `%${t}%`;
+      });
+
+      const sql = `
       SELECT * FROM locations
-      WHERE Description LIKE @term OR Tag LIKE @term OR GalaxyName LIKE @term
+      WHERE ${whereClauses}
       ORDER BY ID DESC
       LIMIT @limit OFFSET @offset
-    `).all({ term: likeTerm, limit: pageSize, offset });
+    `;
 
-      totalRow = db.prepare(`
+      const sqlCount = `
       SELECT COUNT(*) as count FROM locations
-      WHERE Description LIKE @term OR Tag LIKE @term OR GalaxyName LIKE @term
-    `).get({ term: likeTerm });
+      WHERE ${whereClauses}
+    `;
+
+      rows = db.prepare(sql).all(params);
+      totalRow = db.prepare(sqlCount).get(params);
     } else {
       rows = db.prepare(`
       SELECT * FROM locations

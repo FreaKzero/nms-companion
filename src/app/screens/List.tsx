@@ -129,7 +129,7 @@ function ListPage () {
         <FormInput
           id='search'
           label='Search'
-          placeholder='Search by Tag, Title or Description...'
+          placeholder='Search by Tag, Galaxy Name and Description...'
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           onClear={() => setSearch('')}
