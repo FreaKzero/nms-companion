@@ -8,7 +8,7 @@ const TimerBar = ({ active }: { active: boolean }) => {
             width: '100%',
             transform: active ? 'scaleX(0)' : undefined,
             transformOrigin: 'left',
-            animation: 'progress 120s linear forwards'
+            animation: 'progress 120s linear infinite'
           }}
         />
       </div>

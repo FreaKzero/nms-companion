@@ -82,7 +82,7 @@
         transform: rotate(360deg);
       }
       60% {
-        transform: rotate(360deg); /* kurz halten */
+        transform: rotate(360deg);
       }
       100% {
         transform: rotate(720deg);
