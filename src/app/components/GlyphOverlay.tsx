@@ -44,7 +44,7 @@ const GlyphOverlay: React.FC<GlyphOverlayProps> = ({ root, container, portalCode
           visible ? 'scale-100 opacity-100' : 'scale-90 opacity-0'
         }`}
       >
-        <h2 className='text-2xl text-white mb-5'>{galaxyName}</h2>
+        <h2 className='text-3xl text-white mb-5 font-nms'>{galaxyName}</h2>
         <Glyphs portalCode={portalCode} width='w-15' />
       </div>
     </div>

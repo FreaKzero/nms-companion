@@ -114,10 +114,21 @@
     src: url('../../../assets/NMS-Glyphs-Mono.ttf');
   }
 
+  @font-face {
+    font-family: 'NMSGeoSans';
+    src: url('../../../assets/geonms-webfont.woff') format('woff');
+  }
+
   .font-glyph {
     font-family: "NMS-Glyphs-Mono";
     font-size: 25px !important;
   }
+
+  .font-nms {
+    font-family: "NMSGeoSans";
+    font-weight: bold;
+  }
+  
   html,
   body,
   #root {

@@ -11,8 +11,8 @@ const TopNavigation = () => {
     <div className='top-navigation'>
       <div className='flex flex-row items-center justify-between p-2'>
         <div>
-          <h2 className='font-bold'>{galaxy}</h2>
-          <h3 className='italic'>{summary}</h3>
+          <h2 className='font-bold font-nms text-3xl'>{galaxy}</h2>
+          <h3 className='font-nms text-gray-400'>{summary}</h3>
         </div>
         <Glyphs portalCode={portalCode} />
       </div>
