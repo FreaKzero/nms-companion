@@ -27,7 +27,6 @@ const ConfirmDialog: React.FC<{
   const [visible, setVisible] = useState(false);
 
   const handleClose = (value: boolean) => {
-    // Sanft ausblenden, bevor zerstört wird
     setVisible(false);
     setTimeout(() => {
       resolve(value);

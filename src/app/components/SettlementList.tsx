@@ -85,12 +85,11 @@ const SettleListItem = (settle: SettlementType) => {
       </div>
 
       <div className='flex flex-col flex-1 text-sm text-gray-900 dark:text-gray-100 overflow-hidden'>
-        <p className='font-medium line-clamp-2 text-lg'>{settle.name} • {settle.race}</p>
+        <p className='line-clamp-2 text-xl font-nms'>{settle.name} • {settle.race}</p>
         {isDone && <p className='text-gray-600 dark:text-gray-400 text-xs'>Building can be reopened</p>}
         {settle.buildActive && <p className='text-gray-600 dark:text-gray-400 text-xs'>Build started {getRelativeTime(settle.startTime)} • Done {getRelativeTime(settle.estimate)}</p>}
         <span className='text-xs text-gray-400'>{status}</span>
         {settle.buildActive && settle.estimate === null && <span>{settle.buildClass}</span>}
-
       </div>
     </li>
   );

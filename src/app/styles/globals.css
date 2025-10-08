@@ -159,3 +159,20 @@
   background: linear-gradient(180deg, #818cf8, #4f46e5);
 }
 }
+
+@layer utilities {
+  .animate-spin-slow {
+    animation: spin 6s linear infinite;
+  }
+  .animate-spin-slow-rev {
+    animation: spin-rev 8s linear infinite;
+  }
+  @keyframes spin-rev {
+    from {
+      transform: rotate(360deg);
+    }
+    to {
+      transform: rotate(0deg);
+    }
+  }
+}

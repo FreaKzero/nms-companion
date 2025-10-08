@@ -34,7 +34,7 @@ const FrigateListItem = (frigate: FrigateType) => {
         <img src={IconMap[frigate.category]} className='h-5 w-5' />
       </div>
       <div className='flex flex-col flex-1 text-sm text-gray-900 dark:text-gray-100 overflow-hidden'>
-        <p className='font-medium line-clamp-2 text-lg'>{frigate.category} • {frigate.duration.replace('Very', 'Very ')} Mission ({frigate.frigates})</p>
+        <p className='line-clamp-2 text-lg font-nms'>{frigate.category} • {frigate.duration.replace('Very', 'Very ')} Mission ({frigate.frigates})</p>
         <p className='text-gray-600 dark:text-gray-400 text-xs'>Started {getRelativeTime(frigate.started)} • Last Event: {getRelativeTime(frigate.lastEvent)}</p>
         <span className='text-xs'>
           {frigate.success} Succeeded • {frigate.fail} Failed of {frigate.events} Events
