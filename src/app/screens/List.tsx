@@ -113,7 +113,11 @@ function ListPage () {
     await getPage(page, pageSize);
   };
 
-  const handleTagClick = (tag: string) => setSearch((s) => `${s} ${tag}`);
+  const handleTagClick = (term: string) => {
+    if (!search.includes(term)) {
+      setSearch((s) => `${s} ${term}`.trim());
+    }
+  };
 
   const handleOnCopy = async (portalCode: string) => {
     await navigator.clipboard.writeText(portalCode);
