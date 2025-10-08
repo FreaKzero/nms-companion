@@ -53,8 +53,8 @@ const ListItem: React.FC<EnhancedListState> = (loc) => {
           <p className='mt-5'>{loc.Description}</p>
         </div>
 
-        <div className='flex flex-col mt-3 sm:mt-0 justify-between items-end'>
-          <TagList tags={loc.Tag} onClick={() => handleTagClick(loc.Tag)} />
+        <div className='flex flex-col mt-3 sm:mt-0 justify-between items-end w-180'>
+          <TagList tags={loc.Tag} onClick={handleTagClick} />
           <span className='text-gray-400 text-sm flex items-center gap-2'>
             <button
               className='button'

@@ -25,7 +25,7 @@ export const TagList: React.FC<TagListProps> = ({ tags, onClick }) => {
   if (!tags) return null;
 
   const tagArray = tags
-    .split(',')
+    .split(' ')
     .map((t) => t.trim())
     .filter((t) => t.length > 0);
 
