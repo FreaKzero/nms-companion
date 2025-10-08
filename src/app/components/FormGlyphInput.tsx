@@ -9,6 +9,7 @@ interface GlyphInputControlProps {
   portalCode?: string;
   className?: string;
   onClickPaste?: () => void;
+  disabled?: boolean;
 }
 
 export const FormGlyphInput: React.FC<GlyphInputControlProps> = ({
@@ -17,7 +18,8 @@ export const FormGlyphInput: React.FC<GlyphInputControlProps> = ({
   label,
   portalCode = '',
   className = '',
-  onClickPaste
+  onClickPaste,
+  disabled = false
 }) => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -57,7 +59,7 @@ export const FormGlyphInput: React.FC<GlyphInputControlProps> = ({
           render={({ field }) => (
             <div className='w-full'>
               <input
-                type='text' value={field.value || portalCode} onChange={(e) => handleChange(e, field)}
+                type='text' disabled={disabled} value={field.value || portalCode} onChange={(e) => handleChange(e, field)}
                 className={`font-glyph h-10 relative flex w-full items-center rounded-md bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500 ${className}`}
               />
             </div>

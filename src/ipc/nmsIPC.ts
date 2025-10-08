@@ -1,3 +1,5 @@
+import http from 'http';
+import https from 'https';
 import { existsSync, mkdirSync, writeFile } from 'node:fs';
 import path from 'node:path';
 
@@ -38,6 +40,30 @@ const registerNmsIpc = () => {
       return position;
     } catch (err) {
       return { error: err };
+    }
+  });
+
+  ipcMain.handle('ARRAYBUFFER_SCREEN_URL', async (_ev, url: string) => {
+    try {
+      const arrayBuffer = await new Promise<ArrayBuffer>((resolve, reject) => {
+        const client = url.startsWith('https') ? https : http;
+        client
+          .get(url, (res) => {
+            if (res.statusCode !== 200) {
+              reject(new Error(`Request failed with status ${res.statusCode}`));
+              return;
+            }
+
+            const data: Uint8Array[] = [];
+            res.on('data', (chunk) => data.push(chunk));
+            res.on('end', () => resolve(Buffer.concat(data).buffer));
+          })
+          .on('error', reject);
+      });
+
+      return arrayBuffer;
+    } catch (err) {
+      console.error('Save Screen Error:', err);
     }
   });
 

@@ -19,12 +19,33 @@ export const FormScreenShotPaster: React.FC<FormScreenshotPasterProps> = ({
     preview: null,
     buffer: null
   });
+
   const handlePasteButton = async () => {
+    const imageUrlRegex = /^(https?:\/\/)?((([a-z0-9-]+\.)+[a-z]{2,}|localhost|(\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[^\s?#]*)\.(?:jpe?g|png|gif|webp|svg|bmp|tiff|ico)(\?[^\s#]*)?(#[^\s]*)?$/i;
+
     try {
       const clipboardItems = await navigator.clipboard.read();
       const lastItem = clipboardItems[0];
 
       if (!lastItem) {
+        return;
+      }
+
+      const txtType = lastItem.types.find((t) => t.includes('text/plain'));
+
+      if (txtType) {
+        const url = await navigator.clipboard.readText();
+        if (imageUrlRegex.test(url)) {
+          const arrayBuffer = await electron.ipcRenderer.invoke('ARRAYBUFFER_SCREEN_URL', url);
+
+          const newScreenshot = {
+            buffer: arrayBuffer,
+            preview: url
+          };
+
+          setScreenshot(newScreenshot);
+          if (onScreenshotChange) onScreenshotChange(newScreenshot);
+        }
         return;
       }
 
@@ -64,7 +85,7 @@ export const FormScreenShotPaster: React.FC<FormScreenshotPasterProps> = ({
             )
           : (
             <div className='flex flex-col items-center justify-center gap-2'>
-              <span className='text-xs uppercase tracking-wide'>Paste Image</span>
+              <span className='text-xs uppercase tracking-wide'>Paste Image or URL</span>
               <button
                 type='button'
                 onClick={handlePasteButton}

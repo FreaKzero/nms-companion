@@ -136,8 +136,8 @@ function ListPage () {
         />
       </div>
       <div className='divide-y divide-gray-800'>
-        {entries.map((loc) => (
-          <ListItem key={`location-${loc.id}`} {...loc} onDelete={handleDelete} onTagClick={handleTagClick} onCopy={handleOnCopy} onSelect={handleonSelect} />
+        {entries.map((loc, idx) => (
+          <ListItem key={`location-${loc.id}-${idx}`} {...loc} onDelete={handleDelete} onTagClick={handleTagClick} onCopy={handleOnCopy} onSelect={handleonSelect} />
         ))}
       </div>
 
