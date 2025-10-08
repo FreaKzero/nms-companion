@@ -28,12 +28,12 @@ const Screenshot: React.FC<ScreenshotProps> = ({ screen, alt }) => {
       <img
         src={screen}
         alt={`${alt} thumbnail`}
-        className='rounded-md object-cover h-25 aspect-video border-4 border-gray-500'
+        className='rounded-md object-cover h-25 aspect-video border-4 border-indigo-400'
       />
       )
     : (
-      <div className='rounded-md m-auto h-25 aspect-video border-4 grid border-gray-500 place-items-center'>
-        <CameraIcon size='60' className='stroke-gray-500' />
+      <div className='rounded-md m-auto h-25 aspect-video border-4 grid border-indigo-500 place-items-center'>
+        <CameraIcon size='60' className='stroke-indigo-500' />
       </div>
       );
 };
