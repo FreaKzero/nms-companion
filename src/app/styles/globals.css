@@ -124,4 +124,27 @@
       background-color: #111827;
     @apply bg-gray-800 text-foreground h-full;
   }
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b0e1a;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #4f46e5, #312e81); 
+  border-radius: 10px;
+  border: 2px solid #0b0e1a; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #6366f1, #4338ca);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, #818cf8, #4f46e5);
+}
 }

@@ -95,7 +95,7 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
         </button>
 
         {open && (
-          <div className='absolute z-10 mt-1 w-full bg-gray-900 border border-neutral-700 rounded-lg max-h-60 overflow-auto shadow-lg'>
+          <div className='absolute z-10 mt-1 w-full bg-gray-900/80 backdrop-blur-md border border-neutral-700 rounded-lg max-h-60 overflow-auto shadow-lg'>
             {filtered.length > 0
               ? (
                   filtered.map((opt) => (
