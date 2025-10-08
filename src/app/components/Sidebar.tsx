@@ -1,8 +1,11 @@
-import { RefreshCcw } from 'lucide-react';
-import { Link, useLocation } from 'react-router';
+import { RefreshCcw, RefreshCcwDot } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router';
+
+import Timer from './Timer';
 
 import { routes } from '../routes';
-import usePositionStore from '../stores/usePositionStore';
+import useMissionsStore from '../stores/useMissionsStore';
 
 const SideBar = () => {
   const loc = useLocation();
@@ -11,8 +14,7 @@ const SideBar = () => {
     <div className='fixed top-0 left-0 h-screen w-16 flex flex-col
                     bg-gray-900 shadow-lg'
     >
-      <SidebarGetPosition />
-      <Divider />
+      <SidebarAutorefresh />
       {routes.map((route, idx) => {
         return route.divider
           ? <Divider key={`loc-${idx}`} />
@@ -24,15 +26,58 @@ const SideBar = () => {
   );
 };
 
-const SidebarGetPosition: React.FC = () => {
-  const handleGetCurrentPosition = usePositionStore((state) => state.getCurrent);
+const SidebarAutorefresh: React.FC = () => {
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const getMissions = useMissionsStore((s) => s.getMissions);
+  const [autoRefresh, setAutoRefresh] = useState(false);
+
+  const error = useMissionsStore((s) => s.error);
+  const nav = useNavigate();
+
+  const toggleAutoRefresh = () => {
+    getMissions();
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+      setAutoRefresh(false);
+    } else {
+      intervalRef.current = setInterval(() => getMissions(), 2 * 60 * 1000);
+      setAutoRefresh(true);
+    }
+  };
+
+  useEffect(() => {
+    if (error) {
+      nav('/settings');
+    }
+  }, [error]);
+
+  useEffect(() => {
+    getMissions();
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+  }, []);
 
   return (
-    <div className='sidebar-icon group' onClick={handleGetCurrentPosition}>
-      <RefreshCcw size='20' />
-      <span className='sidebar-tooltip group-hover:scale-100'>
-        Get current position
-      </span>
+    <div>
+      <div className='sidebar-icon group' onClick={toggleAutoRefresh}>
+        {autoRefresh
+          ? (
+            <RefreshCcwDot className='w-6 h-6 animate-spin-pause' />
+            )
+          : (
+            <RefreshCcwDot className='w-6 h-6' />
+            )}
+        <span className='sidebar-tooltip group-hover:scale-100'>
+          Toggle Auto Refresh (2 min.)
+        </span>
+      </div>
+      {autoRefresh ? <Timer active={autoRefresh} /> : <Divider />}
     </div>
   );
 };

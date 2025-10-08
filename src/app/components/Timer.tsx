@@ -1,9 +1,9 @@
 const TimerBar = ({ active }: { active: boolean }) => {
   return active
     ? (
-      <div className='w-full h-[5px] bg-gray-900 rounded overflow-hidden mt-1'>
+      <div className='h-[3px] bg-gray-800 rounded overflow-hidden mx-2'>
         <div
-          className='h-full bg-indigo-500 rounded'
+          className='h-full bg-green-500 rounded'
           style={{
             width: '100%',
             transform: active ? 'scaleX(0)' : undefined,
