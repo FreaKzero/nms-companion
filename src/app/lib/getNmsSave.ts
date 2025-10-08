@@ -9,7 +9,6 @@ export interface SettlementType {
   buildClass: string;
   name: string;
   startTime: Date;
-  category: string;
   estimate: Date;
   needsJudgement: boolean;
   judgementType: string; // 'Conflict' | 'StrangerVisit' | 'Policy';
@@ -124,7 +123,6 @@ export const createSettlementMissions = (BaseContext: BaseContext, owner: string
       buildActive,
       name: item.Name,
       startTime,
-      category: item.NextBuildingUpgradeClass.BuildingClass,
       estimate: estimate ? new Date(estimate) : null,
       needsJudgement: item.PendingJudgementType.SettlementJudgementType !== 'None',
       judgementType: item.PendingJudgementType.SettlementJudgementType,

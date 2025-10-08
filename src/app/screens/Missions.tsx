@@ -1,17 +1,19 @@
-import { RefreshCcwDot } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 import FrigateList from '../components/FrigatesList';
 import Loader from '../components/Loader';
 import SettlementsList from '../components/SettlementList';
-import Timer from '../components/Timer';
 import useMissionsStore from '../stores/useMissionsStore';
 
 export default function MissionsPage () {
   const frigates = useMissionsStore((s) => s.frigates);
   const settlements = useMissionsStore((s) => s.settlements);
   const loading = useMissionsStore((s) => s.loading);
+  const getMissions = useMissionsStore((s) => s.getMissions);
+
+  useEffect(() => {
+    getMissions();
+  }, []);
 
   const sett = settlements.filter((settle) => {
     return settle.buildActive === true || settle.buildClass !== 'None' || settle.needsJudgement === true;

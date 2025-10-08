@@ -1,4 +1,4 @@
-import { RefreshCcw, RefreshCcwDot } from 'lucide-react';
+import { RefreshCcwDot } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 

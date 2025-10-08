@@ -1,6 +1,8 @@
 import { ClipboardIcon } from 'lucide-react';
 import React, { useState } from 'react';
 
+import { confirmModal } from './ConfirmModal';
+
 export interface ScreenshotValue {
   preview: string | null;
   buffer: ArrayBuffer | null;
