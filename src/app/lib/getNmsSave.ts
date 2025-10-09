@@ -130,7 +130,6 @@ export const createSettlementMissions = (BaseContext: BaseContext, owner: string
     };
   });
 
-  console.log(x);
   return x;
 };
 
