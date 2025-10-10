@@ -57,9 +57,25 @@ function ManualPage () {
 
   const galaxyOptions = GalaxyNames.map((i, idx) => ({ label: i, value: idx }));
 
+  function extractPortalCode (input: string) {
+    const matches = input.match(/:portal([a-zA-Z0-9]):/g);
+    if (!matches) return '';
+
+    return matches
+      .map((m) => m.match(/:portal([a-zA-Z0-9]):/)[1])
+      .join('')
+      .toUpperCase();
+  }
+
   const handlePastePortalCode = async () => {
     try {
-      const text = (await navigator.clipboard.readText()).trim();
+      let text = (await navigator.clipboard.readText()).trim();
+      const isDiscordCode = /^(?::portal[a-zA-Z0-9]: ){11}:portal[a-zA-Z0-9]:$/;
+
+      if (isDiscordCode.test(text)) {
+        text = extractPortalCode(text);
+      }
+
       const isValidHex = (/^[0-9A-Fa-f]{12}$/).test(text);
 
       if (isValidHex) {
