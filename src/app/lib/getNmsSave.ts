@@ -13,6 +13,7 @@ export interface SettlementType {
   needsJudgement: boolean;
   judgementType: string; // 'Conflict' | 'StrangerVisit' | 'Policy';
   race: string;
+  produce: number;
 }
 
 export interface FrigateType {
@@ -95,6 +96,7 @@ export const createSettlementMissions = (BaseContext: BaseContext, owner: string
   const x = BaseContext.PlayerStateData.SettlementStatesV2.filter((item) => item.Owner.USN === owner).map((item) => {
     const start = item.LastBuildingUpgradesTimestamps[item.NextBuildingUpgradeIndex];
     const NOW = Math.floor(new Date().getTime());
+    const produce = item.ProductionState.reduce((acc, cur) => acc + cur.Amount, 0);
 
     // nulls we dont know yet
     const getEstimate = (timestamp: number, buildClass: string) => {
@@ -126,7 +128,8 @@ export const createSettlementMissions = (BaseContext: BaseContext, owner: string
       estimate: estimate ? new Date(estimate) : null,
       needsJudgement: item.PendingJudgementType.SettlementJudgementType !== 'None',
       judgementType: item.PendingJudgementType.SettlementJudgementType,
-      race: item.Race.AlienRace
+      race: item.Race.AlienRace,
+      produce
     };
   });
 

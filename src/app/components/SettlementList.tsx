@@ -1,4 +1,5 @@
-import { HammerIcon, LucideIcon, SectionIcon, UserPlusIcon, HourglassIcon, Building2Icon, UsersIcon, AngryIcon, UserStarIcon, WandSparklesIcon } from 'lucide-react';
+/* eslint-disable @stylistic/jsx-closing-tag-location */
+import { HammerIcon, LucideIcon, SectionIcon, UserPlusIcon, HourglassIcon, Building2Icon, UsersIcon, AngryIcon, UserStarIcon, WandSparklesIcon, Package2Icon } from 'lucide-react';
 
 import { SettlementType } from '../lib/getNmsSave';
 import getRelativeTime from '../lib/getRelativeTime';
@@ -67,10 +68,16 @@ interface BuildIconProps {
 }
 
 export const BuildIcon: React.FC<BuildIconProps> = ({ start, end, isDone }) => {
-  const now = new Date();
-  const total = end.getTime() - start.getTime();
-  const elapsed = now.getTime() - start.getTime();
-  const progress = Math.min(Math.max(elapsed / total, 0), 1); // Clamp 0-1
+  let progress;
+
+  if (start && end) {
+    const now = new Date();
+    const total = end.getTime() - start.getTime();
+    const elapsed = now.getTime() - start.getTime();
+    progress = Math.min(Math.max(elapsed / total, 0), 1); // Clamp 0-1
+  } else {
+    progress = 100;
+  }
 
   return (
     <div className='relative w-15 h-15 rounded-lg flex items-center justify-center overflow-hidden bg-gray-700'>
@@ -103,20 +110,26 @@ const SettleListItem = (settle: SettlementType) => {
 
   return (
     <li className='flex items-start gap-3 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transtion-all duration-200 rounded-lg'>
-      <div className={`w-15 h-15 rounded-lg flex items-center justify-center ${prog(isDone)}`}>
-        {!settle.buildActive && settle.buildClass === 'None' ? <HourglassIcon /> : isDone ? <Building2Icon /> : <BuildIcon start={settle.startTime} end={settle.estimate} />}
-      </div>
 
-      <div className={`w-15 h-15 rounded-lg flex items-center justify-center ${prog(settle.needsJudgement)}`}>
+      {settle.produce > 0 && <div className='w-15 h-15 rounded-lg flex items-center justify-center bg-green-700'>
+        <Package2Icon /><br />
+      </div>}
+
+      {isDone && <div className={`w-15 h-15 rounded-lg flex items-center justify-center ${prog(isDone)}`}>
+        <Building2Icon />
+      </div>}
+
+      {(settle.buildActive && settle.buildClass !== 'None') && <BuildIcon start={settle.startTime} end={settle.estimate} />}
+
+      {settle.judgementType !== 'None' && <div className={`w-15 h-15 rounded-lg flex items-center justify-center ${prog(settle.needsJudgement)}`}>
         <JudgementIcon type={settle.judgementType} />
-      </div>
+      </div>}
 
       <div className='flex flex-col flex-1 text-sm text-gray-900 dark:text-gray-100 overflow-hidden'>
         <p className='line-clamp-2 text-xl font-nms'>{settle.name} • {settle.race}</p>
         {isDone && <p className='text-gray-600 dark:text-gray-400 text-xs'>Building can be reopened</p>}
         {settle.buildActive && <p className='text-gray-600 dark:text-gray-400 text-xs'>Build started {getRelativeTime(settle.startTime)} • Done {getRelativeTime(settle.estimate)}</p>}
-        <span className='text-xs text-gray-400'>{status}</span>
-        {settle.buildActive && settle.estimate === null && <span>{settle.buildClass}</span>}
+        <span className='text-xs text-gray-400'>{status} {settle.produce > 0 && `• ${settle.produce} Products`}</span>
       </div>
     </li>
   );

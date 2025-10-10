@@ -4,8 +4,6 @@ import F_EXPLORE from 'assets/F_EXPLORE.png';
 import F_MINING from 'assets/F_MINING.png';
 import F_TRADE from 'assets/F_TRADE.png';
 
-import { Children, ReactNode } from 'react';
-
 import { FrigateType } from '../lib/getNmsSave';
 import getRelativeTime from '../lib/getRelativeTime';
 

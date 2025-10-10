@@ -66,7 +66,8 @@ export const MOCKSETTLE = [
     estimate: new Date('2025-10-08T13:24:15.000Z'),
     needsJudgement: true,
     judgementType: 'BlessingPerkRelated',
-    race: 'Builders'
+    race: 'Builders',
+    produce: 4
   },
   {
     buildClass: 'Settlement_SmallIndustrial',
@@ -77,7 +78,8 @@ export const MOCKSETTLE = [
     estimate: new Date('2025-10-09T04:00:15.000Z'),
     needsJudgement: true,
     judgementType: 'StrangerVisit',
-    race: 'Explorers'
+    race: 'Explorers',
+    produce: 4
   },
   {
     buildClass: 'Settlement_SmallIndustrial',
@@ -88,7 +90,8 @@ export const MOCKSETTLE = [
     estimate: new Date('2025-10-09T03:00:15.000Z'),
     needsJudgement: true,
     judgementType: 'Conflict',
-    race: 'Builders'
+    race: 'Builders',
+    produce: 0
   },
   {
     buildClass: 'None',
@@ -99,7 +102,8 @@ export const MOCKSETTLE = [
     estimate: null,
     needsJudgement: true,
     judgementType: 'Policy',
-    race: 'Builders'
+    race: 'Builders',
+    produce: 4
   }
 ];
 // set({ frigates: mis.frigates, settlements: MOCK, loading: false });
