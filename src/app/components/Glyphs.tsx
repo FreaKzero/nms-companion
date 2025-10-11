@@ -15,6 +15,8 @@ import gD from 'assets/D.png';
 import gE from 'assets/E.png';
 import gF from 'assets/F.png';
 
+import { MouseEventHandler } from 'react';
+
 export const glyphMap: Record<string, string> = {
   0: g0,
   1: g1,
@@ -34,9 +36,9 @@ export const glyphMap: Record<string, string> = {
   F: gF
 };
 
-const Glyphs = ({ portalCode, width = 'w-10' }: { portalCode?: string; width?: string }) => {
+const Glyphs = ({ portalCode, width = 'w-10', onClick }: { portalCode?: string; width?: string; onClick?: MouseEventHandler<any> }) => {
   return (
-    <div>
+    <div onClick={onClick} className={onClick && 'cursor-pointer'}>
       {portalCode && portalCode.split('').map((a, i) => <img key={`glyph-${i}`} src={glyphMap[a]} className={`inline-block ${width}`} />)}
     </div>
   );

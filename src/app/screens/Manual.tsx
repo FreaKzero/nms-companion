@@ -32,6 +32,8 @@ function ManualPage () {
   const handleAddLocation = useListStore((state) => state.add);
   const navigate = useNavigate();
 
+  const [glyphInput, setGlyphInput] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -94,8 +96,6 @@ function ManualPage () {
 
   return (
     <div className='w-full'>
-      <GlyphInput onClick={handleSelectGlyph} />
-
       <form
         action='#'
         method='POST'
@@ -126,6 +126,9 @@ function ManualPage () {
               name='PortalCode'
               control={control}
               onClickPaste={() => handlePastePortalCode()}
+              onFocus={() => setGlyphInput(true)}
+              onBlur={() => setGlyphInput(false)}
+
             />
             <FormHidden
               id='PortalCode'
@@ -168,14 +171,15 @@ function ManualPage () {
               </p>
             )}
           </div>
-
-          <button
-            type='submit'
-            className='w-20 rounded-md bg-indigo-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500'
-          >
-            Save
-          </button>
         </div>
+        <button
+          type='submit'
+          className='w-20 rounded-md bg-indigo-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500'
+        >
+          Save
+        </button>
+
+        <GlyphInput onClick={handleSelectGlyph} active={glyphInput} />
       </form>
     </div>
   );
