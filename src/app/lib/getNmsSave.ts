@@ -101,6 +101,7 @@ export const createSettlementMissions = (BaseContext: BaseContext, owner: string
     // nulls we dont know yet
     const getEstimate = (timestamp: number, buildClass: string) => {
       const times: Record<string, number> = {
+        Settlement_SheriffsOffice: 120,
         Settlement_Small: 1200,
         Settlement_Medium: 3600,
         Settlement_Large: 7200,
@@ -110,7 +111,8 @@ export const createSettlementMissions = (BaseContext: BaseContext, owner: string
         DroneHive: null,
         Settlement_FishPond: 1200,
         Settlement_Bar: 3600,
-        Settlement_Tower: 3600
+        Settlement_Tower: 3600,
+        Settlement_Farm: 5580
       };
 
       return (timestamp + times[buildClass]) * 1000;

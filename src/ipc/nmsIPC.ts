@@ -71,7 +71,7 @@ const registerNmsIpc = () => {
     try {
       const buffer = Buffer.from(arrayBuffer);
       const image = nativeImage.createFromBuffer(buffer);
-      const resized = image.resize({ width: 500 });
+      const resized = image.resize({ width: 1000 });
       const outBuffer = resized.toPNG();
       const outPath = path.join(OPTIONS.locationThumbDir, `${id}.png`);
 
