@@ -4,6 +4,7 @@ import Card from '../components/Card';
 import FrigateList from '../components/FrigatesList';
 import Loader from '../components/Loader';
 import SettlementsList from '../components/SettlementList';
+import { TimerMission } from '../components/TimerMission';
 import useMissionsStore from '../stores/useMissionsStore';
 
 export default function MissionsPage () {
@@ -56,6 +57,11 @@ export default function MissionsPage () {
               </h2>
               )}
         </Card>
+      </div>
+      <div className='mt-3 flex flex-1 gap-5'>
+        <TimerMission storageKey='timer1' />
+        <TimerMission storageKey='timer2' />
+        <TimerMission storageKey='timer3' />
       </div>
     </div>
   );
