@@ -97,7 +97,7 @@ export function registerDbIpc () {
     return db.prepare('DELETE FROM locations WHERE id = ?').run(id).changes;
   });
 
-  ipcMain.handle('DB-GET-PAGE', (_ev, page: number = 1, pageSize: number = 10, search: string = '') => {
+  ipcMain.handle('DB-GET-PAGE', (_ev, page: number = 1, pageSize: number = 20, search: string = '') => {
     const offset = (page - 1) * pageSize;
     let rows, totalRow;
 
@@ -142,7 +142,7 @@ export function registerDbIpc () {
     return { rows, total, page, pageSize };
   });
 
-  ipcMain.handle('DB-SEARCH', (_ev, term: string, page: number = 1, pageSize: number = 10) => {
+  ipcMain.handle('DB-SEARCH', (_ev, term: string, page: number = 1, pageSize: number = 20) => {
     const offset = (page - 1) * pageSize;
     const likeTerm = `%${term}%`;
 

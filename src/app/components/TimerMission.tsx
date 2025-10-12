@@ -20,7 +20,7 @@ interface TimerComponentProps {
 
 export const TimerMission: React.FC<TimerComponentProps> = ({ storageKey }) => {
   const { register, handleSubmit, reset, watch, setValue } = useForm<TimerFormValues>({
-    defaultValues: { label: '', duration: '' }
+    defaultValues: { label: '', duration: '23:59:00' }
   });
 
   const stored = localStorage.getItem(storageKey);
@@ -94,7 +94,7 @@ export const TimerMission: React.FC<TimerComponentProps> = ({ storageKey }) => {
 
             <button
               type='submit'
-              className='w-full py-1 rounded-xl bg-indigo-600 hover:bg-indigo-700 mt-1 text-sm'
+              className='w-full py-1 rounded-xl bg-indigo-600 hover:bg-indigo-700 mt-1 text-sm cursor-pointer'
             >
               Start
             </button>
@@ -107,9 +107,9 @@ export const TimerMission: React.FC<TimerComponentProps> = ({ storageKey }) => {
               <p className='text-gray-400 text-sm'>Please confirm the timer has ended.</p>
               <button
                 onClick={handleConfirmEnd}
-                className='px-4 py-1 bg-indigo-600 rounded-xl hover:bg-indigo-700 text-sm'
+                className='px-4 py-1 bg-indigo-600 rounded-xl hover:bg-indigo-700 text-sm cursor-pointer'
               >
-                Dome
+                Done
               </button>
             </div>
             )
@@ -128,7 +128,7 @@ export const TimerMission: React.FC<TimerComponentProps> = ({ storageKey }) => {
               </div>
               <button
                 onClick={handleCancel}
-                className='px-4 py-1 bg-gray-700 rounded-xl hover:bg-gray-600 text-sm'
+                className='px-4 py-1 bg-gray-700 rounded-xl hover:bg-gray-600 text-sm cursor-pointer'
               >
                 Reset
               </button>

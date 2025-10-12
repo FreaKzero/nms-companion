@@ -31,7 +31,7 @@ const useListStore = create<iListStore>()((set, get) => ({
   entries: [],
   totalEntries: 0,
   currentPage: 1,
-  pageSize: 10,
+  pageSize: 20,
 
   add: async (item: ListState, file?: Nullable<ArrayBuffer>) => {
     set({ loading: true });
@@ -71,7 +71,7 @@ const useListStore = create<iListStore>()((set, get) => ({
     set({ loading: false, entries: list, totalEntries: list.length });
   },
 
-  getPage: async (page = 1, pageSize = 10, search = '') => {
+  getPage: async (page = 1, pageSize = 20, search = '') => {
     set({ loading: true });
     const { rows, total } = await electron.ipcRenderer.invoke('DB-GET-PAGE', page, pageSize, search);
     set({

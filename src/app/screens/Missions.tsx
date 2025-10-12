@@ -63,6 +63,12 @@ export default function MissionsPage () {
         <TimerMission storageKey='timer2' />
         <TimerMission storageKey='timer3' />
       </div>
+      <div className='mt-3 flex flex-1 gap-5'>
+        <TimerMission storageKey='timer4' />
+        <TimerMission storageKey='timer5' />
+        <TimerMission storageKey='timer6' />
+      </div>
+
     </div>
   );
 }
