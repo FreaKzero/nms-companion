@@ -106,7 +106,7 @@ export const createSettlementMissions = (BaseContext: BaseContext, owner: string
         Settlement_Medium: 3600,
         Settlement_Large: 7200,
         Settlement_LandingZone: 3600,
-        Settlement_Market: 3600,
+        Settlement_Market: 7200,
         Settlement_SmallIndustrial: 1200,
         DroneHive: null,
         Settlement_FishPond: 1200,
