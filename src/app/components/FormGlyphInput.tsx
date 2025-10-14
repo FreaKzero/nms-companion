@@ -52,7 +52,7 @@ export const FormGlyphInput: React.FC<GlyphInputControlProps> = ({
               e.stopPropagation();
               onClickPaste();
             }}
-            className='flex h-10 items-center justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-xs font-semibold uppercase text-white hover:bg-indigo-500 active:bg-indigo-700 transition-colors'
+            className='button icon'
           >
             <ClipboardIcon size='20' />
           </button>

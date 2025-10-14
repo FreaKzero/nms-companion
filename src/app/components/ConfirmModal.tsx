@@ -62,13 +62,13 @@ const ConfirmDialog: React.FC<{
         <div className='flex justify-end gap-3'>
           {!info && <button
             onClick={() => handleClose(false)}
-            className='button2'
+            className='button2 w-25'
                     >
             {cancelText}
           </button>}
           <button
             onClick={() => handleClose(true)}
-            className='button'
+            className='button w-25'
           >
             {confirmText}
           </button>
