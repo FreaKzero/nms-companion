@@ -62,30 +62,19 @@ const prog = (b: boolean): string => {
 };
 
 interface BuildIconProps {
-  start: Date;
-  end: Date;
+  buildProgress: number;
   isDone?: boolean;
 }
 
-export const BuildIcon: React.FC<BuildIconProps> = ({ start, end, isDone }) => {
-  let progress;
-
-  if (start && end) {
-    const now = new Date();
-    const total = end.getTime() - start.getTime();
-    const elapsed = now.getTime() - start.getTime();
-    progress = Math.min(Math.max(elapsed / total, 0), 1); // Clamp 0-1
-  } else {
-    progress = 100;
-  }
+export const BuildIcon: React.FC<BuildIconProps> = ({ buildProgress, isDone }) => {
+  const progress = isDone ? 1 : buildProgress;
 
   return (
     <div className='relative w-15 h-15 rounded-lg flex items-center justify-center overflow-hidden bg-gray-700'>
       <div
         className='absolute top-0 left-0 h-full bg-green-700 transition-all duration-300'
-        style={{ width: `${isDone ? 100 : progress * 100}%` }}
+        style={{ width: `${progress}%` }}
       />
-
       <div className='relative z-10 text-white'>
         <HammerIcon />
       </div>
@@ -119,7 +108,7 @@ const SettleListItem = (settle: SettlementType) => {
         <Building2Icon />
       </div>}
 
-      {(settle.buildActive && settle.buildClass !== 'None') && <BuildIcon start={settle.startTime} end={settle.estimate} />}
+      {(settle.buildActive && settle.buildClass !== 'None') && <BuildIcon buildProgress={settle.buildProgress} />}
 
       {settle.judgementType !== 'None' && <div className={`w-15 h-15 rounded-lg flex items-center justify-center ${prog(settle.needsJudgement)}`}>
         <JudgementIcon type={settle.judgementType} />

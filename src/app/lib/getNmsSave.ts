@@ -14,6 +14,7 @@ export interface SettlementType {
   judgementType: string; // 'Conflict' | 'StrangerVisit' | 'Policy';
   race: string;
   produce: number;
+  buildProgress: number;
 }
 
 export interface FrigateType {
@@ -93,49 +94,58 @@ export function voxelToPortal (P: number, X: number, Y: number, Z: number, SSI: 
 export const getGalaxyName = (galaxy: number) => PlanetNames[galaxy] || `Unknown (${galaxy})`;
 
 export const createSettlementMissions = (BaseContext: BaseContext, owner: string): SettlementType[] => {
-  const x = BaseContext.PlayerStateData.SettlementStatesV2.filter((item) => item.Owner.USN === owner).map((item) => {
-    const start = item.LastBuildingUpgradesTimestamps[item.NextBuildingUpgradeIndex];
-    const NOW = Math.floor(new Date().getTime());
-    const produce = item.ProductionState.reduce((acc, cur) => acc + cur.Amount, 0);
+  const x = BaseContext.PlayerStateData.SettlementStatesV2
+    .filter((item) => item.Owner.USN === owner)
+    .map((item) => {
+      const start = item.LastBuildingUpgradesTimestamps[item.NextBuildingUpgradeIndex];
+      const NOW = Math.floor(Date.now());
+      const produce = item.ProductionState.reduce((acc, cur) => acc + cur.Amount, 0);
 
-    // nulls we dont know yet
-    const getEstimate = (timestamp: number, buildClass: string) => {
-      const times: Record<string, number> = {
-        Settlement_SheriffsOffice: 120,
-        Settlement_Small: 1200,
-        Settlement_Medium: 3600,
-        Settlement_Large: 7200,
-        Settlement_LandingZone: 3600,
-        Settlement_Market: 7200,
-        Settlement_SmallIndustrial: 1200,
-        DroneHive: null,
-        Settlement_FishPond: 1200,
-        Settlement_Bar: 3600,
-        Settlement_Tower: 3600,
-        Settlement_Farm: 5580,
-        Settlement_Double: 3600
+      const getEstimate = (timestamp: number, buildClass: string) => {
+        const times: Record<string, number> = {
+          Settlement_SheriffsOffice: 120,
+          Settlement_Small: 1200,
+          Settlement_Medium: 3600,
+          Settlement_Large: 7200,
+          Settlement_LandingZone: 3600,
+          Settlement_Market: 7200,
+          Settlement_SmallIndustrial: 1200,
+          DroneHive: null,
+          Settlement_FishPond: 1200,
+          Settlement_Bar: 3600,
+          Settlement_Tower: 3600,
+          Settlement_Farm: 5580,
+          Settlement_Double: 3600
+        };
 
+        return (timestamp + times[buildClass]) * 1000;
       };
 
-      return (timestamp + times[buildClass]) * 1000;
-    };
+      const startTime = start * 1000;
+      const estimate = getEstimate(start, item.NextBuildingUpgradeClass.BuildingClass);
+      const buildActive = NOW < estimate;
 
-    const startTime = new Date(start * 1000);
-    const estimate = getEstimate(start, item.NextBuildingUpgradeClass.BuildingClass);
-    const buildActive = NOW < estimate;
+      let buildProgress = 0;
+      if (estimate && startTime) {
+        const total = estimate - startTime;
+        const elapsed = NOW - startTime;
+        buildProgress = Math.min(Math.max(elapsed / total, 0), 1) * 100;
+      }
 
-    return {
-      buildClass: item.NextBuildingUpgradeClass.BuildingClass,
-      buildActive,
-      name: item.Name,
-      startTime,
-      estimate: estimate ? new Date(estimate) : null,
-      needsJudgement: item.PendingJudgementType.SettlementJudgementType !== 'None',
-      judgementType: item.PendingJudgementType.SettlementJudgementType,
-      race: item.Race.AlienRace,
-      produce
-    };
-  });
+      return {
+        buildClass: item.NextBuildingUpgradeClass.BuildingClass,
+        buildActive,
+        buildProgress,
+        name: item.Name,
+        startTime: new Date(startTime),
+        estimate: estimate ? new Date(estimate) : null,
+        needsJudgement: item.PendingJudgementType.SettlementJudgementType !== 'None',
+        judgementType: item.PendingJudgementType.SettlementJudgementType,
+        race: item.Race.AlienRace,
+        produce
+      };
+    })
+    .sort((a, b) => b.buildProgress - a.buildProgress);
 
   return x;
 };
