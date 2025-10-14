@@ -51,7 +51,7 @@ export const FormDirectoryPicker: React.FC<DirectoryPickerProps> = ({
             <button
               type='button'
               disabled={disabled}
-              className='px-4 py-2 cursor-pointer bg-indigo-600 text-white hover:bg-indigo-500 transition-colors'
+              className='px-4 py-2 cursor-pointer text-white transition bg-gradient-to-t from-indigo-900 to-indigo-700 text-center font-semibold text-white shadow-xs hover:bg-gradient-to-t hover:from-indigo-800 hover:to-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500'
               onClick={() => handleBrowse(field.onChange)}
             >
               Browse
