@@ -1,5 +1,5 @@
 /* eslint-disable @stylistic/jsx-closing-tag-location */
-import { HammerIcon, LucideIcon, SectionIcon, UserPlusIcon, HourglassIcon, Building2Icon, UsersIcon, AngryIcon, UserStarIcon, WandSparklesIcon, Package2Icon } from 'lucide-react';
+import { HammerIcon, LucideIcon, SectionIcon, UserPlusIcon, HourglassIcon, Building2Icon, UsersIcon, AngryIcon, UserStarIcon, WandSparklesIcon, Package2Icon, BuildingIcon } from 'lucide-react';
 
 import { SettlementType } from '../lib/getNmsSave';
 import getRelativeTime from '../lib/getRelativeTime';
@@ -26,9 +26,9 @@ const judementMap: Record<string, { icon: LucideIcon; color: string; text: strin
     text: 'Settlement needs Policy Management'
   },
   BuildingChoice: {
-    icon: Building2Icon,
+    icon: BuildingIcon,
     color: 'bg-amber-600',
-    text: 'Settlement has a new Building Choice'
+    text: 'Settlement has a new Building Opportunity'
   },
   ProcPerkRelated: {
     icon: UsersIcon,
