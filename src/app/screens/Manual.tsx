@@ -173,10 +173,9 @@ function ManualPage () {
           </div>
         </div>
         <button
-          type='submit'
-          className='w-20 rounded-md bg-indigo-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500'
+          type='submit' className='button mt-5'
         >
-          Save
+          Save Location
         </button>
 
         <GlyphInput onClick={handleSelectGlyph} active={glyphInput} />

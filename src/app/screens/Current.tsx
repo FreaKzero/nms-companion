@@ -1,3 +1,4 @@
+import { Save } from 'lucide-react';
 import React, { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -107,11 +108,10 @@ function CurrentPage () {
               </p>
             )}
           </div>
-
-          <button type='submit' className='button'>
-            Save
-          </button>
         </div>
+        <button type='submit' className='button mt-5'>
+          Save Location
+        </button>
       </form>
     </div>
   );

@@ -97,10 +97,10 @@ const ListItem: React.FC<EnhancedListState> = (loc) => {
           <TagList tags={loc.Tag} onClick={handleTagClick} />
           <span className='text-gray-400 text-sm flex items-center gap-2'>
             <button
-              className='button bg-red-500 hover:bg-red-400'
+              className='cursor-pointer'
               onClick={() => loc.onDelete?.(loc.id!)}
             >
-              <Trash2Icon size='20' />
+              <Trash2Icon size='20' className='text-red-400 hover:text-red-500 transition duration-250' />
             </button>
           </span>
         </div>

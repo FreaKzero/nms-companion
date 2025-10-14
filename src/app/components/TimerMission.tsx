@@ -94,9 +94,9 @@ export const TimerMission: React.FC<TimerComponentProps> = ({ storageKey }) => {
 
             <button
               type='submit'
-              className='w-full py-1 rounded-xl bg-indigo-600 hover:bg-indigo-700 mt-1 text-sm cursor-pointer'
+              className='button'
             >
-              Start
+              Start Timer
             </button>
           </form>
           )
@@ -128,7 +128,7 @@ export const TimerMission: React.FC<TimerComponentProps> = ({ storageKey }) => {
               </div>
               <button
                 onClick={handleCancel}
-                className='px-4 py-1 bg-gray-700 rounded-xl hover:bg-gray-600 text-sm cursor-pointer'
+                className='button2 tiny'
               >
                 Reset
               </button>
