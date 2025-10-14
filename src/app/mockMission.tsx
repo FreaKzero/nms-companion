@@ -68,20 +68,20 @@ export const MOCKSETTLE = [
     judgementType: 'BlessingPerkRelated',
     race: 'Builders',
     produce: 4,
-    progress: 0.2
+    progress: 100
   },
   {
     buildClass: 'Settlement_SmallIndustrial',
     buildActive: true,
     name: 'Settlement 2',
-    startTime: new Date('2025-10-08T13:04:15.000Z'),
+    startTime: new Date('2025-10-15T13:04:15.000Z'),
     category: 'Settlement_SmallIndustrial',
-    estimate: new Date('2025-10-09T04:00:15.000Z'),
+    estimate: new Date('2025-10-15T04:00:15.000Z'),
     needsJudgement: true,
     judgementType: 'StrangerVisit',
     race: 'Explorers',
     produce: 4,
-    progress: 0.4
+    progress: 50
   },
   {
     buildClass: 'Settlement_SmallIndustrial',

@@ -59,15 +59,13 @@ function SettingsPage () {
             control={control}
             onlyPath
           />
-
-          <button
-            type='submit'
-            className='button'
-          >
-            Save
-          </button>
         </div>
-
+        <button
+          type='submit'
+          className='button mt-5'
+        >
+          Save Settings
+        </button>
       </form>
     </div>
   );
