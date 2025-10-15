@@ -5,54 +5,54 @@ import { SettlementType } from '../lib/getNmsSave';
 import getRelativeTime from '../lib/getRelativeTime';
 
 const progressMap: Record<string, string> = {
-  true: 'bg-amber-600',
-  false: 'bg-green-700'
+  true: 'bg-gradient-to-t from-amber-800 to-amber-600',
+  false: 'bg-gradient-to-t from-green-900 to-green-700'
 };
 
 const judementMap: Record<string, { icon: LucideIcon; color: string; text: string }> = {
   Conflict: {
     icon: AngryIcon,
-    color: 'bg-amber-600',
+    color: 'bg-gradient-to-t from-amber-700 to-amber-600',
     text: 'Settlers have a Conflict'
   },
   StrangerVisit: {
     icon: UserPlusIcon,
-    color: 'bg-amber-600',
+    color: 'bg-gradient-to-t from-amber-700 to-amber-600',
     text: 'Settlement has a Visitor'
   },
   Policy: {
     icon: SectionIcon,
-    color: 'bg-amber-600',
+    color: 'bg-gradient-to-t from-amber-700 to-amber-600',
     text: 'Settlement needs Policy Management'
   },
   BuildingChoice: {
     icon: BuildingIcon,
-    color: 'bg-amber-600',
+    color: 'bg-gradient-to-t from-amber-700 to-amber-600',
     text: 'Settlement has a new Building Opportunity'
   },
   ProcPerkRelated: {
     icon: UsersIcon,
-    color: 'bg-amber-600',
+    color: 'bg-gradient-to-t from-amber-700 to-amber-600',
     text: 'Settler has a Request'
   },
   JobPerkRelated: {
     icon: UserStarIcon,
-    color: 'bg-amber-600',
+    color: 'bg-gradient-to-t from-amber-700 to-amber-600',
     text: 'Settlement has a job related Request'
   },
   Request: {
     icon: UsersIcon,
-    color: 'bg-amber-600',
+    color: 'bg-gradient-to-t from-amber-700 to-amber-600',
     text: 'Settler has a Request'
   },
   BlessingPerkRelated: {
     icon: WandSparklesIcon,
-    color: 'bg-amber-600',
+    color: 'bg-gradient-to-t from-amber-700 to-amber-600',
     text: 'Settlement can get a Blessing'
   },
   None: {
     icon: HourglassIcon,
-    color: 'bg-green-700',
+    color: 'bg-gradient-to-t from-green-900 to-green-700',
     text: 'No special Events'
   }
 };
@@ -72,7 +72,7 @@ export const BuildIcon: React.FC<BuildIconProps> = ({ buildProgress, isDone }) =
   return (
     <div className='relative w-15 h-15 rounded-lg flex items-center justify-center overflow-hidden bg-gray-700'>
       <div
-        className='absolute top-0 left-0 h-full bg-green-700 transition-all duration-300'
+        className='absolute top-0 left-0 h-full bg-gradient-to-t from-green-900 to-green-700'
         style={{ width: `${progress}%` }}
       />
       <div className='relative z-10 text-white'>
@@ -100,7 +100,7 @@ const SettleListItem = (settle: SettlementType) => {
   return (
     <li className='flex items-start gap-3 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transtion-all duration-200 rounded-lg'>
 
-      {settle.produce > 0 && <div className='w-15 h-15 rounded-lg flex items-center justify-center bg-green-700'>
+      {settle.produce > 0 && <div className='w-15 h-15 rounded-lg flex items-center justify-center bg-gradient-to-t from-green-900 to-green-700'>
         <Package2Icon /><br />
       </div>}
 

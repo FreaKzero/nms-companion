@@ -94,7 +94,7 @@ export const TimerMission: React.FC<TimerComponentProps> = ({ storageKey }) => {
 
             <button
               type='submit'
-              className='button'
+              className='button tiny'
             >
               Start Timer
             </button>
@@ -104,10 +104,9 @@ export const TimerMission: React.FC<TimerComponentProps> = ({ storageKey }) => {
           ? (
             <div className='flex flex-col items-center gap-2'>
               <h2 className='text-xl text-yellow-400 font-bold'>TIMER DONE</h2>
-              <p className='text-gray-400 text-sm'>Please confirm the timer has ended.</p>
               <button
                 onClick={handleConfirmEnd}
-                className='px-4 py-1 bg-indigo-600 rounded-xl hover:bg-indigo-700 text-sm cursor-pointer'
+                className='button tiny'
               >
                 Done
               </button>
@@ -115,7 +114,7 @@ export const TimerMission: React.FC<TimerComponentProps> = ({ storageKey }) => {
             )
           : (
             <div className='flex flex-col items-center gap-2'>
-              <div className='text-2xl font-mono'>
+              <div className='text-2xl font-mono mt-3'>
                 {remaining !== null
                   ? `${Math.floor(remaining / 3600000)
                   .toString()

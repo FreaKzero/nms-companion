@@ -25,12 +25,17 @@
     }
 
     .button2 {
-        @apply text-sm gap-2 cursor-pointer p-2 rounded-md bg-gradient-to-t from-gray-900 to-gray-700 text-center font-semibold text-white shadow-xs hover:bg-gradient-to-t hover:from-gray-800 hover:to-gray-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500 transition duration-250 py-3 px-5
+        @apply text-sm gap-2 cursor-pointer p-2 rounded-md bg-gradient-to-t from-gray-900 to-gray-700 text-center font-semibold text-white shadow-xs hover:bg-gradient-to-t hover:from-gray-800 hover:to-gray-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500 transition duration-250 py-3 px-5 border-gray-700 border-1
     }
 
     .button.tiny {
         @apply text-xs px-2 py-1
     }
+
+     .button.tiny {
+        @apply text-xs px-2 py-1
+    }
+    
 
     .button2.tiny {
         @apply text-xs px-2 py-1

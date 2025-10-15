@@ -28,7 +28,7 @@ const FrigateListItem = (frigate: FrigateType) => {
     return (
       <div className='relative w-15 h-15 rounded-lg flex items-center justify-center overflow-hidden bg-gray-700'>
         <div
-          className='absolute top-0 left-0 h-full bg-green-700 transition-all duration-300'
+          className='absolute top-0 left-0 h-full bg-gradient-to-t from-green-900 to-green-700 transition-all duration-300'
           style={{ width: `${percentage}%` }}
         />
 
