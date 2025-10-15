@@ -1,3 +1,5 @@
+import noscreen from 'assets/noscreen.png';
+
 import { CameraIcon, Trash2Icon, ClipboardCopy, MessageCircleCode } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
@@ -9,7 +11,6 @@ import Pagination from '../components/Pagination';
 import { TagList } from '../components/TagList';
 import { Nullable } from '../stores/apiInterfaces';
 import useListStore, { ListState } from '../stores/useListStore';
-
 interface EnhancedListState extends ListState {
   onDelete?: (key: number) => Promise<void>;
   onCopy?: (portalCode: string) => void;
@@ -31,7 +32,7 @@ const GlyphModal: React.FC<ListState> = (list) => {
   return (
     <div className='relative w-full h-full rounded-xl overflow-hidden'>
       <img
-        src={list.Screenshot}
+        src={list.Screenshot || noscreen}
         alt='Screenshot'
         className='absolute inset-0 w-full h-full object-cover filter brightness-75'
       />
@@ -72,9 +73,12 @@ const Screenshot: React.FC<ScreenshotProps> = ({ screen, alt, onClick }) => {
       />
       )
     : (
-      <div className='rounded-md m-auto h-25 aspect-video border-4 grid border-indigo-500 place-items-center'>
-        <CameraIcon size='60' className='stroke-indigo-500' />
-      </div>
+      <img
+        src={noscreen}
+        alt={`${alt}`}
+        className='rounded-md object-cover h-25 aspect-video border-4 border-indigo-500 hover:border-indigo-400 transition-all duration-200 cursor-pointer'
+        onClick={onClick}
+      />
       );
 };
 
