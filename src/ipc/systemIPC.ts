@@ -1,6 +1,7 @@
 import { writeFileSync } from 'node:fs';
 
 import OptionManager, { OptionManagerType } from '@/app/lib/OptionManager';
+import { fetchReddit, parseRSS } from '@/app/lib/redditParser';
 
 import { ipcMain, app } from 'electron';
 
@@ -27,6 +28,13 @@ const registerSystemIpc = () => {
   ipcMain.handle('DEBUG_SAVE', () => {
     const saveData = getSave(OPTIONS.savePath);
     writeFileSync('./devSave.json', JSON.stringify(saveData, null, 2));
+  });
+
+  ipcMain.handle('GET_REDDIT', async () => {
+    const xml = await fetchReddit('NMSCoordinateExchange');
+    const posts = parseRSS(xml);
+    const cleanposts = posts.slice(2);  // first 2 are always announcements
+    return cleanposts;
   });
 };
 

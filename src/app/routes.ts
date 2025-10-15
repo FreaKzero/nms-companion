@@ -1,10 +1,11 @@
-import { PlusCircle, ListChecksIcon, MapPlusIcon, SettingsIcon, MapPinIcon, TestTube } from 'lucide-react';
+import { PlusCircle, ListChecksIcon, MapPlusIcon, SettingsIcon, MapPinIcon, TestTube, Globe } from 'lucide-react';
 
 import SettingsPage from './lib/Settings';
 import CurrentPage from './screens/Current';
 import ListPage from './screens/List';
 import ManualPage from './screens/Manual';
 import MissionsPage from './screens/Missions';
+import RedditPage from './screens/Reddit';
 import TestPage from './screens/Test';
 
 export const routes = [
@@ -46,18 +47,25 @@ export const routes = [
     order: 6
   },
   {
+    text: 'Reddit Feed',
+    location: '/reddit',
+    Icon: Globe,
+    Component: RedditPage,
+    order: 7
+  },
+  {
     text: 'Settings',
     location: '/settings',
     Icon: SettingsIcon,
     Component: SettingsPage,
-    order: 7
+    order: 8
   },
   {
-    text: 'test',
-    location: '/test',
+    text: 'dev',
+    location: '/dev',
     Icon: TestTube,
     Component: TestPage,
-    order: 8
+    order: 9
   }
 
 ].sort((a, b) => a.order - b.order);

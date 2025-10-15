@@ -1,6 +1,6 @@
 import noscreen from 'assets/noscreen.png';
 
-import { CameraIcon, Trash2Icon, ClipboardCopy, MessageCircleCode } from 'lucide-react';
+import { Trash2Icon, ClipboardCopy, MessageCircleCode } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 import { confirmModal } from '../components/ConfirmModal';
@@ -136,17 +136,17 @@ function ListPage () {
       const totalAfterDelete = totalEntries - 1;
       const totalPages = Math.max(1, Math.ceil(totalAfterDelete / pageSize));
       const newPage = Math.min(currentPage, totalPages);
-      await getPage(newPage, pageSize);
+      await getPage(newPage, pageSize, search);
     }
   };
 
   const handlePageChange = async (page: number) => {
-    await getPage(page, pageSize);
+    await getPage(page, pageSize, search);
   };
 
   const handleTagClick = (term: string) => {
     if (!search.includes(term)) {
-      setSearch((s) => `${s} ${term}`.trim());
+      setSearch((s) => `${s} ${term.toLocaleLowerCase()}`.trim());
     }
   };
 
