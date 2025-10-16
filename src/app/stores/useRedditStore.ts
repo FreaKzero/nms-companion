@@ -25,11 +25,13 @@ const useRedditStore = create<RedditStoreState>()((set) => ({
 
     try {
       const entries: redditFeed[] = await electron.ipcRenderer.invoke('GET_REDDIT');
-      const newTime = new Date().getTime() + (30 * 60 * 1000);
 
-      const newEntries = entries.filter((item) => item.published.getTime() > newTime).length;
+      const now = Date.now();
+      const THIRTY_MIN = 30 * 60 * 1000;
 
-      set({ entries, newEntries, loading: false, error: true });
+      const newEntries = entries.filter((item) => now - item.published.getTime() <= THIRTY_MIN).length;
+
+      set({ entries, newEntries, loading: false, error: false });
     } catch (err) {
       console.error('RSS Fetch Error:', err);
       set({ ...defState, loading: false, error: true });

@@ -120,7 +120,7 @@ const SideBarIcon: React.FC<SideBarIconProps> = ({
 
         {badgeCount !== undefined && badgeCount > 0 && (
           <div
-            className='absolute top-0 right-0 translate-x-2 -translate-y-2 bg-amber-700 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-md'
+            className='absolute top-0 right-0 translate-x-2 -translate-y-2 bg-amber-600 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-md'
           >
             {badgeCount > 99 ? '99+' : badgeCount}
           </div>
