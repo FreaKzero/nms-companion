@@ -3,14 +3,14 @@ import { writeFileSync } from 'node:fs';
 import OptionManager, { OptionManagerType } from '@/app/lib/OptionManager';
 import { fetchReddit, parseRSS } from '@/app/lib/redditParser';
 
-import { ipcMain, app } from 'electron';
+import { ipcMain, app, shell } from 'electron';
 
 import getSave from '../app/lib/getNmsSave';
 
 let OPTIONS = OptionManager.load();
 
 const registerSystemIpc = () => {
-  ipcMain.handle('GET_SETTINGS', (_ev) => {
+  ipcMain.handle('GET_SETTINGS', () => {
     OPTIONS = OptionManager.load();
     return OPTIONS;
   });
@@ -30,10 +30,16 @@ const registerSystemIpc = () => {
     writeFileSync('./devSave.json', JSON.stringify(saveData, null, 2));
   });
 
+  ipcMain.handle('OPEN_URL', (_ev, url: string) => {
+    shell.openExternal(url);
+  });
+
   ipcMain.handle('GET_REDDIT', async () => {
     const xml = await fetchReddit('NMSCoordinateExchange');
     const posts = parseRSS(xml);
-    const cleanposts = posts.slice(2);  // first 2 are always announcements
+    const cleanposts = posts.slice(2).sort((a, b) => {     // first 2 are always pinned announcements
+      return b.published.getTime() - a.published.getTime();
+    });
     return cleanposts;
   });
 };

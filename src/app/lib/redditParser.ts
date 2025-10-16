@@ -4,7 +4,7 @@ export interface redditFeed {
   title: string;
   author: string;
   link: string;
-  published: string;
+  published: Date;
   content: string;
   imageUrl?: string;
 }
@@ -43,6 +43,15 @@ export function fetchReddit (subreddit = 'all'): Promise<string> {
   });
 }
 
+export function purify (raw: string): string {
+  raw = raw.replace(/<a\b[^>]*>[\s\S]*?<\/a>/gi, '');
+  raw = raw.replace('submitted by', '');
+  raw = raw.replace(/<[^>]+>/g, '');
+  raw = raw.replace(/&#32;/g, '');
+  raw = raw.replace(/\s+/g, ' ').trim();
+  return raw;
+}
+
 export function parseRSS (xml: string) {
   const entries = xml.split(/<\/entry>/).slice(0, -1);
 
@@ -58,8 +67,8 @@ export function parseRSS (xml: string) {
       title: (e.match(/<title[^>]*>([^<]+)<\/title>/) || [])[1] || '',
       author: (e.match(/<name>([^<]+)<\/name>/) || [])[1] || '',
       link: (e.match(/<link[^>]*href="([^"]+)"/) || [])[1] || '',
-      published: (e.match(/<updated>([^<]+)<\/updated>/) || [])[1] || '',
-      content,
+      published: new Date((e.match(/<updated>([^<]+)<\/updated>/) || [])[1] || ''),
+      content: purify(content),
       imageUrl
     };
   });

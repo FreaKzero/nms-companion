@@ -50,7 +50,7 @@ const CustomModal: React.FC<CustomModalProps> = ({ root, container, children, cl
   );
 };
 
-export function openCustomModal (children: React.ReactNode, className: string) {
+export function openCustomModal (children: React.ReactNode, className?: string) {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = ReactDOM.createRoot(container);

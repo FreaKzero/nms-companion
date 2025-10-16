@@ -2,10 +2,27 @@ import noscreen from 'assets/noscreen.png';
 
 import React, { useEffect, useState } from 'react';
 
+import { openCustomModal } from '../components/CustomModal';
 import { FormInput } from '../components/FormInput';
 import Loader from '../components/Loader';
 import { redditFeed } from '../lib/redditParser';
 import useRedditStore from '../stores/useRedditStore';
+
+const ContentModal: React.FC<{ content?: string; link: string; title: string }> = ({ content, link, title }) => {
+  const handleUrl = (link: string) => electron.ipcRenderer.invoke('OPEN_URL', link);
+
+  return (
+    <div className='text-left w-full'>
+      <h3 className='font-nms text-indigo-400 font-bold text-2xl transition-colors duration-300 mb-2'>
+        {title}
+      </h3>
+      <div dangerouslySetInnerHTML={{ __html: content }} />
+      <button className='button tiny mt-5' onClick={() => handleUrl(link)}>
+        Open in Browser
+      </button>
+    </div>
+  );
+};
 
 const Thumbnail: React.FC<{ screen?: string; alt: string; onClick: () => void }> = ({ screen, alt, onClick }) => (
   <img
@@ -17,17 +34,17 @@ const Thumbnail: React.FC<{ screen?: string; alt: string; onClick: () => void }>
 );
 
 const RedditPost: React.FC<redditFeed & {
-  onSelect: (link: string) => void;
-}> = ({ title, author, imageUrl, link, published, onSelect }) => (
+  onSelect: (title: string, link: string, content: string) => void;
+}> = ({ title, author, imageUrl, link, published, content, onSelect }) => (
   <div className='flex flex-col gap-3 py-4 hover:bg-gray-800 transition rounded-lg px-2'>
     <div className='flex gap-4'>
-      <Thumbnail screen={imageUrl} alt={title} onClick={() => onSelect(link)} />
+      <Thumbnail screen={imageUrl} alt={title} onClick={() => onSelect(title, link, content)} />
       <div className='flex-1'>
-        <h3 className='font-nms text-indigo-400 hover:text-indigo-300 font-bold text-2xl cursor-pointer transition-colors duration-300' onClick={() => onSelect(link)}>
+        <h3 className='font-nms text-indigo-400 hover:text-indigo-300 font-bold text-2xl cursor-pointer transition-colors duration-300' onClick={() => onSelect(title, link, content)}>
           {title}
         </h3>
         <div className='text-sm text-gray-400 mt-5'>from: {author} </div>
-        <div className='text-sm text-gray-400'>published:  {new Date(published).toLocaleDateString('en-EN')} </div>
+        <div className='text-sm text-gray-400'>published:  {published.toLocaleDateString('en-EN')} </div>
 
       </div>
     </div>
@@ -49,16 +66,15 @@ export default function RedditPage () {
   useEffect(() => {
     const timeout = setTimeout(() => {
       const filteredEntries = entries.filter((post) => post.title.toLowerCase().includes(search.toLowerCase()) ||
-        post.content.toLowerCase().includes(search.toLowerCase()) ||
-        post.author.toLowerCase().includes(search.toLowerCase()));
+        post.content.toLowerCase().includes(search.toLowerCase()));
       setFiltered(filteredEntries);
     }, 300);
 
     return () => clearTimeout(timeout);
   }, [search, entries]);
 
-  const handleSelect = (link: string) => {
-    window.open(link, '_blank');
+  const handleSelect = (title: string, link: string, content: string) => {
+    openCustomModal(<ContentModal content={content} link={link} title={title} />, 'w-[90%] relative rounded-xl overflow-hidden flex flex-col items-center justify-center bg-gray-900 p-5 text-left');
   };
 
   return (
@@ -68,7 +84,7 @@ export default function RedditPage () {
         <FormInput
           id='search'
           label='Search'
-          placeholder='Search'
+          placeholder='Search in Content or Title ...'
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           onClear={() => setSearch('')}

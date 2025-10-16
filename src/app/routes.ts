@@ -1,4 +1,4 @@
-import { PlusCircle, ListChecksIcon, MapPlusIcon, SettingsIcon, MapPinIcon, TestTube, Globe } from 'lucide-react';
+import { PlusCircle, ListChecksIcon, MapPlusIcon, SettingsIcon, MapPinIcon, TestTube, Rss } from 'lucide-react';
 
 import SettingsPage from './lib/Settings';
 import CurrentPage from './screens/Current';
@@ -49,7 +49,7 @@ export const routes = [
   {
     text: 'Reddit Feed',
     location: '/reddit',
-    Icon: Globe,
+    Icon: Rss,
     Component: RedditPage,
     order: 7
   },
