@@ -1,5 +1,6 @@
 import noscreen from 'assets/noscreen.png';
 
+import { RefreshCcw } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 import { openCustomModal } from '../components/CustomModal';
@@ -80,15 +81,20 @@ export default function RedditPage () {
   return (
     <div className='bg-gray-900 text-white rounded-lg shadow-md p-4 w-full'>
       {loading && <Loader message='Loading Feed ...' />}
-      <div className='mb-4'>
-        <FormInput
-          id='search'
-          label='Search'
-          placeholder='Search in Content or Title ...'
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          onClear={() => setSearch('')}
-        />
+      <div className='flex'>
+        <button className='button h-10 mt-[28px] mr-5 pl-2 pr-2' onClick={() => getFeed()}>
+          <RefreshCcw height='15' />
+        </button>
+        <div className='mb-4 w-full'>
+          <FormInput
+            id='search'
+            label='Search'
+            placeholder='Search in Content or Title ...'
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onClear={() => setSearch('')}
+          />
+        </div>
       </div>
       <div className='divide-y divide-gray-800'>
         {filtered.map((post, idx) => (
