@@ -10,12 +10,15 @@
 - **Player Position as Glyphs**: Display your current in-game position in the iconic glyph format.  
 - **Searchable Location Database**: Browse a database of locations with screenshots for easy reference.  
 - **Manual & Automatic Position Entry**: Add new locations manually or let the program detect them automatically.  
-- **Missions Dashboard**: View the current status of your settlements and frigate missions. Or set manual Timers for your Eggs or other things
+- **Missions Dashboard**: View the current status of your settlements and frigate missions.
+- **Manual Timers**: Set Manual Timers for Eggs or other things
+- **NMS Coordinates Feed**: RSS Feedreader for the [NMSCoordinateExchange](https://www.reddit.com/r/NMSCoordinateExchange/) Reddit
 
 ![Screenshot of No Man's Sky Companion](screenshots/2.PNG)
 ![Screenshot of No Man's Sky Companion](screenshots/3.PNG)
 ![Screenshot of No Man's Sky Companion](screenshots/4.PNG)
 ![Screenshot of No Man's Sky Companion](screenshots/5.PNG)
+![Screenshot of No Man's Sky Companion](screenshots/6.PNG)
 
 ## License
 [MIT License]  

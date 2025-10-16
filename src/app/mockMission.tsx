@@ -1,8 +1,8 @@
 export const MOCKFRIGATES = [
   {
     category: 'Balanced',
-    started: new Date('2025-10-11T01:12:54.000Z'),
-    lastEvent: new Date('2025-10-11T03:01:56.000Z'),
+    started: new Date('2025-10-16T11:12:54.000Z'),
+    lastEvent: new Date('2025-10-16T13:01:56.000Z'),
     frigates: 1,
     fail: 0,
     success: 4,
@@ -12,8 +12,8 @@ export const MOCKFRIGATES = [
   },
   {
     category: 'Combat',
-    started: new Date('2025-10-11T01:12:48.000Z'),
-    lastEvent: new Date('2025-10-11T03:05:18.000Z'),
+    started: new Date('2025-10-16T11:12:48.000Z'),
+    lastEvent: new Date('2025-10-16T13:05:18.000Z'),
     frigates: 1,
     fail: 0,
     success: 4,
@@ -23,8 +23,8 @@ export const MOCKFRIGATES = [
   },
   {
     category: 'Exploration',
-    started: new Date('2025-10-11T01:13:03.000Z'),
-    lastEvent: new Date('2025-10-11T03:05:33.000Z'),
+    started: new Date('2025-10-16T11:13:03.000Z'),
+    lastEvent: new Date('2025-10-16T13:05:33.000Z'),
     frigates: 1,
     fail: 0,
     success: 4,
@@ -34,8 +34,8 @@ export const MOCKFRIGATES = [
   },
   {
     category: 'Exploration',
-    started: new Date('2025-10-11T01:12:34.000Z'),
-    lastEvent: new Date('2025-10-11T03:05:04.000Z'),
+    started: new Date('2025-10-16T11:12:34.000Z'),
+    lastEvent: new Date('2025-10-16T13:05:04.000Z'),
     frigates: 1,
     fail: 0,
     success: 4,
@@ -45,8 +45,8 @@ export const MOCKFRIGATES = [
   },
   {
     category: 'Mining',
-    started: new Date('2025-10-11T01:12:42.000Z'),
-    lastEvent: new Date('2025-10-11T03:05:12.000Z'),
+    started: new Date('2025-10-16T11:12:42.000Z'),
+    lastEvent: new Date('2025-10-16T13:05:12.000Z'),
     frigates: 1,
     fail: 0,
     success: 4,
@@ -61,9 +61,9 @@ export const MOCKSETTLE = [
     buildClass: 'Settlement_SmallIndustrial',
     buildActive: false,
     name: 'Settlement 1',
-    startTime: new Date('2025-10-08T13:04:15.000Z'),
+    startTime: new Date('2025-10-16T10:04:15.000Z'),
     category: 'Settlement_SmallIndustrial',
-    estimate: new Date('2025-10-08T13:24:15.000Z'),
+    estimate: new Date('2025-10-16T10:24:15.000Z'),
     needsJudgement: true,
     judgementType: 'BlessingPerkRelated',
     race: 'Builders',
@@ -74,9 +74,9 @@ export const MOCKSETTLE = [
     buildClass: 'Settlement_SmallIndustrial',
     buildActive: true,
     name: 'Settlement 2',
-    startTime: new Date('2025-10-15T13:04:15.000Z'),
+    startTime: new Date('2025-10-16T12:04:15.000Z'),
     category: 'Settlement_SmallIndustrial',
-    estimate: new Date('2025-10-15T04:00:15.000Z'),
+    estimate: new Date('2025-10-16T16:00:15.000Z'),
     needsJudgement: true,
     judgementType: 'StrangerVisit',
     race: 'Explorers',
@@ -87,9 +87,9 @@ export const MOCKSETTLE = [
     buildClass: 'Settlement_SmallIndustrial',
     buildActive: false,
     name: 'Settlement 3',
-    startTime: new Date('2025-10-08T13:04:15.000Z'),
+    startTime: new Date('2025-10-15T13:04:15.000Z'),
     category: 'Settlement_SmallIndustrial',
-    estimate: new Date('2025-10-09T03:00:15.000Z'),
+    estimate: new Date('2025-10-16T03:00:15.000Z'),
     needsJudgement: true,
     judgementType: 'Conflict',
     race: 'Builders',
@@ -110,4 +110,3 @@ export const MOCKSETTLE = [
     progress: 0.8
   }
 ];
-// set({ frigates: mis.frigates, settlements: MOCK, loading: false });
