@@ -36,16 +36,15 @@ const useMissionsStore = create<MissionsStoreState>()((set) => ({
 
     try {
       const mis: MissionsType = await electron.ipcRenderer.invoke('GET_MISSIONS');
+      if (mis.error) {
+        set({ ...defState, loading: false, error: true });
+        return;
+      }
 
       const settlements = mis.settlements.filter((settle) => settle.buildActive === true ||
         settle.buildClass !== 'None' ||
         settle.needsJudgement === true ||
         settle.produce > 0);
-
-      if (mis.error) {
-        set({ ...defState, loading: false, error: true });
-        return;
-      }
 
       set({ frigates: mis.frigates, settlements, needAction: settlements.length, loading: false });
       await usePositionStore.getState().setCurrent(mis.position);

@@ -7,29 +7,30 @@ interface RedditStoreState {
   error: boolean;
   entries: redditFeed[];
   newEntries: number;
+  lastRead: Date;
   getFeed: (subreddit?: string) => Promise<void>;
+  setRead: () => void;
 }
 
-const defState: Omit<RedditStoreState, 'getFeed'> = {
+const defState: Omit<RedditStoreState, 'getFeed' | 'setRead'> = {
   loading: true,
   error: false,
   newEntries: 0,
+  lastRead: new Date(),
   entries: []
 };
 
-const useRedditStore = create<RedditStoreState>()((set) => ({
+const useRedditStore = create<RedditStoreState>()((set, get) => ({
   ...defState,
-
+  setRead: () => {
+    set({ lastRead: new Date() });
+  },
   getFeed: async () => {
     set({ loading: true, error: false });
 
     try {
       const entries: redditFeed[] = await electron.ipcRenderer.invoke('GET_REDDIT');
-
-      const now = Date.now();
-      const THIRTY_MIN = 30 * 60 * 1000;
-
-      const newEntries = entries.filter((item) => now - item.published.getTime() <= THIRTY_MIN).length;
+      const newEntries = entries.filter((item) => get().lastRead.getTime() <= item.published.getTime()).length;
 
       set({ entries, newEntries, loading: false, error: false });
     } catch (err) {

@@ -2,6 +2,8 @@ import { ClipboardIcon } from 'lucide-react';
 import React from 'react';
 import { Controller, Control } from 'react-hook-form';
 
+import IconButton from './IconButton';
+
 interface GlyphInputControlProps {
   name: string;
   control: Control<any>;
@@ -46,16 +48,15 @@ export const FormGlyphInput: React.FC<GlyphInputControlProps> = ({
       <div className='flex items-center gap-2'>
 
         {onClickPaste && (
-          <button
-            type='button'
+          <IconButton
             onClick={(e) => {
               e.stopPropagation();
               onClickPaste();
             }}
-            className='button icon'
-          >
-            <ClipboardIcon size='20' />
-          </button>
+            label='Paste Portalcode'
+            Icon={ClipboardIcon}
+          />
+
         )}
         <Controller
           name={name}

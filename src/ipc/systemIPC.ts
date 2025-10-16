@@ -37,9 +37,9 @@ const registerSystemIpc = () => {
   ipcMain.handle('GET_REDDIT', async () => {
     const xml = await fetchReddit('NMSCoordinateExchange');
     const posts = parseRSS(xml);
-    const cleanposts = posts.sort((a, b) => {     // first 2 are always pinned announcements
+    const cleanposts = posts.sort((a, b) => {
       return b.published.getTime() - a.published.getTime();
-    });
+    }).slice(1);
     return cleanposts;
   });
 };

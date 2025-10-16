@@ -1,10 +1,11 @@
 import noscreen from 'assets/noscreen.png';
 
-import { RefreshCcw } from 'lucide-react';
+import { FileWarning, RefreshCcw } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 import { openCustomModal } from '../components/CustomModal';
 import { FormInput } from '../components/FormInput';
+import IconButton from '../components/IconButton';
 import Loader from '../components/Loader';
 import { redditFeed } from '../lib/redditParser';
 import useRedditStore from '../stores/useRedditStore';
@@ -55,6 +56,8 @@ const RedditPost: React.FC<redditFeed & {
 export default function RedditPage () {
   const entries = useRedditStore((s) => s.entries);
   const getFeed = useRedditStore((s) => s.getFeed);
+  const setRead = useRedditStore((s) => s.setRead);
+
   const loading = useRedditStore((s) => s.loading);
 
   const [search, setSearch] = useState('');
@@ -78,13 +81,14 @@ export default function RedditPage () {
     openCustomModal(<ContentModal content={content} link={link} title={title} />, 'w-[90%] relative rounded-xl overflow-hidden flex flex-col items-center justify-center bg-gray-900 p-5 text-left');
   };
 
+  const handleReadAll = async () => {
+    setRead();
+    await getFeed();
+  };
   return (
     <div className='bg-gray-900 text-white rounded-lg shadow-md p-4 w-full'>
       {loading && <Loader message='Loading Feed ...' />}
       <div className='flex'>
-        <button className='button h-10 mt-[28px] mr-5 pl-2 pr-2' onClick={() => getFeed()}>
-          <RefreshCcw height='15' />
-        </button>
         <div className='mb-4 w-full'>
           <FormInput
             id='search'
@@ -95,6 +99,10 @@ export default function RedditPage () {
             onClear={() => setSearch('')}
           />
         </div>
+
+        <IconButton onClick={handleReadAll} label='Select as Read' Icon={FileWarning} className='mt-[28px] ml-2 mr-2' />
+        <IconButton onClick={() => getFeed()} label='Refresh Feed' Icon={RefreshCcw} className='mt-[28px]' />
+
       </div>
       <div className='divide-y divide-gray-800'>
         {filtered.map((post, idx) => (
