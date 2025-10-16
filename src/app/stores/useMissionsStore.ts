@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 
 import usePositionStore from './usePositionStore';
+import useRedditStore from './useRedditStore';
 
 import { FrigateType, PositionType, SettlementType } from '../lib/getNmsSave';
 
@@ -38,7 +39,8 @@ const useMissionsStore = create<MissionsStoreState>()((set) => ({
         return;
       }
       set({ frigates: mis.frigates, settlements: mis.settlements, loading: false });
-      usePositionStore.getState().setCurrent(mis.position);
+      await usePositionStore.getState().setCurrent(mis.position);
+      await useRedditStore.getState().getFeed();
     } catch (_err) {
       set({ ...defState, loading: false, error: true });
     }

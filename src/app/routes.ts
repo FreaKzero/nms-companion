@@ -1,4 +1,5 @@
 import { PlusCircle, ListChecksIcon, MapPlusIcon, SettingsIcon, MapPinIcon, TestTube, Rss } from 'lucide-react';
+import { FC } from 'react';
 
 import SettingsPage from './lib/Settings';
 import CurrentPage from './screens/Current';
@@ -7,6 +8,16 @@ import ManualPage from './screens/Manual';
 import MissionsPage from './screens/Missions';
 import RedditPage from './screens/Reddit';
 import TestPage from './screens/Test';
+
+export interface RouteItem {
+  text?: string;
+  location?: string;
+  Icon?: FC;
+  Component?: FC;
+  order: number;
+  divider?: boolean;
+  index?: boolean;
+}
 
 export const routes = [
   {
