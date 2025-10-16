@@ -17,12 +17,14 @@ interface MissionsStoreState {
   error: boolean;
   frigates: FrigateType[];
   settlements: SettlementType[];
+  needAction: number;
   getMissions: () => void;
 }
 
 const defState: Omit<MissionsStoreState, 'getMissions'> = {
   error: false,
   loading: true,
+  needAction: 0,
   frigates: [],
   settlements: []
 };
@@ -34,11 +36,18 @@ const useMissionsStore = create<MissionsStoreState>()((set) => ({
 
     try {
       const mis: MissionsType = await electron.ipcRenderer.invoke('GET_MISSIONS');
+
+      const settlements = mis.settlements.filter((settle) => settle.buildActive === true ||
+        settle.buildClass !== 'None' ||
+        settle.needsJudgement === true ||
+        settle.produce > 0);
+
       if (mis.error) {
         set({ ...defState, loading: false, error: true });
         return;
       }
-      set({ frigates: mis.frigates, settlements: mis.settlements, loading: false });
+
+      set({ frigates: mis.frigates, settlements, needAction: settlements.length, loading: false });
       await usePositionStore.getState().setCurrent(mis.position);
       await useRedditStore.getState().getFeed();
     } catch (_err) {

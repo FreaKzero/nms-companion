@@ -11,6 +11,7 @@ import useRedditStore from '../stores/useRedditStore';
 const SideBar = () => {
   const loc = useLocation();
   const newEntries = useRedditStore((s) => s.newEntries);
+  const needSettlementAction = useMissionsStore((s) => s.needAction);
 
   const getBadgeCount = (route: RouteItem) => {
     let badgeCount = 0;
@@ -18,7 +19,9 @@ const SideBar = () => {
       badgeCount = newEntries;
     }
 
-    // @TODO check for "done build status" in /missions
+    if (route.location === '/') {
+      badgeCount = needSettlementAction;
+    }
 
     return badgeCount;
   };

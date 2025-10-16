@@ -103,7 +103,7 @@ export const TimerMission: React.FC<TimerComponentProps> = ({ storageKey }) => {
         : isExpired
           ? (
             <div className='flex flex-col items-center gap-2'>
-              <h2 className='text-xl text-yellow-400 font-bold'>TIMER DONE</h2>
+              <h2 className='text-xl text-amber-600 font-bold'>TIMER DONE</h2>
               <button
                 onClick={handleConfirmEnd}
                 className='button tiny'

@@ -17,11 +17,6 @@ export default function MissionsPage () {
     getMissions();
   }, []);
 
-  const sett = settlements.filter((settle) => settle.buildActive === true ||
-    settle.buildClass !== 'None' ||
-    settle.needsJudgement === true ||
-    settle.produce > 0);
-
   return (
     <div>
       {loading && <Loader message='Loading Missions ...' />}
@@ -46,12 +41,12 @@ export default function MissionsPage () {
         <Card
           className='max-h-[331px] overflow-y-scroll'
           title={`Settlements ${
-            sett.length ? `• ${sett.length} need Attention` : ''
+            settlements.length ? `• ${settlements.length} need Attention` : ''
           }`}
         >
-          {sett.length
+          {settlements.length
             ? (
-              <SettlementsList settlements={sett} />
+              <SettlementsList settlements={settlements} />
               )
             : (
               <h2 className='text-2xl text-center font-nms pt-1'>
