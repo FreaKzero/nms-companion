@@ -12,19 +12,28 @@ interface RedditStoreState {
   setRead: () => void;
 }
 
+const loadLastRead = (): Date => {
+  const stored = localStorage.getItem('reddit_lastRead');
+  return stored ? new Date(stored) : new Date();
+};
+
 const defState: Omit<RedditStoreState, 'getFeed' | 'setRead'> = {
   loading: true,
   error: false,
   newEntries: 0,
-  lastRead: new Date(),
+  lastRead: loadLastRead(),
   entries: []
 };
 
 const useRedditStore = create<RedditStoreState>()((set, get) => ({
   ...defState,
+
   setRead: () => {
-    set({ lastRead: new Date() });
+    const now = new Date();
+    localStorage.setItem('reddit_lastRead', now.toISOString());
+    set({ lastRead: now });
   },
+
   getFeed: async () => {
     set({ loading: true, error: false });
 
@@ -33,8 +42,7 @@ const useRedditStore = create<RedditStoreState>()((set, get) => ({
       const newEntries = entries.filter((item) => get().lastRead.getTime() <= item.published.getTime()).length;
 
       set({ entries, newEntries, loading: false, error: false });
-    } catch (err) {
-      console.error('RSS Fetch Error:', err);
+    } catch (_err) {
       set({ ...defState, loading: false, error: true });
     }
   }

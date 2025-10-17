@@ -7,6 +7,7 @@ import { openCustomModal } from '../components/CustomModal';
 import { FormInput } from '../components/FormInput';
 import IconButton from '../components/IconButton';
 import Loader from '../components/Loader';
+import getRelativeTime from '../lib/getRelativeTime';
 import { redditFeed } from '../lib/redditParser';
 import useRedditStore from '../stores/useRedditStore';
 
@@ -45,8 +46,7 @@ const RedditPost: React.FC<redditFeed & {
         <h3 className='font-nms text-indigo-400 hover:text-indigo-300 font-bold text-2xl cursor-pointer transition-colors duration-300' onClick={() => onSelect(title, link, content)}>
           {title}
         </h3>
-        <div className='text-sm text-gray-400 mt-5'>from: {author} </div>
-        <div className='text-sm text-gray-400'>published:  {published.toLocaleDateString('en-EN')} </div>
+        <span className='text-sm text-gray-400'>from: {author} • published {getRelativeTime(published)} </span>
 
       </div>
     </div>
@@ -57,6 +57,7 @@ export default function RedditPage () {
   const entries = useRedditStore((s) => s.entries);
   const getFeed = useRedditStore((s) => s.getFeed);
   const setRead = useRedditStore((s) => s.setRead);
+  const newEntries = useRedditStore((s) => s.newEntries);
 
   const loading = useRedditStore((s) => s.loading);
 
@@ -100,7 +101,7 @@ export default function RedditPage () {
           />
         </div>
 
-        <IconButton onClick={handleReadAll} label='Mark all as Read' Icon={FileWarning} className='mt-[28px] ml-2 mr-2' />
+        {newEntries > 0 && <IconButton onClick={handleReadAll} label='Mark all as Read' Icon={FileWarning} className='mt-[28px] ml-2 mr-2' />}
         <IconButton onClick={() => getFeed()} label='Refresh Feed' Icon={RefreshCcw} className='mt-[28px]' />
 
       </div>
