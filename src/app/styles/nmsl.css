@@ -14,7 +14,8 @@
   text-green-500 hover:text-white
     hover:rounded-xl rounded-3xl
     transition-all duration-300 ease-linear
-    cursor-pointer shadow-lg ;
+    cursor-pointer shadow-lg
+    z-[9999];
   }
 
   .sidebar-icon-active {
@@ -32,7 +33,8 @@
     @apply absolute w-auto p-2 m-2 min-w-max left-14 rounded-md shadow-md
     text-white bg-gray-900 
     text-xs font-bold 
-    transition-all duration-100 scale-0 origin-left;
+    transition-all duration-100 scale-0 origin-left
+    z-[9999];
   }
 
   .sidebar-hr {

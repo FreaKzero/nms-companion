@@ -101,8 +101,8 @@ export default function RedditPage () {
           />
         </div>
 
-        {newEntries > 0 && <IconButton onClick={handleReadAll} label='Mark all as Read' Icon={FileWarning} className='mt-[28px] ml-2 mr-2' />}
-        <IconButton onClick={() => getFeed()} label='Refresh Feed' Icon={RefreshCcw} className='mt-[28px]' />
+        {newEntries > 0 && <IconButton onClick={handleReadAll} label='Mark all as Read' Icon={FileWarning} className='mt-[28px] ml-2' />}
+        <IconButton onClick={() => getFeed()} label='Refresh Feed' Icon={RefreshCcw} className='mt-[28px] ml-2' />
 
       </div>
       <div className='divide-y divide-gray-800'>
