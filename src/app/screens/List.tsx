@@ -133,12 +133,12 @@ function ListPage () {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      getPage(1, pageSize, `${searchGalaxy} ${search}`);
+      getPage(1, pageSize, `${searchGalaxy} ${search}`.replace(/^\s+|\s+$|\s+(?=\s)/g, ''));
     }, 300);
     return () => clearTimeout(timeout);
   }, [search, searchGalaxy]);
 
-  const getSearch = () => `${searchGalaxy} ${search}`;
+  const getSearch = () => `${searchGalaxy} ${search}`.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
 
   const handleDelete = async (id: number) => {
     if (await confirmModal('Do you really want to delete this Location?')) {
