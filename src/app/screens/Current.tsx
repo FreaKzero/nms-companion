@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { FormDropdown } from '../components/FormDropdown';
 import { FormGlyphInput } from '../components/FormGlyphInput';
 import { FormHidden } from '../components/FormHidden';
 import { FormInput } from '../components/FormInput';
@@ -9,6 +10,7 @@ import { FormScreenShotPaster, ScreenshotValue } from '../components/FormScreenS
 import { FormTextArea } from '../components/FormTextArea';
 import Loader from '../components/Loader';
 import useListStore, { ListState } from '../stores/useListStore';
+import useMetaStore from '../stores/useMetaStore';
 import usePositionStore from '../stores/usePositionStore';
 
 function CurrentPage () {
@@ -16,6 +18,8 @@ function CurrentPage () {
   const handleAddLocation = useListStore((state) => state.add);
   const getCurrentPosition = usePositionStore((s) => s.getCurrent);
   const loading = usePositionStore((s) => s.loading);
+  const getTags = useMetaStore((s) => s.getTags);
+  const optionTags = useMetaStore((s) => s.optionTags);
 
   const navigate = useNavigate();
 
@@ -39,6 +43,7 @@ function CurrentPage () {
 
   useEffect(() => {
     getCurrentPosition();
+    getTags();
   }, [getCurrentPosition]);
 
   useEffect(() => {
@@ -84,10 +89,12 @@ function CurrentPage () {
           />
 
           <div>
-            <FormInput
+            <FormDropdown
               label='Tag'
               id='Tag'
+              options={optionTags}
               register={register('Tag', { required: 'Tag is required' })}
+              writeable
             />
             {errors.Tag && (
               <p className='text-indigo-500 text-sm mt-1'>{errors.Tag.message}</p>

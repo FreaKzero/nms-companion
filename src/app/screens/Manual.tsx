@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,6 +12,7 @@ import { FormTextArea } from '../components/FormTextArea';
 import GlyphInput from '../components/GlyphInput';
 import { GalaxyNames } from '../mappings/GalaxyNames';
 import useListStore from '../stores/useListStore';
+import useMetaStore from '../stores/useMetaStore';
 
 type FormValues = {
   GalaxyIndex: number;
@@ -32,6 +33,9 @@ function ManualPage () {
   const handleAddLocation = useListStore((state) => state.add);
   const navigate = useNavigate();
 
+  const getTags = useMetaStore((s) => s.getTags);
+  const optionTags = useMetaStore((s) => s.optionTags);
+
   const [glyphInput, setGlyphInput] = useState(false);
 
   const {
@@ -42,6 +46,10 @@ function ManualPage () {
     control,
     formState: { errors }
   } = useForm<FormValues>();
+
+  useEffect(() => {
+    getTags();
+  }, []);
 
   const handleSelectGlyph = (glyph: string) => {
     const x = getValues();
@@ -148,10 +156,12 @@ function ManualPage () {
           />
 
           <div>
-            <FormInput
+            <FormDropdown
               label='Tag'
               id='Tag'
+              options={optionTags}
               register={register('Tag', { required: 'Tag is required' })}
+              writeable
             />
             {errors.Tag && (
               <p className='text-indigo-500 text-sm mt-1'>{errors.Tag.message}</p>

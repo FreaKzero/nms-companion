@@ -12,6 +12,7 @@ import Pagination from '../components/Pagination';
 import { TagList } from '../components/TagList';
 import { Nullable } from '../stores/apiInterfaces';
 import useListStore, { ListState } from '../stores/useListStore';
+import useMetaStore from '../stores/useMetaStore';
 interface EnhancedListState extends ListState {
   onDelete?: (key: number) => Promise<void>;
   onCopy?: (portalCode: string) => void;
@@ -118,17 +119,14 @@ function ListPage () {
   const { getPage, delete: deleteEntry, entries, currentPage, pageSize, totalEntries } =
     useListStore();
   const [search, setSearch] = useState('');
-  const [galaxies, setGalaxies] = useState([]);
   const [searchGalaxy, setSearchGalaxy] = useState('');
 
+  const getGalaxies = useMetaStore((s) => s.getGalaxies);
+  const optionGalaxies = useMetaStore((s) => s.optionGalaxies);
+
   useEffect(() => {
-    const getGalaxies = async () => {
-      const galaxies = await electron.ipcRenderer.invoke('DB-GALAXIES');
-      const mappedGalaxies = galaxies.map((i: { GalaxyName: string }) => ({ label: i.GalaxyName, value: i.GalaxyName.toLowerCase() }));
-      setGalaxies([{ label: 'All', value: '' }, ...mappedGalaxies]);
-    };
+    getGalaxies(true);
     getPage(1, pageSize);
-    getGalaxies();
   }, []);
 
   useEffect(() => {
@@ -185,7 +183,7 @@ function ListPage () {
         <FormDropdown
           label='Galaxy'
           id='GalaxyIndex'
-          options={galaxies}
+          options={optionGalaxies}
           onChange={(value: string) => setSearchGalaxy(value)}
         />
 

@@ -171,4 +171,14 @@ export function registerDbIpc () {
 
     return rows;
   });
+
+  ipcMain.handle('DB-TAGS', () => {
+    const rows = db.prepare(`
+    SELECT DISTINCT Tag
+    FROM locations
+    ORDER BY Tag ASC
+  `).all();
+
+    return rows;
+  });
 }

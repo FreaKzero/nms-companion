@@ -2,7 +2,7 @@ import { ArrowDownWideNarrow } from 'lucide-react';
 import React, { useState, useEffect, useRef } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
-interface Option {
+export interface Option {
   label: string;
   value: string | number;
 }
@@ -16,6 +16,7 @@ interface FormDropdownProps {
   onChange?: (value: string | number) => void;
   placeholder?: string;
   disabled?: boolean;
+  writeable?: boolean;
 }
 
 export const FormDropdown: React.FC<FormDropdownProps> = ({
@@ -26,15 +27,16 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
   value: externalValue,
   onChange,
   placeholder,
-  disabled = false
+  disabled = false,
+  writeable = false
 }) => {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
-  const [internalValue, setInternalValue] = useState<string | number | undefined>(externalValue);
+  const [internalValue, setInternalValue] = useState<string | number>(externalValue ?? '');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (externalValue !== undefined) setInternalValue(externalValue);
+    setInternalValue(externalValue ?? '');
   }, [externalValue]);
 
   useEffect(() => {
@@ -59,7 +61,19 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
     setSearch('');
   };
 
-  const displayLabel = options.find((o) => o.value === internalValue)?.label || '';
+  const handleInputChange = (val: string) => {
+    setSearch(val);
+    if (!open) setOpen(true);
+    if (writeable) {
+      setInternalValue(val);
+      onChange?.(val);
+      if (register && register.onChange) {
+        register.onChange({ target: { name: id, value: val } });
+      }
+    }
+  };
+
+  const displayLabel = options.find((o) => o.value === internalValue)?.label ?? (writeable ? (internalValue as string) : '');
 
   return (
     <div className='flex flex-col gap-1 relative' ref={dropdownRef}>
@@ -78,15 +92,12 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
         <input
           type='text'
           disabled={disabled}
-          value={open ? search : displayLabel}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            if (!open) setOpen(true);
-          }}
+          value={open ? search : displayLabel ?? ''}
+          onChange={(e) => handleInputChange(e.target.value)}
           onFocus={() => setOpen(true)}
           placeholder={placeholder || 'Select...'}
           className='input-text pr-8'
-          readOnly={!open}
+          readOnly={!open && !writeable}
         />
 
         <button
@@ -112,7 +123,7 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
                 </div>
               ))
               : (
-                <div className='px-3 py-2 text-sm text-gray-400'>No results found</div>
+                <div className='px-3 py-2 text-sm text-gray-400'>{writeable ? `Add new: ${displayLabel}` : 'No results found'}</div>
                 )}
           </div>
         )}
