@@ -10,6 +10,7 @@ import Loader from '../components/Loader';
 import getRelativeTime from '../lib/getRelativeTime';
 import { redditFeed } from '../lib/redditParser';
 import useRedditStore from '../stores/useRedditStore';
+import { useAutoRefreshStore } from '../stores/useRefreshStore';
 
 const ContentModal: React.FC<{ content?: string; link: string; title: string }> = ({ content, link, title }) => {
   const handleUrl = (link: string) => electron.ipcRenderer.invoke('OPEN_URL', link);
@@ -58,6 +59,7 @@ export default function RedditPage () {
   const getFeed = useRedditStore((s) => s.getFeed);
   const setRead = useRedditStore((s) => s.setRead);
   const newEntries = useRedditStore((s) => s.newEntries);
+  const startAutoRefresh = useAutoRefreshStore((s) => s.start);
 
   const loading = useRedditStore((s) => s.loading);
 
@@ -65,6 +67,7 @@ export default function RedditPage () {
   const [filtered, setFiltered] = useState<redditFeed[]>([]);
 
   useEffect(() => {
+    startAutoRefresh();
     getFeed();
   }, [getFeed]);
 

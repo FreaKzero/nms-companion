@@ -6,14 +6,17 @@ import Loader from '../components/Loader';
 import SettlementsList from '../components/SettlementList';
 import { TimerMission } from '../components/TimerMission';
 import useMissionsStore from '../stores/useMissionsStore';
+import { useAutoRefreshStore } from '../stores/useRefreshStore';
 
 export default function MissionsPage () {
   const frigates = useMissionsStore((s) => s.frigates);
   const settlements = useMissionsStore((s) => s.settlements);
   const loading = useMissionsStore((s) => s.loading);
   const getMissions = useMissionsStore((s) => s.getMissions);
+  const startAutoRefresh = useAutoRefreshStore((s) => s.start);
 
   useEffect(() => {
+    startAutoRefresh();
     getMissions();
   }, []);
 

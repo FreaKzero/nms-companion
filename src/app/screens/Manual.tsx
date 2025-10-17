@@ -6,13 +6,13 @@ import { confirmModal } from '../components/ConfirmModal';
 import { FormDropdown } from '../components/FormDropdown';
 import { FormGlyphInput } from '../components/FormGlyphInput';
 import { FormHidden } from '../components/FormHidden';
-import { FormInput } from '../components/FormInput';
 import { FormScreenShotPaster, ScreenshotValue } from '../components/FormScreenShotPaster';
 import { FormTextArea } from '../components/FormTextArea';
 import GlyphInput from '../components/GlyphInput';
 import { GalaxyNames } from '../mappings/GalaxyNames';
 import useListStore from '../stores/useListStore';
 import useMetaStore from '../stores/useMetaStore';
+import { useAutoRefreshStore } from '../stores/useRefreshStore';
 
 type FormValues = {
   GalaxyIndex: number;
@@ -35,7 +35,7 @@ function ManualPage () {
 
   const getTags = useMetaStore((s) => s.getTags);
   const optionTags = useMetaStore((s) => s.optionTags);
-
+  const stopAutoRefresh = useAutoRefreshStore((s) => s.stop);
   const [glyphInput, setGlyphInput] = useState(false);
 
   const {
@@ -48,6 +48,7 @@ function ManualPage () {
   } = useForm<FormValues>();
 
   useEffect(() => {
+    stopAutoRefresh();
     getTags();
   }, []);
 

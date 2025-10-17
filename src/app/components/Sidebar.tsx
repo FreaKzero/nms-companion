@@ -1,5 +1,5 @@
 import { RefreshCcwDot } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 
 import Timer from './Timer';
@@ -7,8 +7,7 @@ import Timer from './Timer';
 import { RouteItem, routes } from '../routes';
 import useMissionsStore from '../stores/useMissionsStore';
 import useRedditStore from '../stores/useRedditStore';
-
-// @TODO Do proper autorefresh - Zustand Store
+import { useAutoRefreshStore } from '../stores/useRefreshStore';
 
 const SideBar = () => {
   const loc = useLocation();
@@ -45,43 +44,18 @@ const SideBar = () => {
 };
 
 const SidebarAutorefresh: React.FC = () => {
-  const getMissions = useMissionsStore((s) => s.getMissions);
-  const [autoRefresh, setAutoRefresh] = useState(false);
-
   const error = useMissionsStore((s) => s.error);
   const nav = useNavigate();
-
-  useEffect(() => {
-    let intervalId: number | undefined;
-
-    if (autoRefresh) {
-      intervalId = window.setInterval(() => {
-        getMissions();
-      }, 2 * 60 * 1000);
-    }
-
-    return () => {
-      if (intervalId !== undefined) {
-        setAutoRefresh(false);
-        clearInterval(intervalId);
-      }
-    };
-  }, [autoRefresh, getMissions]);
+  const toggleAutoRefresh = useAutoRefreshStore((s) => s.toggleAutoRefresh);
+  const stopAutoRefresh = useAutoRefreshStore((s) => s.stop);
+  const autoRefresh = useAutoRefreshStore((s) => s.autoRefresh);
 
   useEffect(() => {
     if (error) {
+      stopAutoRefresh();
       nav('/settings');
     }
   }, [error]);
-
-  const toggleAutoRefresh = () => {
-    setAutoRefresh((prev) => {
-      if (!prev) {
-        getMissions();
-      }
-      return !prev;
-    });
-  };
 
   return (
     <div>

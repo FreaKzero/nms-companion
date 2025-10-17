@@ -12,6 +12,7 @@ import Loader from '../components/Loader';
 import useListStore, { ListState } from '../stores/useListStore';
 import useMetaStore from '../stores/useMetaStore';
 import usePositionStore from '../stores/usePositionStore';
+import { useAutoRefreshStore } from '../stores/useRefreshStore';
 
 function CurrentPage () {
   const position = usePositionStore();
@@ -20,7 +21,7 @@ function CurrentPage () {
   const loading = usePositionStore((s) => s.loading);
   const getTags = useMetaStore((s) => s.getTags);
   const optionTags = useMetaStore((s) => s.optionTags);
-
+  const stopAutoRefresh = useAutoRefreshStore((s) => s.stop);
   const navigate = useNavigate();
 
   const {
@@ -42,6 +43,7 @@ function CurrentPage () {
   };
 
   useEffect(() => {
+    stopAutoRefresh();
     getCurrentPosition();
     getTags();
   }, [getCurrentPosition]);
