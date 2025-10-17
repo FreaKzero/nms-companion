@@ -20,8 +20,9 @@ const FrigateListItem = (frigate: FrigateType) => {
     all: number;
     current: number;
     category: string;
+    fail: boolean;
   }
-  const IconProgress: React.FC<IconProgressProps> = ({ all, current, category }) => {
+  const IconProgress: React.FC<IconProgressProps> = ({ all, current, category, fail }) => {
     const progress = all > 0 ? Math.min(current / all, 1) : 0;
     const percentage = Math.round(progress * 100);
 
@@ -29,7 +30,7 @@ const FrigateListItem = (frigate: FrigateType) => {
       <div
         className='w-15 h-15 rounded-lg flex items-center justify-center bg-gray-700'
         style={{
-          backgroundImage: 'linear-gradient(to top, #166534, #15803d)',
+          backgroundImage: fail ? 'linear-gradient(to top, #B45309, #D97706)' : 'linear-gradient(to top, #166534, #15803d)',
           backgroundSize: `${percentage}% 100%`,
           backgroundRepeat: 'no-repeat'
         }}
@@ -44,7 +45,7 @@ const FrigateListItem = (frigate: FrigateType) => {
   return (
     <li className='flex items-start gap-3 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transtion-all duration-200 rounded-lg'>
 
-      <IconProgress all={frigate.events} current={frigate.success} category={frigate.category} />
+      <IconProgress all={frigate.events} current={frigate.done} category={frigate.category} fail={frigate.fail > 0} />
 
       <div className='flex flex-col flex-1 text-sm text-gray-900 dark:text-gray-100 overflow-hidden'>
         <p className='line-clamp-2 text-lg font-nms'>{frigate.category} • {frigate.duration.replace('Very', 'Very ')} Mission ({frigate.frigates})</p>
@@ -59,8 +60,8 @@ const FrigateListItem = (frigate: FrigateType) => {
 
 function FrigateList ({ frigates }: { frigates: FrigateType[] }) {
   const sortedFrigates = frigates.sort((a, b) => {
-    const ratioA = a.events > 0 ? a.success / a.events : 0;
-    const ratioB = b.events > 0 ? b.success / b.events : 0;
+    const ratioA = a.events > 0 ? a.done / a.events : 0;
+    const ratioB = b.events > 0 ? b.done / b.events : 0;
     return ratioB - ratioA;
   });
 

@@ -161,7 +161,7 @@ export const createFrigateMissions = (BaseContext: BaseContext): FrigateType[] =
       success: a.NumberOfSuccessfulEventsThisExpedition,
       duration: a.ExpeditionDuration.ExpeditionDuration,
       events: a.Events.length,
-      done: a.Events.filter((a) => a.Success === true).length
+      done: a.NumberOfFailedEventsThisExpedition + a.NumberOfSuccessfulEventsThisExpedition
     };
   });
 };

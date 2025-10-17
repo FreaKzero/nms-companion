@@ -4,10 +4,10 @@ export const MOCKFRIGATES = [
     started: new Date('2025-10-16T11:12:54.000Z'),
     lastEvent: new Date('2025-10-16T13:01:56.000Z'),
     frigates: 1,
-    fail: 0,
+    fail: 2,
     success: 4,
     duration: 'VeryShort',
-    events: 4,
+    events: 6,
     done: 4
   },
   {
