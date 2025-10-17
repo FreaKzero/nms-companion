@@ -66,16 +66,19 @@ interface BuildIconProps {
   isDone?: boolean;
 }
 
-export const BuildIcon: React.FC<BuildIconProps> = ({ buildProgress, isDone }) => {
+const BuildIcon: React.FC<BuildIconProps> = ({ buildProgress, isDone }) => {
   const progress = isDone ? 1 : buildProgress;
 
   return (
-    <div className='relative w-15 h-15 rounded-lg flex items-center justify-center overflow-hidden bg-gray-700'>
-      <div
-        className='absolute top-0 left-0 h-full bg-gradient-to-t from-green-900 to-green-700'
-        style={{ width: `${progress}%` }}
-      />
-      <div className='relative z-10 text-white'>
+    <div
+      className='w-15 h-15 rounded-lg flex items-center justify-center bg-gray-700'
+      style={{
+        backgroundImage: 'linear-gradient(to top, #166534, #15803d)',
+        backgroundSize: `${progress}% 100%`,
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      <div className='text-white flex flex-col items-center'>
         <HammerIcon />
       </div>
     </div>

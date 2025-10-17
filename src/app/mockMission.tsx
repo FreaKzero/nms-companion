@@ -68,7 +68,7 @@ export const MOCKSETTLE = [
     judgementType: 'BlessingPerkRelated',
     race: 'Builders',
     produce: 4,
-    progress: 100
+    buildProgress: 100
   },
   {
     buildClass: 'Settlement_SmallIndustrial',
@@ -81,7 +81,7 @@ export const MOCKSETTLE = [
     judgementType: 'StrangerVisit',
     race: 'Explorers',
     produce: 4,
-    progress: 50
+    buildProgress: 50
   },
   {
     buildClass: 'Settlement_SmallIndustrial',
@@ -94,7 +94,7 @@ export const MOCKSETTLE = [
     judgementType: 'Conflict',
     race: 'Builders',
     produce: 0,
-    progress: 0.6
+    buildProgress: 0.6
   },
   {
     buildClass: 'None',
