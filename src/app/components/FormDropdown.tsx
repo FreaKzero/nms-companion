@@ -52,11 +52,9 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
   const handleSelect = (val: string | number) => {
     setInternalValue(val);
     onChange?.(val);
-
     if (register && register.onChange) {
       register.onChange({ target: { name: id, value: val } });
     }
-
     setOpen(false);
     setSearch('');
   };
@@ -69,12 +67,17 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
         {label}
       </label>
 
+      <input
+        type='hidden'
+        id={id}
+        value={internalValue ?? ''}
+        {...(register || {})}
+      />
+
       <div className='relative'>
         <input
-          id={id}
           type='text'
           disabled={disabled}
-          {...(register || {})}
           value={open ? search : displayLabel}
           onChange={(e) => {
             setSearch(e.target.value);
@@ -97,19 +100,17 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
         {open && (
           <div className='absolute z-10 mt-1 w-full bg-gray-900/80 backdrop-blur-md border border-neutral-700 rounded-lg max-h-60 overflow-auto shadow-lg'>
             {filtered.length > 0
-              ? (
-                  filtered.map((opt) => (
-                    <div
-                      key={opt.value}
-                      onClick={() => handleSelect(opt.value)}
-                      className={`px-3 py-2 cursor-pointer hover:bg-indigo-600 ${
-                    internalValue === opt.value ? 'bg-indigo-700 text-white' : ''
-                  }`}
-                    >
-                      {opt.label}
-                    </div>
-                  ))
-                )
+              ? filtered.map((opt) => (
+                <div
+                  key={opt.value}
+                  onClick={() => handleSelect(opt.value)}
+                  className={`px-3 py-2 cursor-pointer hover:bg-indigo-600 ${
+                      internalValue === opt.value ? 'bg-indigo-700 text-white' : ''
+                    }`}
+                >
+                  {opt.label}
+                </div>
+              ))
               : (
                 <div className='px-3 py-2 text-sm text-gray-400'>No results found</div>
                 )}
