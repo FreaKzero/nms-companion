@@ -68,7 +68,7 @@ function CurrentPage () {
         <input type='hidden' {...register('ShareCode')} />
         <input type='hidden' {...register('GalaxyIndex')} />
 
-        <div className='grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2'>
+        <div className='grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-2'>
           <FormInput
             label='Galaxy Name'
             id='GalaxyName'
@@ -85,11 +85,6 @@ function CurrentPage () {
             })}
           />
 
-          <FormScreenShotPaster
-            label='Screenshot'
-            onScreenshotChange={setScreenshot}
-          />
-
           <div>
             <FormDropdown
               label='Tag'
@@ -102,8 +97,13 @@ function CurrentPage () {
               <p className='text-indigo-500 text-sm mt-1'>{errors.Tag.message}</p>
             )}
           </div>
-
-          <div className='sm:col-span-2'>
+        </div>
+        <div className='flex gap-5 mt-5'>
+          <FormScreenShotPaster
+            label='Screenshot'
+            onScreenshotChange={setScreenshot}
+          />
+          <div className='w-full'>
             <FormTextArea
               label='Description'
               id='Description'

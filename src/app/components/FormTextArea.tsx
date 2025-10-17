@@ -6,16 +6,18 @@ interface FormTextAreaProps {
   id: string;
   rows?: number;
   register: UseFormRegisterReturn;
+  className?: string;
 }
 
 export const FormTextArea: React.FC<FormTextAreaProps> = ({
   label,
   id,
   rows = 4,
-  register
+  register,
+  className = ''
 }) => {
   return (
-    <div className='flex flex-col gap-1'>
+    <div className='flex flex-col gap-1 w-full'>
       <label htmlFor={id} className='input-text-label'>
         {label}
       </label>
@@ -23,7 +25,7 @@ export const FormTextArea: React.FC<FormTextAreaProps> = ({
         id={id}
         rows={rows}
         {...register}
-        className='input-text'
+        className={`input-text ${className}`}
       />
     </div>
   );
