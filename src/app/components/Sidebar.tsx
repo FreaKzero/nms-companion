@@ -8,6 +8,7 @@ import { RouteItem, routes } from '../routes';
 import useMissionsStore from '../stores/useMissionsStore';
 import useRedditStore from '../stores/useRedditStore';
 
+// @TODO Do proper autorefresh
 const SideBar = () => {
   const loc = useLocation();
   const newEntries = useRedditStore((s) => s.newEntries);
@@ -123,7 +124,8 @@ const SideBarIcon: React.FC<SideBarIconProps> = ({
 
         {badgeCount !== undefined && badgeCount > 0 && (
           <div
-            className='absolute top-0 right-0 translate-x-2 -translate-y-2 bg-amber-600 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-md'
+            className='absolute top-1 right-1 translate-x-2 -translate-y-2 bg-gradient-to-t from-amber-700 to-amber-600 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-md'
+            style={{ textShadow: '1px 1px 0px black' }}
           >
             {badgeCount > 99 ? '99+' : badgeCount}
           </div>
