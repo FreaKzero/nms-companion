@@ -64,7 +64,7 @@ export function parseRSS (xml: string) {
     const imageUrl = imgMatch ? imgMatch[1] : undefined;
 
     return {
-      title: (e.match(/<title[^>]*>([^<]+)<\/title>/) || [])[1] || '',
+      title: decodeHtmlEntities((e.match(/<title[^>]*>([^<]+)<\/title>/) || [])[1] || ''),
       author: (e.match(/<name>([^<]+)<\/name>/) || [])[1] || '',
       link: (e.match(/<link[^>]*href="([^"]+)"/) || [])[1] || '',
       published: new Date((e.match(/<updated>([^<]+)<\/updated>/) || [])[1] || ''),

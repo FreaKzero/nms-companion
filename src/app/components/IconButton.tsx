@@ -18,6 +18,7 @@ export default function IconButton ({
   return (
     <div className={`relative group inline-block ${className}`}>
       <button
+        type='button'
         onClick={onClick}
         className='button h-10 pl-3 pr-3'
       >
