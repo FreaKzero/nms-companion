@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 
 import { BaseContext, NMSSave, UniverseAddress } from '../iface/nmssave';
-import { PlanetNames } from '../mappings/PlanetNames';
+import { GalaxyNames } from '../mappings/GalaxyNames';
 import mapping from '../mappings/save.json';
 
 export interface SettlementType {
@@ -91,7 +91,7 @@ export function voxelToPortal (P: number, X: number, Y: number, Z: number, SSI: 
   }
 }
 
-export const getGalaxyName = (galaxy: number) => PlanetNames[galaxy] || `Unknown (${galaxy})`;
+export const getGalaxyName = (galaxy: number) => GalaxyNames[galaxy] || `Unknown (${galaxy})`;
 
 export const createSettlementMissions = (BaseContext: BaseContext, owner: string): SettlementType[] => {
   const x = BaseContext.PlayerStateData.SettlementStatesV2

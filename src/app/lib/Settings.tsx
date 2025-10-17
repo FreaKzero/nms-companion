@@ -7,9 +7,11 @@ import { confirmModal } from '../components/ConfirmModal';
 import { FormDirectoryPicker } from '../components/FormDirectoryPicker';
 import { FormFilePicker } from '../components/FormFilePicker';
 import { FormInput } from '../components/FormInput';
+import { useAutoRefreshStore } from '../stores/useRefreshStore';
 
 function SettingsPage () {
   const { handleSubmit, setValue, control, register } = useForm<OptionManagerType>();
+  const stopAutoRefresh = useAutoRefreshStore((s) => s.stop);
 
   useEffect(() => {
     const getSettings = async () => {
@@ -19,7 +21,7 @@ function SettingsPage () {
       setValue('databasePath', settings.databasePath, { shouldValidate: true, shouldDirty: true });
       setValue('charName', settings.charName);
     };
-
+    stopAutoRefresh();
     getSettings();
   }, []);
 
