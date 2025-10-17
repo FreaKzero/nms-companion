@@ -11,6 +11,7 @@ interface FormInputProps {
   disabled?: boolean;
   placeholder?: string;
   onClear?: () => void;
+  className?: string;
 }
 
 export const FormInput: React.FC<FormInputProps> = ({
@@ -22,10 +23,11 @@ export const FormInput: React.FC<FormInputProps> = ({
   onChange,
   disabled = false,
   placeholder,
-  onClear
+  onClear,
+  className
 }) => {
   return (
-    <div className='flex flex-col gap-1 relative'>
+    <div className={`flex flex-col gap-1 relative ${className}`}>
       <label htmlFor={id} className='input-text-label'>
         {label}
       </label>

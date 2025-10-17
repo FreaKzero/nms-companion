@@ -161,4 +161,14 @@ export function registerDbIpc () {
 
     return { rows, total, page, pageSize };
   });
+
+  ipcMain.handle('DB-GALAXIES', () => {
+    const rows = db.prepare(`
+    SELECT DISTINCT GalaxyName
+    FROM locations
+    ORDER BY GalaxyName ASC
+  `).all();
+
+    return rows;
+  });
 }

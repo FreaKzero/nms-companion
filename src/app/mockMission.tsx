@@ -95,18 +95,5 @@ export const MOCKSETTLE = [
     race: 'Builders',
     produce: 0,
     buildProgress: 0.6
-  },
-  {
-    buildClass: 'None',
-    buildActive: false,
-    name: 'Settlement 4',
-    startTime: null,
-    category: 'Settlement_SmallIndustrial',
-    estimate: null,
-    needsJudgement: true,
-    judgementType: 'Policy',
-    race: 'Builders',
-    produce: 4,
-    progress: 0.8
   }
 ];

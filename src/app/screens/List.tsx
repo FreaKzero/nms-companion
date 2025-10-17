@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 
 import { confirmModal } from '../components/ConfirmModal';
 import { openCustomModal } from '../components/CustomModal';
+import { FormDropdown } from '../components/FormDropdown';
 import { FormInput } from '../components/FormInput';
 import Glyphs from '../components/Glyphs';
 import Pagination from '../components/Pagination';
@@ -117,17 +118,27 @@ function ListPage () {
   const { getPage, delete: deleteEntry, entries, currentPage, pageSize, totalEntries } =
     useListStore();
   const [search, setSearch] = useState('');
+  const [galaxies, setGalaxies] = useState([]);
+  const [searchGalaxy, setSearchGalaxy] = useState('');
 
   useEffect(() => {
+    const getGalaxies = async () => {
+      const galaxies = await electron.ipcRenderer.invoke('DB-GALAXIES');
+      const mappedGalaxies = galaxies.map((i: { GalaxyName: string }) => ({ label: i.GalaxyName, value: i.GalaxyName.toLowerCase() }));
+      setGalaxies([{ label: 'All', value: '' }, ...mappedGalaxies]);
+    };
     getPage(1, pageSize);
+    getGalaxies();
   }, []);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      getPage(1, pageSize, search);
+      getPage(1, pageSize, `${searchGalaxy} ${search}`);
     }, 300);
     return () => clearTimeout(timeout);
-  }, [search]);
+  }, [search, searchGalaxy]);
+
+  const getSearch = () => `${searchGalaxy} ${search}`;
 
   const handleDelete = async (id: number) => {
     if (await confirmModal('Do you really want to delete this Location?')) {
@@ -136,16 +147,16 @@ function ListPage () {
       const totalAfterDelete = totalEntries - 1;
       const totalPages = Math.max(1, Math.ceil(totalAfterDelete / pageSize));
       const newPage = Math.min(currentPage, totalPages);
-      await getPage(newPage, pageSize, search);
+      await getPage(newPage, pageSize, getSearch());
     }
   };
 
   const handlePageChange = async (page: number) => {
-    await getPage(page, pageSize, search);
+    await getPage(page, pageSize, getSearch());
   };
 
   const handleTagClick = (term: string) => {
-    if (!search.includes(term)) {
+    if (!getSearch().includes(term)) {
       setSearch((s) => `${s} ${term.toLocaleLowerCase()}`.trim());
     }
   };
@@ -160,7 +171,7 @@ function ListPage () {
 
   return (
     <div className='bg-gray-900 text-white rounded-lg shadow-md p-4 w-full'>
-      <div className='mb-4'>
+      <div className='flex gap-2 mb-4'>
         <FormInput
           id='search'
           label='Search'
@@ -168,7 +179,16 @@ function ListPage () {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           onClear={() => setSearch('')}
+          className='w-full'
         />
+
+        <FormDropdown
+          label='Galaxy'
+          id='GalaxyIndex'
+          options={galaxies}
+          onChange={(value: string) => setSearchGalaxy(value)}
+        />
+
       </div>
       <div className='divide-y divide-gray-800'>
         {entries.map((loc, idx) => (
