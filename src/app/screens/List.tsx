@@ -92,7 +92,7 @@ const ListItem: React.FC<EnhancedListState> = (loc) => {
       <div className='flex gap-3 w-full'>
         <Screenshot alt={loc.Description} screen={loc.Screenshot} onClick={() => loc.onSelect(loc)} />
         <div className='w-full'>
-          <h3 className='text-indigo-400 hover:text-indigo-300 font-bold text-2xl cursor-pointer transition-colors duration-300 font-nms' onClick={() => handleTagClick(loc.GalaxyName)}>
+          <h3 className='text-indigo-400 hover:text-indigo-300 font-bold text-2xl cursor-pointer transition-colors duration-300 font-nms' onClick={() => loc.onSelect(loc)}>
             {loc.GalaxyName}
           </h3>
           <Glyphs portalCode={loc.PortalCode} width='w-7' />
@@ -173,7 +173,7 @@ function ListPage () {
         <FormInput
           id='search'
           label='Search'
-          placeholder='Search by Tag, Galaxy Name and Description...'
+          placeholder='Search ...'
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           onClear={() => setSearch('')}

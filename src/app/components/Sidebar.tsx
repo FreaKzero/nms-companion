@@ -8,7 +8,8 @@ import { RouteItem, routes } from '../routes';
 import useMissionsStore from '../stores/useMissionsStore';
 import useRedditStore from '../stores/useRedditStore';
 
-// @TODO Do proper autorefresh
+// @TODO Do proper autorefresh - Zustand Store
+
 const SideBar = () => {
   const loc = useLocation();
   const newEntries = useRedditStore((s) => s.newEntries);
@@ -44,24 +45,28 @@ const SideBar = () => {
 };
 
 const SidebarAutorefresh: React.FC = () => {
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const getMissions = useMissionsStore((s) => s.getMissions);
   const [autoRefresh, setAutoRefresh] = useState(false);
 
   const error = useMissionsStore((s) => s.error);
   const nav = useNavigate();
 
-  const toggleAutoRefresh = () => {
-    getMissions();
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-      setAutoRefresh(false);
-    } else {
-      intervalRef.current = setInterval(() => getMissions(), 2 * 60 * 1000);
-      setAutoRefresh(true);
+  useEffect(() => {
+    let intervalId: number | undefined;
+
+    if (autoRefresh) {
+      intervalId = window.setInterval(() => {
+        getMissions();
+      }, 2 * 60 * 1000);
     }
-  };
+
+    return () => {
+      if (intervalId !== undefined) {
+        setAutoRefresh(false);
+        clearInterval(intervalId);
+      }
+    };
+  }, [autoRefresh, getMissions]);
 
   useEffect(() => {
     if (error) {
@@ -69,16 +74,14 @@ const SidebarAutorefresh: React.FC = () => {
     }
   }, [error]);
 
-  useEffect(() => {
-    getMissions();
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
+  const toggleAutoRefresh = () => {
+    setAutoRefresh((prev) => {
+      if (!prev) {
+        getMissions();
       }
-    };
-  }, []);
+      return !prev;
+    });
+  };
 
   return (
     <div>
