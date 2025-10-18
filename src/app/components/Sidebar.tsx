@@ -35,9 +35,11 @@ const SideBar = () => {
       {routes.map((route, idx) => {
         return route.divider
           ? <Divider key={`loc-${idx}`} />
-          : (
-            <SideBarIcon badgeCount={getBadgeCount(route)} key={`loc-${route.location}`} location={route.location} text={route.text} Icon={route.Icon} active={loc.pathname === route.location} />
-            );
+          : route.Icon !== null
+            ? (
+              <SideBarIcon badgeCount={getBadgeCount(route)} key={`loc-${route.location}`} location={route.location} text={route.text} Icon={route.Icon} active={loc.pathname === route.location} />
+              )
+            : null;
       })}
     </div>
   );

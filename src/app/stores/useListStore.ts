@@ -12,9 +12,11 @@ interface iListStore {
   update: (id: number, item: ListState) => Promise<void>;
   getAll: () => Promise<void>;
   getPage: (page?: number, pageSize?: number, search?: string) => Promise<void>;
+  getId: (id: number) => Promise<void>;
   totalEntries: number;
   currentPage: number;
   pageSize: number;
+  edit: Nullable<ListState>;
 }
 
 const useListStore = create<iListStore>()((set, get) => ({
@@ -23,6 +25,7 @@ const useListStore = create<iListStore>()((set, get) => ({
   totalEntries: 0,
   currentPage: 1,
   pageSize: 20,
+  edit: null,
 
   add: async (item: ListState, file?: Nullable<ArrayBuffer>) => {
     set({ loading: true });
@@ -60,6 +63,12 @@ const useListStore = create<iListStore>()((set, get) => ({
     set({ loading: true });
     const list: ListState[] = await electron.ipcRenderer.invoke('DB-READ-ALL');
     set({ loading: false, entries: list, totalEntries: list.length });
+  },
+
+  getId: async (id: number) => {
+    set({ loading: true, edit: null });
+    const edit: ListState = await electron.ipcRenderer.invoke('DB-GETID', id);
+    set({ loading: false, edit });
   },
 
   getPage: async (page = 1, pageSize = 20, search = '') => {

@@ -67,7 +67,7 @@ export function registerDbIpc () {
     return db.prepare('SELECT * FROM locations ORDER BY ID DESC').all();
   });
 
-  ipcMain.handle('DB-READ', (_ev, id: number) => {
+  ipcMain.handle('DB-GETID', (_ev, id: number) => {
     return db.prepare('SELECT * FROM locations WHERE id = ?').get(id);
   });
 
@@ -82,7 +82,7 @@ export function registerDbIpc () {
         GalaxyIndex = ?,
         Tag = ?,
         Biome = ?
-      WHERE id = ?
+        WHERE id = ?
     `);
     const info = stmt.run(
       data.GalaxyName,

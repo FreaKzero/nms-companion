@@ -90,21 +90,19 @@ function CurrentPage () {
 
           <FormBiomeInput
             label='Biome'
-            id='Biome'
-            register={register('Biome')}
+            name='Biome'
+            control={control}
           />
 
           <div>
             <FormDropdown
               label='Tag'
-              id='Tag'
+              name='Tag'
+              control={control}
               options={optionTags}
-              register={register('Tag', { required: 'Tag is required' })}
               writeable
+              required='Tag is required'
             />
-            {errors.Tag && (
-              <p className='text-indigo-500 text-sm mt-1'>{errors.Tag.message}</p>
-            )}
           </div>
         </div>
         <div className='flex gap-5 mt-5'>

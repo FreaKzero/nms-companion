@@ -1,10 +1,11 @@
 import { PlusCircle, ListChecksIcon, MapPlusIcon, SettingsIcon, MapPinIcon, TestTube, Rss } from 'lucide-react';
 import { FC } from 'react';
 
+import LocationForm from './components/LocationForm';
 import SettingsPage from './lib/Settings';
 import CurrentPage from './screens/Current';
+import EditLocationPage from './screens/EditLocation';
 import ListPage from './screens/List';
-import ManualPage from './screens/Manual';
 import MissionsPage from './screens/Missions';
 import RedditPage from './screens/Reddit';
 import TestPage from './screens/Test';
@@ -50,7 +51,7 @@ export const routes = [
     text: 'Add Manual Location',
     location: '/manual',
     Icon: MapPlusIcon,
-    Component: ManualPage,
+    Component: LocationForm,
     order: 5
   },
   {
@@ -77,6 +78,13 @@ export const routes = [
     Icon: TestTube,
     Component: TestPage,
     order: 9
+  },
+  {
+    text: 'edit',
+    location: '/edit/:id',
+    Icon: null,
+    Component: EditLocationPage,
+    order: 10
   }
 
 ].sort((a, b) => a.order - b.order);

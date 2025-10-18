@@ -1,7 +1,8 @@
 import noscreen from 'assets/noscreen.png';
 
-import { Trash2Icon, ClipboardCopy, MessageCircleCode } from 'lucide-react';
+import { Trash2Icon, ClipboardCopy, MessageCircleCode, PencilRulerIcon } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { ListState } from '../../ipc/dbIPC';
 import { confirmModal } from '../components/ConfirmModal';
@@ -19,6 +20,7 @@ interface EnhancedListState extends ListState {
   onCopy?: (portalCode: string) => void;
   onTagClick?: (tag: string) => void;
   onSelect: (data: ListState) => Promise<void>;
+  onEdit: (id: number) => void;
 }
 
 interface ScreenshotProps {
@@ -105,6 +107,11 @@ const ListItem: React.FC<EnhancedListState> = (loc) => {
           <span className='text-gray-400 text-sm flex items-center gap-2'>
             <button
               className='cursor-pointer'
+              onClick={() => loc.onEdit?.(loc.id!)}
+            > <PencilRulerIcon size='20' className='text-indigo-400 hover:text-indigo-500 transition duration-250 mr-2' />
+            </button>
+            <button
+              className='cursor-pointer'
               onClick={() => loc.onDelete?.(loc.id!)}
             >
               <Trash2Icon size='20' className='text-red-400 hover:text-red-500 transition duration-250' />
@@ -128,6 +135,7 @@ function ListPage () {
 
   const optionGalaxies = useMetaStore((s) => s.optionGalaxies);
   const optionBiomes = useMetaStore((s) => s.optionBiomes);
+  const nav = useNavigate();
 
   useEffect(() => {
     getGalaxies(true);
@@ -177,6 +185,8 @@ function ListPage () {
     openCustomModal(<GlyphModal {...data} />, 'w-[95%] h-[95%] relative rounded-xl overflow-hidden flex flex-col items-center justify-center');
   };
 
+  const handleEdit = (id: number) => nav(`/edit/${id}`);
+
   return (
     <div className='bg-gray-900 text-white rounded-lg shadow-md p-4 w-full'>
       <div className='flex gap-2 mb-4'>
@@ -192,14 +202,14 @@ function ListPage () {
 
         <FormDropdown
           label='Biome'
-          id='Biome'
+          name='searchBiome'
           options={optionBiomes}
           onChange={(value: string) => setsearchBiome(value)}
         />
 
         <FormDropdown
           label='Galaxy'
-          id='GalaxyIndex'
+          name='searchGalaxy'
           options={optionGalaxies}
           onChange={(value: string) => setSearchGalaxy(value)}
         />
@@ -207,7 +217,7 @@ function ListPage () {
       </div>
       <div className='divide-y divide-gray-800'>
         {entries.map((loc, idx) => (
-          <ListItem key={`location-${loc.id}-${idx}`} {...loc} onDelete={handleDelete} onTagClick={handleTagClick} onCopy={handleOnCopy} onSelect={handleonSelect} />
+          <ListItem key={`location-${loc.id}-${idx}`} {...loc} onDelete={handleDelete} onTagClick={handleTagClick} onCopy={handleOnCopy} onSelect={handleonSelect} onEdit={handleEdit} />
         ))}
       </div>
 
