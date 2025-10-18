@@ -50,6 +50,9 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
     setValue: (v: string | number) => void,
     error?: any
   ) => {
+    useEffect(() => {
+      setValue(inputValue);
+    }, []);
     const filtered = options.filter((opt) => opt.label.toLowerCase().includes(search.toLowerCase()));
 
     const isCustomValue = writeable && value && !options.some((o) => o.value === value);
@@ -178,7 +181,7 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
         control={control}
         rules={{
           validate: (v) => {
-            if (required && (!v || !String(v).trim())) return required;
+            if (required && (v === undefined || v === null || v === '')) return required;
             return true;
           }
         }}
