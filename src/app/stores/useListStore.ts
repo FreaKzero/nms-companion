@@ -1,17 +1,8 @@
+import { ListState } from '@/ipc/dbIPC';
+
 import { create } from 'zustand';
 
 import { Nullable } from './apiInterfaces';
-
-export interface ListState {
-  id?: number; // SQLite ID
-  GalaxyName: string;
-  PortalCode: string;
-  ShareCode: string;
-  Description: string;
-  Screenshot: string;
-  GalaxyIndex: number;
-  Tag: string;
-}
 
 interface iListStore {
   loading: boolean;

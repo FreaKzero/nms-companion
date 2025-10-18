@@ -3,6 +3,7 @@ import noscreen from 'assets/noscreen.png';
 import { Trash2Icon, ClipboardCopy, MessageCircleCode } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
+import { ListState } from '../../ipc/dbIPC';
 import { confirmModal } from '../components/ConfirmModal';
 import { openCustomModal } from '../components/CustomModal';
 import { FormDropdown } from '../components/FormDropdown';
@@ -11,7 +12,7 @@ import Glyphs from '../components/Glyphs';
 import Pagination from '../components/Pagination';
 import { TagList } from '../components/TagList';
 import { Nullable } from '../stores/apiInterfaces';
-import useListStore, { ListState } from '../stores/useListStore';
+import useListStore from '../stores/useListStore';
 import useMetaStore from '../stores/useMetaStore';
 interface EnhancedListState extends ListState {
   onDelete?: (key: number) => Promise<void>;
@@ -93,7 +94,7 @@ const ListItem: React.FC<EnhancedListState> = (loc) => {
         <Screenshot alt={loc.Description} screen={loc.Screenshot} onClick={() => loc.onSelect(loc)} />
         <div className='w-full'>
           <h3 className='text-indigo-400 hover:text-indigo-300 font-bold text-2xl cursor-pointer transition-colors duration-300 font-nms' onClick={() => loc.onSelect(loc)}>
-            {loc.GalaxyName}
+            {loc.Biome && `${loc.Biome} •`} {loc.GalaxyName}
           </h3>
           <Glyphs portalCode={loc.PortalCode} width='w-7' />
           <p className='mt-5'>{loc.Description}</p>
@@ -120,23 +121,32 @@ function ListPage () {
     useListStore();
   const [search, setSearch] = useState('');
   const [searchGalaxy, setSearchGalaxy] = useState('');
+  const [searchBiome, setsearchBiome] = useState('');
 
   const getGalaxies = useMetaStore((s) => s.getGalaxies);
+  const getBiomes = useMetaStore((s) => s.getBiomes);
+
   const optionGalaxies = useMetaStore((s) => s.optionGalaxies);
+  const optionBiomes = useMetaStore((s) => s.optionBiomes);
 
   useEffect(() => {
     getGalaxies(true);
+    getBiomes(true);
     getPage(1, pageSize);
   }, []);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      getPage(1, pageSize, `${searchGalaxy} ${search}`.replace(/^\s+|\s+$|\s+(?=\s)/g, ''));
+      getPage(1, pageSize, `${searchBiome} ${searchGalaxy} ${search}`.replace(/^\s+|\s+$|\s+(?=\s)/g, ''));
     }, 300);
     return () => clearTimeout(timeout);
-  }, [search, searchGalaxy]);
+  }, [
+    search,
+    searchGalaxy,
+    searchBiome
+  ]);
 
-  const getSearch = () => `${searchGalaxy} ${search}`.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
+  const getSearch = () => `${searchBiome} ${searchGalaxy} ${search}`.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
 
   const handleDelete = async (id: number) => {
     if (await confirmModal('Do you really want to delete this Location?')) {
@@ -178,6 +188,13 @@ function ListPage () {
           onChange={(e) => setSearch(e.target.value)}
           onClear={() => setSearch('')}
           className='w-full'
+        />
+
+        <FormDropdown
+          label='Biome'
+          id='Biome'
+          options={optionBiomes}
+          onChange={(value: string) => setsearchBiome(value)}
         />
 
         <FormDropdown

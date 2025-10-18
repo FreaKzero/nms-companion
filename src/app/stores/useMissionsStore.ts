@@ -41,12 +41,17 @@ const useMissionsStore = create<MissionsStoreState>()((set) => ({
         return;
       }
 
+      const needAction = mis.settlements.filter((settle) => (settle.buildActive === false &&
+        settle.buildClass !== 'None') ||
+        settle.needsJudgement === true ||
+        settle.produce > 0).length;
+
       const settlements = mis.settlements.filter((settle) => settle.buildActive === true ||
         settle.buildClass !== 'None' ||
         settle.needsJudgement === true ||
         settle.produce > 0);
 
-      set({ frigates: mis.frigates, settlements, needAction: settlements.length, loading: false });
+      set({ frigates: mis.frigates, settlements, needAction, loading: false });
       await usePositionStore.getState().setCurrent(mis.position);
       await useRedditStore.getState().getFeed();
     } catch (_err) {

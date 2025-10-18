@@ -4,7 +4,7 @@ import Database from 'better-sqlite3';
 import { app, ipcMain } from 'electron';
 
 export interface ListState {
-  id: number;
+  id?: number;
   GalaxyName: string;
   PortalCode: string;
   ShareCode: string;
@@ -12,6 +12,7 @@ export interface ListState {
   Screenshot: string;
   GalaxyIndex: number;
   Tag: string;
+  Biome?: string | null;
 }
 
 let db: Database.Database;
@@ -28,8 +29,8 @@ export function registerDbIpc () {
   });
 
   // db.prepare('DROP TABLE locations').run();
+
   db.prepare(`
-    
     CREATE TABLE IF NOT EXISTS locations (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       GalaxyName TEXT,
@@ -38,15 +39,16 @@ export function registerDbIpc () {
       Description TEXT,
       Screenshot TEXT,
       GalaxyIndex INTEGER,
-      Tag TEXT
+      Tag TEXT,
+      Biome TEXT NULL
     )
   `).run();
 
   ipcMain.handle('DB-CREATE', (_ev, data: ListState) => {
     const stmt = db.prepare(`
       INSERT INTO locations 
-      (GalaxyName, PortalCode, ShareCode, Description, Screenshot, GalaxyIndex, Tag)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      (GalaxyName, PortalCode, ShareCode, Description, Screenshot, GalaxyIndex, Tag, Biome)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `);
     const info = stmt.run(
       data.GalaxyName,
@@ -55,7 +57,8 @@ export function registerDbIpc () {
       data.Description,
       data.Screenshot,
       data.GalaxyIndex,
-      data.Tag
+      data.Tag,
+      data.Biome ?? null
     );
     return info.lastInsertRowid;
   });
@@ -77,8 +80,9 @@ export function registerDbIpc () {
         Description = ?,
         Screenshot = ?,
         GalaxyIndex = ?,
-        Tag = ?
-        WHERE id = ?
+        Tag = ?,
+        Biome = ?
+      WHERE id = ?
     `);
     const info = stmt.run(
       data.GalaxyName,
@@ -88,6 +92,7 @@ export function registerDbIpc () {
       data.Screenshot,
       data.GalaxyIndex,
       data.Tag,
+      data.Biome ?? null,
       id
     );
     return info.changes;
@@ -105,7 +110,7 @@ export function registerDbIpc () {
       const terms = search.split(/\s+/).filter(Boolean);
 
       const whereClauses = terms
-        .map((_, i) => `(Description LIKE @term${i} OR Tag LIKE @term${i} OR GalaxyName LIKE @term${i})`)
+        .map((_, i) => `(Description LIKE @term${i} OR Tag LIKE @term${i} OR GalaxyName LIKE @term${i} OR Biome LIKE @term${i})`)
         .join(' AND ');
 
       const params: Record<string, string | number> = { limit: pageSize, offset };
@@ -114,25 +119,25 @@ export function registerDbIpc () {
       });
 
       const sql = `
-      SELECT * FROM locations
-      WHERE ${whereClauses}
-      ORDER BY ID DESC
-      LIMIT @limit OFFSET @offset
-    `;
+        SELECT * FROM locations
+        WHERE ${whereClauses}
+        ORDER BY ID DESC
+        LIMIT @limit OFFSET @offset
+      `;
 
       const sqlCount = `
-      SELECT COUNT(*) as count FROM locations
-      WHERE ${whereClauses}
-    `;
+        SELECT COUNT(*) as count FROM locations
+        WHERE ${whereClauses}
+      `;
 
       rows = db.prepare(sql).all(params);
       totalRow = db.prepare(sqlCount).get(params);
     } else {
       rows = db.prepare(`
-      SELECT * FROM locations
-      ORDER BY ID DESC
-      LIMIT ? OFFSET ?
-    `).all(pageSize, offset);
+        SELECT * FROM locations
+        ORDER BY ID DESC
+        LIMIT ? OFFSET ?
+      `).all(pageSize, offset);
 
       totalRow = db.prepare('SELECT COUNT(*) as count FROM locations').get();
     }
@@ -147,16 +152,16 @@ export function registerDbIpc () {
     const likeTerm = `%${term}%`;
 
     const rows = db.prepare(`
-    SELECT * FROM locations
-    WHERE Description LIKE ? OR Tag LIKE ?
-    ORDER BY ID DESC
-    LIMIT ? OFFSET ?
-  `).all(likeTerm, likeTerm, pageSize, offset);
+      SELECT * FROM locations
+      WHERE Description LIKE ? OR Tag LIKE ? OR Biome LIKE ? OR GalaxyName LIKE ?
+      ORDER BY ID DESC
+      LIMIT ? OFFSET ?
+    `).all(likeTerm, likeTerm, likeTerm, likeTerm, pageSize, offset);
 
     const totalRow = db.prepare(`
-    SELECT COUNT(*) as count FROM locations
-    WHERE Description LIKE ? OR Tag LIKE ?
-  `).get(likeTerm, likeTerm) as { count: number };
+      SELECT COUNT(*) as count FROM locations
+      WHERE Description LIKE ? OR Tag LIKE ? OR Biome LIKE ? OR GalaxyName LIKE ?
+    `).get(likeTerm, likeTerm, likeTerm, likeTerm) as { count: number };
     const total = totalRow.count;
 
     return { rows, total, page, pageSize };
@@ -164,20 +169,31 @@ export function registerDbIpc () {
 
   ipcMain.handle('DB-GALAXIES', () => {
     const rows = db.prepare(`
-    SELECT DISTINCT GalaxyName
-    FROM locations
-    ORDER BY GalaxyName ASC
-  `).all();
+      SELECT DISTINCT GalaxyName
+      FROM locations
+      ORDER BY GalaxyName ASC
+    `).all();
 
     return rows;
   });
 
   ipcMain.handle('DB-TAGS', () => {
     const rows = db.prepare(`
-    SELECT DISTINCT Tag
-    FROM locations
-    ORDER BY Tag ASC
-  `).all();
+      SELECT DISTINCT Tag
+      FROM locations
+      ORDER BY Tag ASC
+    `).all();
+
+    return rows;
+  });
+
+  ipcMain.handle('DB-BIOMES', () => {
+    const rows = db.prepare(`
+      SELECT DISTINCT Biome
+      FROM locations
+      WHERE Biome IS NOT NULL
+      ORDER BY Biome ASC
+    `).all();
 
     return rows;
   });

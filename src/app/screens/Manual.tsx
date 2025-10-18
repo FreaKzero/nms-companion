@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { confirmModal } from '../components/ConfirmModal';
+import { FormBiomeInput } from '../components/FormBiomeInput';
 import { FormDropdown } from '../components/FormDropdown';
 import { FormGlyphInput } from '../components/FormGlyphInput';
 import { FormHidden } from '../components/FormHidden';
@@ -22,6 +23,7 @@ type FormValues = {
   Description: string;
   Screenshot: string;
   Tag: string;
+  Biome: string;
 };
 
 function ManualPage () {
@@ -150,6 +152,11 @@ function ManualPage () {
               <p className='text-indigo-500 text-sm'>{errors.PortalCode.message}</p>
             )}
           </div>
+          <FormBiomeInput
+            label='Biome'
+            id='Biome'
+            register={register('Biome')}
+          />
           <div>
             <FormDropdown
               label='Tag'

@@ -1,7 +1,10 @@
+import { ListState } from '@/ipc/dbIPC';
+
 import React, { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { FormBiomeInput } from '../components/FormBiomeInput';
 import { FormDropdown } from '../components/FormDropdown';
 import { FormGlyphInput } from '../components/FormGlyphInput';
 import { FormHidden } from '../components/FormHidden';
@@ -9,7 +12,7 @@ import { FormInput } from '../components/FormInput';
 import { FormScreenShotPaster, ScreenshotValue } from '../components/FormScreenShotPaster';
 import { FormTextArea } from '../components/FormTextArea';
 import Loader from '../components/Loader';
-import useListStore, { ListState } from '../stores/useListStore';
+import useListStore from '../stores/useListStore';
 import useMetaStore from '../stores/useMetaStore';
 import usePositionStore from '../stores/usePositionStore';
 import { useAutoRefreshStore } from '../stores/useRefreshStore';
@@ -83,6 +86,12 @@ function CurrentPage () {
               required: 'Portal code is required',
               validate: (value) => value?.length === 12 || 'Portal code must be exactly 12 characters'
             })}
+          />
+
+          <FormBiomeInput
+            label='Biome'
+            id='Biome'
+            register={register('Biome')}
           />
 
           <div>
