@@ -1,174 +1,227 @@
 [
-    {
-      "name": "Lush",
-      "altname": [
-        "Rainy",
-        "Verdant",
-        "Tropical",
-        "Viridescent",
-        "Paradise",
-        "Temperate",
-        "Humid",
-        "Overgrown",
-        "Flourishing",
-        "Grassy",
-        "Bountiful"
-      ]
-    },
-    {
-      "name": "Barren",
-      "altname": [
-        "Barren",
-        "Desert",
-        "Rocky",
-        "Bleak",
-        "Parched",
-        "Abandoned",
-        "Dusty",
-        "Desolate",
-        "Wind-swept"
-      ]
-    },
-    {
-      "name": "Dead",
-      "altname": [
-        "Terraforming Catastrophe",
-        "Dead",
-        "Empty",
-        "Desolate",
-        "Lifeless",
-        "Forsaken",
-        "Life-Incompatible",
-        "Low Atmosphere",
-        "Airless",
-        "Abandoned"
-      ]
-    },
-    {
-      "name": "Scorched",
-      "altname": [
-        "Charred",
-        "Arid",
-        "Scorched",
-        "Hot",
-        "Fiery",
-        "Boiling",
-        "High Temperature",
-        "Torrid",
-        "Incandescent",
-        "Scalding"
-      ]
-    },
-    {
-      "name": "Frozen",
-      "altname": [
-        "Frozen",
-        "Icebound",
-        "Arctic",
-        "Glacial",
-        "Sub-zero",
-        "Icy",
-        "Frostbound",
-        "Freezing",
-        "Hiemal",
-        "Hyperborean"
-      ]
-    },
-    {
-      "name": "Toxic",
-      "altname": [
-        "Toxic",
-        "Poisonous",
-        "Noxious",
-        "Corrosive",
-        "Acidic",
-        "Caustic",
-        "Acrid",
-        "Blighted",
-        "Miasmatic",
-        "Rotting"
-      ]
-    },
-    {
-      "name": "Irradiated",
-      "altname": [
-        "Irradiated",
-        "Radioactive",
-        "Contaminated",
-        "Nuclear",
-        "Isotopic",
-        "Decaying Nuclear",
-        "Gamma-Intensive",
-        "High Radio Source",
-        "Supercritical",
-        "High Energy"
-      ]
-    },
-    {
-      "name": "Marsh",
-      "altname": [
-        "Marshy",
-        "Swamp",
-        "Tropical",
-        "Foggy",
-        "Misty",
-        "Boggy",
-        "Endless Morass",
-        "Quagmire",
-        "Hazy",
-        "Cloudy",
-        "Vapour",
-        "Reeking",
-        "Murky",
-        "Damp"
-      ]
-    },
-    {
-      "name": "Volcanic",
-      "altname": [
-        "Lava",
-        "Magma",
-        "Erupting",
-        "Volcanic",
-        "Ash-Shrouded",
-        "Ashen",
-        "Tectonic",
-        "Unstable",
-        "Violent",
-        "Molten",
-        "Flame-Ruptured",
-        "Imminent Core Detonation",
-        "Obsidian Bead",
-        "Basalt"
-      ]
-    },
-    {
-      "name": "Mega Exotic",
-      "altname": [
-        "Crimson",
-        "Planetary Anomaly",
-        "Lost Red",
-        "Lost Green",
-        "Lost Blue",
-        "[REDACTED]",
-        "Stellar Corruption Detected",
-        "Chromatic Fog",
-        "Vile Anomaly",
-        "Vermillion Globe",
-        "Toxic Anomaly",
-        "Frozen Anomaly",
-        "Harsh Blue Globe",
-        "Scarlet",
-        "Doomed Jade",
-        "Azure",
-        "Blood",
-        "Haunted Emeril",
-        "Cerulean",
-        "Wine Dark",
-        "Deathly Green Anomaly",
-        "Ultramarine"
-      ]
-    }
+  {
+    "name": "Lush",
+    "altname": [
+      "Rainy",
+      "Verdant",
+      "Tropical",
+      "Viridescent",
+      "Paradise",
+      "Temperate",
+      "Humid",
+      "Overgrown",
+      "Flourishing",
+      "Grassy",
+      "Bountiful"
+    ]
+  },
+  {
+    "name": "Barren",
+    "altname": [
+      "Barren",
+      "Desert",
+      "Rocky",
+      "Bleak",
+      "Parched",
+      "Dusty",
+      "Wind-swept"
+    ]
+  },
+  {
+    "name": "Dead",
+    "altname": [
+      "Terraforming Catastrophe",
+      "Dead",
+      "Empty",
+      "Desolate",
+      "Lifeless",
+      "Forsaken",
+      "Life-Incompatible",
+      "Low Atmosphere",
+      "Airless",
+      "Abandoned"
+    ]
+  },
+  {
+    "name": "Scorched",
+    "altname": [
+      "Charred",
+      "Arid",
+      "Scorched",
+      "Hot",
+      "Fiery",
+      "Boiling",
+      "High Temperature",
+      "Torrid",
+      "Incandescent",
+      "Scalding"
+    ]
+  },
+  {
+    "name": "Frozen",
+    "altname": [
+      "Frozen",
+      "Icebound",
+      "Arctic",
+      "Glacial",
+      "Sub-zero",
+      "Icy",
+      "Frostbound",
+      "Freezing",
+      "Hiemal",
+      "Hyperborean"
+    ]
+  },
+  {
+    "name": "Toxic",
+    "altname": [
+      "Toxic",
+      "Poisonous",
+      "Noxious",
+      "Corrosive",
+      "Acidic",
+      "Caustic",
+      "Acrid",
+      "Blighted",
+      "Miasmatic",
+      "Rotting"
+    ]
+  },
+  {
+    "name": "Irradiated",
+    "altname": [
+      "Irradiated",
+      "Radioactive",
+      "Contaminated",
+      "Nuclear",
+      "Isotopic",
+      "Decaying Nuclear",
+      "Gamma-Intensive",
+      "High Radio Source",
+      "Supercritical",
+      "High Energy"
+    ]
+  },
+  {
+    "name": "Marsh",
+    "altname": [
+      "Marshy",
+      "Swamp",
+      "Foggy",
+      "Misty",
+      "Boggy",
+      "Endless Morass",
+      "Quagmire",
+      "Hazy",
+      "Cloudy",
+      "Vapour",
+      "Reeking",
+      "Murky",
+      "Damp"
+    ]
+  },
+  {
+    "name": "Volcanic",
+    "altname": [
+      "Lava",
+      "Magma",
+      "Erupting",
+      "Volcanic",
+      "Ash-Shrouded",
+      "Ashen",
+      "Tectonic",
+      "Unstable",
+      "Violent",
+      "Molten",
+      "Flame-Ruptured",
+      "Imminent Core Detonation",
+      "Obsidian Bead",
+      "Basalt"
+    ]
+  },
+  {
+    "name": "Mega Exotic",
+    "altname": [
+      "Planetary Anomaly",
+      "Lost Red",
+      "Lost Green",
+      "Lost Blue",
+      "Stellar Corruption Detected",
+      "Chromatic Fog",
+      "Vile Anomaly",
+      "Vermillion Globe",
+      "Toxic Anomaly",
+      "Frozen Anomaly",
+      "Harsh Blue Globe",
+      "Scarlet",
+      "Doomed Jade",
+      "Azure",
+      "Blood",
+      "Haunted Emeril",
+      "Cerulean",
+      "Wine Dark",
+      "Deathly Green Anomaly",
+      "Ultramarine"
+    ]
+  },
+  {
+    "name": "Shard Exotic",
+    "altname": ["Pillared", "Columned", "Sharded"]
+  },
+  {
+    "name": "Beams",
+    "altname": ["Fissured", "of Light", "Breached"]
+  },
+  {
+    "name": "Bone Spires",
+    "altname": ["Rattling", "Spined", "Skeletal"]
+  },
+  {
+    "name": "Bubbles",
+    "altname": ["Bubbling", "Frothing", "Foaming"]
+  },
+  {
+    "name": "Contour",
+    "altname": ["Contoured", "Cabled", "Webbed"]
+  },
+  {
+    "name": "Fract Cube",
+    "altname": ["Mechanical", "Metallic", "Metallurgic"]
+  },
+  {
+    "name": "Hexagon",
+    "altname": ["Hexagonal", "Plated", "Scaly"]
+  },
+  {
+    "name": "Hydro Garden",
+    "altname": ["Fungal", "Sporal", "Capped"]
+  },
+  {
+    "name": "Shells",
+    "altname": ["Finned", "Bladed", "Shell-Strewn"]
+  },
+  {
+    "name": "Bone Virus",
+    "altname": ["Ossified", "Petrified", "Calcified"]
+  },
+  {
+    "name": "Wire Cell",
+    "altname": ["Shattered", "Fractured", "Fragmented"]
+  },
+  {
+    "name": "Glitched",
+    "altname": [
+      "Crimson",
+      "Planetary Anomaly",
+      "Malfunctioning",
+      "Infected",
+      "[REDACTED]",
+      "Glassy",
+      "Thirsty",
+      "Doomed",
+      "Erased",
+      "Temporary",
+      "Corrupted"
+    ]
+  }
 ]
-
-
