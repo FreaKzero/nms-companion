@@ -92,7 +92,7 @@ export function registerDbIpc () {
       data.Screenshot,
       data.GalaxyIndex,
       data.Tag,
-      data.Biome ?? null,
+      data.Biome.trim().length || null,
       id
     );
     return info.changes;
