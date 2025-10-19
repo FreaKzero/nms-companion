@@ -41,14 +41,14 @@ export const routes = [
     order: 3
   },
   {
-    text: 'Add Current Location',
+    text: 'Save Current Location',
     location: '/current',
     Icon: PlusCircle,
     Component: CurrentPage,
     order: 4
   },
   {
-    text: 'Add Manual Location',
+    text: 'Save Manual Location',
     location: '/manual',
     Icon: MapPlusIcon,
     Component: LocationForm,

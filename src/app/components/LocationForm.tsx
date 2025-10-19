@@ -140,6 +140,8 @@ function LocationForm ({ editItem }: ManualPageProps) {
         <FormHidden id='ShareCode' register={register('ShareCode')} />
         <FormHidden id='ShareCode' register={register('GalaxyIndex')} />
 
+        <h2 className='font-bold font-nms text-3xl mb-8'>{editItem ? 'Update Location' : 'Save Location'}</h2>
+
         <div className='grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-2'>
           <div>
             <FormDropdown
@@ -147,7 +149,7 @@ function LocationForm ({ editItem }: ManualPageProps) {
               name='GalaxyIndex'
               control={control}
               options={galaxyOptions}
-              placeholder='Select a Galaxy ...'
+              placeholder='Search for a Galaxy'
               required='Galaxy is required'
             />
           </div>
@@ -179,7 +181,7 @@ function LocationForm ({ editItem }: ManualPageProps) {
               name='Tag'
               control={control}
               options={optionTags}
-              placeholder='Select a Galaxy ...'
+              placeholder='Search or define Tag'
               required='Tag is required'
               writeable
             />
@@ -199,7 +201,7 @@ function LocationForm ({ editItem }: ManualPageProps) {
           </div>
         </div>
 
-        <button type='submit' className='button mt-5'>
+        <button type='submit' className='button mt-10'>
           {editItem ? 'Update Location' : 'Save Location'}
         </button>
 

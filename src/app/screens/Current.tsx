@@ -70,6 +70,7 @@ function CurrentPage () {
       >
         <input type='hidden' {...register('ShareCode')} />
         <input type='hidden' {...register('GalaxyIndex')} />
+        <h2 className='font-bold font-nms text-3xl mb-8'>Save current Location</h2>
 
         <div className='grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-2'>
           <FormInput
@@ -100,6 +101,7 @@ function CurrentPage () {
               name='Tag'
               control={control}
               options={optionTags}
+              placeholder='Search or define Tag'
               writeable
               required='Tag is required'
             />
@@ -124,7 +126,7 @@ function CurrentPage () {
             )}
           </div>
         </div>
-        <button type='submit' className='button mt-5'>
+        <button type='submit' className='button mt-10'>
           Save Location
         </button>
       </form>

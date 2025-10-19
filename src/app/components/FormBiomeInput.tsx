@@ -105,7 +105,7 @@ export const FormBiomeInput: React.FC<FormBiomeInputProps> = ({
                 onChange={(e) => handleInputChange(e.target.value)}
                 onKeyDown={handleKeyDown}
                 onFocus={() => setOpen(true)}
-                placeholder={placeholder || 'Search Biome...'}
+                placeholder={placeholder || 'Search Biome'}
                 className='input-text pr-16'
               />
 
