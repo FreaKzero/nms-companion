@@ -4,6 +4,7 @@ import { Controller, Control } from 'react-hook-form';
 
 import BIOME_DATA from '../mappings/biomes.json';
 
+// https://www.reddit.com/r/NoMansSkyTheGame/comments/1im3zuk/biome_list_for_whoever_wants_it/
 interface FormBiomeInputProps {
   label: string;
   name: string;

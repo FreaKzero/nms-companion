@@ -7,6 +7,7 @@ export interface redditFeed {
   published: Date;
   content: string;
   imageUrl?: string;
+  isNew: boolean;
 }
 
 function decodeHtmlEntities (str: string): string {
@@ -52,7 +53,7 @@ export function purify (raw: string): string {
   return raw;
 }
 
-export function parseRSS (xml: string) {
+export function parseRSS (xml: string, lastRead: Date) {
   const entries = xml.split(/<\/entry>/).slice(0, -1);
 
   return entries.map((e: string): redditFeed => {
@@ -63,12 +64,15 @@ export function parseRSS (xml: string) {
     const imgMatch = content.match(/<img[^>]+src="(https:\/\/b\.thumbs\.redditmedia\.com\/[^"?]+)"/i);
     const imageUrl = imgMatch ? imgMatch[1] : undefined;
 
+    const published = new Date((e.match(/<updated>([^<]+)<\/updated>/) || [])[1] || '');
+
     return {
       title: decodeHtmlEntities((e.match(/<title[^>]*>([^<]+)<\/title>/) || [])[1] || ''),
       author: (e.match(/<name>([^<]+)<\/name>/) || [])[1] || '',
       link: (e.match(/<link[^>]*href="([^"]+)"/) || [])[1] || '',
-      published: new Date((e.match(/<updated>([^<]+)<\/updated>/) || [])[1] || ''),
+      published,
       content: purify(content),
+      isNew: published.getTime() < lastRead.getTime(),
       imageUrl
     };
   });

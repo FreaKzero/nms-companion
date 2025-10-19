@@ -38,7 +38,7 @@ const useRedditStore = create<RedditStoreState>()((set, get) => ({
     set({ loading: true, error: false });
 
     try {
-      const entries: redditFeed[] = await electron.ipcRenderer.invoke('GET_REDDIT');
+      const entries: redditFeed[] = await electron.ipcRenderer.invoke('GET_REDDIT', loadLastRead());
       const newEntries = entries.filter((item) => get().lastRead.getTime() <= item.published.getTime()).length;
 
       set({ entries, newEntries, loading: false, error: false });

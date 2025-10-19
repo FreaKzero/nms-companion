@@ -34,9 +34,9 @@ const registerSystemIpc = () => {
     shell.openExternal(url);
   });
 
-  ipcMain.handle('GET_REDDIT', async () => {
+  ipcMain.handle('GET_REDDIT', async (_ev, lastRead: Date) => {
     const xml = await fetchReddit('NMSCoordinateExchange');
-    const posts = parseRSS(xml);
+    const posts = parseRSS(xml, lastRead);
     const cleanposts = posts.sort((a, b) => {
       return b.published.getTime() - a.published.getTime();
     }).slice(1);

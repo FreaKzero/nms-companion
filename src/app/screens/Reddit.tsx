@@ -1,6 +1,6 @@
 import noscreen from 'assets/noscreen.png';
 
-import { FileWarning, RefreshCcw } from 'lucide-react';
+import { FileWarning, RefreshCcw, ExternalLink } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 import { openCustomModal } from '../components/CustomModal';
@@ -39,20 +39,35 @@ const Thumbnail: React.FC<{ screen?: string; alt: string; onClick: () => void }>
 
 const RedditPost: React.FC<redditFeed & {
   onSelect: (title: string, link: string, content: string) => void;
-}> = ({ title, author, imageUrl, link, published, content, onSelect }) => (
-  <div className='flex flex-col gap-3 py-4 hover:bg-gray-800 transition rounded-lg px-2'>
-    <div className='flex gap-4'>
-      <Thumbnail screen={imageUrl} alt={title} onClick={() => onSelect(title, link, content)} />
-      <div className='flex-1'>
-        <h3 className='font-nms text-indigo-400 hover:text-indigo-300 font-bold text-2xl cursor-pointer transition-colors duration-300' onClick={() => onSelect(title, link, content)}>
-          {title}
-        </h3>
-        <span className='text-sm text-gray-400'>from: {author} • published {getRelativeTime(published)} </span>
+}> = ({ title, author, imageUrl, link, published, content, isNew, onSelect }) => {
+  const openInBrowser = () => electron.ipcRenderer.invoke('OPEN_URL', link);
+  const titleColor = isNew ? 'text-indigo-400 hover:text-indigo-300' : 'text-amber-400 hover:text-amber-300';
 
+  return (
+    <div className='flex flex-col gap-3 py-4 hover:bg-gray-800 transition rounded-lg px-2 relative'>
+      <div className='flex gap-4'>
+        <Thumbnail screen={imageUrl} alt={title} onClick={() => onSelect(title, link, content)} />
+        <div className='flex-1'>
+          <h3
+            className={`font-nms font-bold text-2xl cursor-pointer transition-colors duration-300 ${titleColor}`}
+            onClick={() => onSelect(title, link, content)}
+          >
+            {title}
+          </h3>
+          <span className='text-sm text-gray-400'><strong>From:</strong> {author} • <strong>published:</strong> {getRelativeTime(published)}</span>
+          <div className='mt-3 text-sm'>{content.substring(0, 200)} {content.length > 200 ? '...' : ''}</div>
+        </div>
+      </div>
+      <div className='absolute bottom-2 right-2'>
+        <button
+          className='cursor-pointer'
+          onClick={openInBrowser}
+        > <ExternalLink size='20' className='text-indigo-400 hover:text-indigo-500 transition duration-250' />
+        </button>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default function RedditPage () {
   const entries = useRedditStore((s) => s.entries);
