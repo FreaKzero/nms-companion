@@ -58,7 +58,8 @@ export function registerDbIpc () {
       data.Screenshot,
       data.GalaxyIndex,
       data.Tag,
-      data.Biome ?? null
+      data.Biome && data.Biome.trim().length ? data.Biome.trim() : null
+
     );
     return info.lastInsertRowid;
   });
@@ -92,7 +93,7 @@ export function registerDbIpc () {
       data.Screenshot,
       data.GalaxyIndex,
       data.Tag,
-      data.Biome.trim().length ? data.Biome.trim() : null,
+      data.Biome && data.Biome.trim().length ? data.Biome.trim() : null,
       id
     );
     return info.changes;

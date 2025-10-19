@@ -62,7 +62,7 @@ const RedditPost: React.FC<redditFeed & {
         <button
           className='cursor-pointer'
           onClick={openInBrowser}
-        > <ExternalLink size='20' className='text-indigo-400 hover:text-indigo-500 transition duration-250' />
+        > <ExternalLink size='20' className={`transition duration-250 ${titleColor}`} />
         </button>
       </div>
     </div>
