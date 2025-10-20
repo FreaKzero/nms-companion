@@ -4,7 +4,7 @@
     "fish": "Singing Sea-Snail",
     "biome": "All",
     "onlyNight": false,
-    "done": false,
+    "done": true,
     "value": "50.000",
     "size": "Small"
   },
@@ -13,7 +13,7 @@
     "fish": "Golden Jellyfish",
     "biome": "All",
     "onlyNight": false,
-    "done": false,
+    "done": true,
     "value": "100.000",
     "size": "Medium"
   },
@@ -22,7 +22,7 @@
     "fish": "Dragonfish",
     "biome": "All",
     "onlyNight": false,
-    "done": false,
+    "done": true,
     "value": "150.000",
     "size": "Large"
   },
@@ -31,7 +31,7 @@
     "fish": "The Lunker",
     "biome": "All",
     "onlyNight": false,
-    "done": false,
+    "done": true,
     "value": "200.000",
     "size": "Colossal"
   },
@@ -49,7 +49,7 @@
     "fish": "Vampire Squid",
     "biome": "Toxic",
     "onlyNight": true,
-    "done": false,
+    "done": true,
     "value": "100.000",
     "size": "Medium"
   },
@@ -58,7 +58,7 @@
     "fish": "Bleached Bonefish",
     "biome": "Toxic",
     "onlyNight": false,
-    "done": false,
+    "done": true,
     "value": "150.000",
     "size": "Large"
   },
@@ -130,7 +130,7 @@
     "fish": "Mist Serpent",
     "biome": "Lush",
     "onlyNight": false,
-    "done": false,
+    "done": true,
     "value": "100.000",
     "size": "Medium"
   },
@@ -149,7 +149,7 @@
     "biome": "Scorched",
     "onlyNight": false,
     "done": false,
-    "value": "0",
+    "value": "200.000",
     "size": "Colossal"
   },
   {
@@ -158,7 +158,7 @@
     "biome": "Lush",
     "onlyNight": false,
     "done": false,
-    "value": "0",
+    "value": "200.000",
     "size": "Colossal"
   },
   {
@@ -167,7 +167,7 @@
     "biome": "Scorched",
     "onlyNight": true,
     "done": false,
-    "value": "0",
+    "value": "150.000",
     "size": "Large"
   },
   {
@@ -176,7 +176,7 @@
     "biome": "Mega exotic",
     "onlyNight": false,
     "done": false,
-    "value": "0",
+    "value": "200.000",
     "size": "Colossal"
   },
   {
@@ -184,7 +184,7 @@
     "fish": "Megalodon",
     "biome": "Barren",
     "onlyNight": false,
-    "done": false,
+    "done": true,
     "value": "0",
     "size": "Colossal"
   },
@@ -194,7 +194,7 @@
     "biome": "Scorched",
     "onlyNight": false,
     "done": false,
-    "value": "0",
+    "value": "100.000",
     "size": "Medium"
   },
   {
@@ -203,7 +203,7 @@
     "biome": "Scorched",
     "onlyNight": false,
     "done": false,
-    "value": "10.000",
+    "value": "50.000",
     "size": "Small"
   },
   {
@@ -212,7 +212,7 @@
     "biome": "All",
     "onlyNight": false,
     "done": false,
-    "value": "0",
+    "value": "1.600",
     "size": "Large",
     "onlyExpedition": true
   },
@@ -221,8 +221,8 @@
     "fish": "Leviathan Spawn",
     "biome": "Ocean",
     "onlyNight": false,
-    "done": false,
-    "value": "0",
+    "done": true,
+    "value": "200.000",
     "size": "Colossal"
   },
   {
@@ -231,15 +231,16 @@
     "biome": "Irradiated",
     "onlyNight": false,
     "done": false,
-    "value": "0",
+    "value": "150.000",
     "size": "Large"
-  },{
+  },
+  {
     "id": 27,
     "fish": "Ghostfin",
     "biome": "Frozen",
     "onlyNight": true,
     "done": false,
-    "value": "0",
+    "value": "100.000",
     "size": "Medium"
   },
   {
@@ -248,31 +249,34 @@
     "biome": "Frozen",
     "onlyNight": true,
     "done": false,
-    "value": "0",
+    "value": "150.000",
     "size": "Large"
-  }, {
+  },
+  {
     "id": 29,
     "fish": "Ossified Deinosuchus",
     "biome": "Barren",
     "onlyNight": false,
     "done": false,
-    "value": "0",
+    "value": "150.000",
     "size": "Large"
-  },{
+  },
+  {
     "id": 30,
     "fish": "Titanworm Larva",
     "biome": "Barren",
     "onlyNight": false,
     "done": false,
-    "value": "0",
+    "value": "100.000",
     "size": "Medium"
-  },{
+  },
+  {
     "id": 31,
     "fish": "Fragile Icthyoscale",
     "biome": "Barren",
     "onlyNight": false,
     "done": false,
-    "value": "0",
+    "value": "50.000",
     "size": "Small"
   },
   {
@@ -281,17 +285,19 @@
     "biome": "Ocean",
     "onlyNight": false,
     "done": false,
-    "value": "0",
+    "value": "150.000",
     "size": "Large"
-  }, {
+  },
+  {
     "id": 33,
     "fish": "Brain Eel",
     "biome": "Ocean",
     "onlyNight": false,
     "done": false,
-    "value": "0",
+    "value": "100.000",
     "size": "Medium"
-  },{
+  },
+  {
     "id": 34,
     "fish": "Sentinel Crab",
     "biome": "Ocean",
@@ -309,7 +315,8 @@
     "done": false,
     "value": "0",
     "size": "Colossal"
-  },{
+  },
+  {
     "id": 36,
     "fish": "Hyper-Cockle",
     "biome": "Gas Giant",
@@ -318,50 +325,55 @@
     "done": false,
     "value": "0",
     "size": "Large"
-  },{
+  },
+  {
     "id": 37,
     "fish": "Mother-of-Quicksilver",
     "biome": "Gas Giant",
     "onlyNight": false,
     "onlyDay": false,
     "done": false,
-    "value": "0",
+    "value": "100.000",
     "size": "Medium"
-  },{
+  },
+  {
     "id": 38,
     "fish": "Mandelbrot Worm",
     "biome": "Gas Giant",
     "onlyNight": false,
     "onlyDay": false,
     "done": false,
-    "value": "0",
+    "value": "50.000",
     "size": "Small"
-  },{
+  },
+  {
     "id": 39,
     "fish": "Child of Helios",
     "biome": "Mega exotic",
     "onlyNight": false,
     "onlyDay": false,
-    "done": false,
-    "value": "0",
+    "done": true,
+    "value": "150.000",
     "size": "Large"
-  }, {
+  },
+  {
     "id": 40,
     "fish": "Atlantidian Crab",
     "biome": "Mega exotic",
     "onlyNight": false,
     "onlyDay": false,
     "done": false,
-    "value": "0",
+    "value": "100.000",
     "size": "Medium"
-  }, {
+  },
+  {
     "id": 41,
     "fish": "Abyssal Horror Egg",
     "biome": "Mega exotic",
     "onlyNight": false,
     "onlyDay": false,
-    "done": false,
-    "value": "0",
+    "done": true,
+    "value": "50.000",
     "size": "Small"
   }
 ]

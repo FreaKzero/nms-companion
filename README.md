@@ -16,6 +16,7 @@
     - In Singleplayer automatically parses your position to the correct glyph Portalcode and fills out the correct galaxy
 - **Missions Dashboard**: View the current status of your settlements and frigate missions.
 - **Manual Timers**: Set Manual Timers for Eggs or other things
+- **Legendary Fish Tracker**: Todo/Tracklist for your Legendary Fishes, information about prices and biomes from [here](https://steamcommunity.com/sharedfiles/filedetails/?id=3331441951) and [nomansskyresources](https://www.nomansskyresources.com/)
 - **NMS Coordinates Feed**: RSS Feedreader for the [NMSCoordinateExchange](https://www.reddit.com/r/NMSCoordinateExchange/) Reddit
 
 ![Screenshot of No Man's Sky Companion](screenshots/2.PNG)
@@ -23,6 +24,7 @@
 ![Screenshot of No Man's Sky Companion](screenshots/4.PNG)
 ![Screenshot of No Man's Sky Companion](screenshots/5.PNG)
 ![Screenshot of No Man's Sky Companion](screenshots/6.PNG)
+![Screenshot of No Man's Sky Companion](screenshots/7.PNG)
 
 ## License
 [MIT License]  
