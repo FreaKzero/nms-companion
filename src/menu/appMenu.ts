@@ -3,10 +3,43 @@ import { emitEvent } from '@/webContents';
 
 const MenuItems: Electron.MenuItemConstructorOptions[] = [
   {
-    label: 'Reactronite',
+    label: 'App',
     submenu: [
       {
-        label: 'About Reactronite'
+        id: 'missions',
+        label: 'Missions',
+        click: () => emitEvent('MENU-ROUTE', '/'),
+        accelerator: 'F1'
+      },
+      {
+        id: 'locations',
+        label: 'Locations',
+        click: () => emitEvent('MENU-ROUTE', '/list'),
+        accelerator: 'F2'
+      },
+      {
+        id: 'saveCurrent',
+        label: 'Save Current Location',
+        click: () => emitEvent('MENU-ROUTE', '/current'),
+        accelerator: 'F3'
+      },
+      {
+        id: 'saveManual',
+        label: 'Save Manual Location',
+        click: () => emitEvent('MENU-ROUTE', '/manual'),
+        accelerator: 'F4'
+      },
+      {
+        id: 'reddit',
+        label: 'Reddit Feed',
+        click: () => emitEvent('MENU-ROUTE', '/reddit'),
+        accelerator: 'F5'
+      },
+      {
+        id: 'fish',
+        label: 'Legendary Fish Tracker',
+        click: () => emitEvent('MENU-ROUTE', '/fish'),
+        accelerator: 'F6'
       },
       {
         type: 'separator'
@@ -55,16 +88,6 @@ const MenuItems: Electron.MenuItemConstructorOptions[] = [
         label: 'Toogle Developer Tools',
         role: 'toggleDevTools',
         accelerator: 'CmdOrCtrl+Shift+I'
-      }
-    ]
-  },
-  {
-    label: 'Authors',
-    submenu: [
-      {
-        id: MenuChannels.OPEN_GITHUB_PROFILE,
-        label: 'flaviodelgrosso',
-        click: emitEvent(MenuChannels.OPEN_GITHUB_PROFILE, 'flaviodelgrosso')
       }
     ]
   }
