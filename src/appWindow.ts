@@ -6,6 +6,7 @@ import { BrowserWindow, Menu, app } from 'electron';
 
 import { registerDbIpc } from './ipc/dbIPC';
 import { registerDialogIpc } from './ipc/dialogIPC';
+import registerFishTrackerIpc from './ipc/fishtrackerIPC';
 import registerNmsIpc from './ipc/nmsIPC';
 import registerSystemIpc from './ipc/systemIPC';
 
@@ -78,6 +79,7 @@ function registerMainIPC () {
    */
   registerNmsIpc();
   registerDbIpc();
+  registerFishTrackerIpc();
   registerDialogIpc(appWindow);
   registerSystemIpc();
 }

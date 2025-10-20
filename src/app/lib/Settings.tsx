@@ -61,6 +61,14 @@ function SettingsPage () {
             control={control}
             onlyPath
           />
+
+          <FormFilePicker
+            label='Fishtracker File'
+            name='fishtrackerFile'
+            control={control}
+            onlyPath
+          />
+
         </div>
         <button
           type='submit'

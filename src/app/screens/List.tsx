@@ -15,6 +15,7 @@ import { TagList } from '../components/TagList';
 import { Nullable } from '../stores/apiInterfaces';
 import useListStore from '../stores/useListStore';
 import useMetaStore from '../stores/useMetaStore';
+import { useAutoRefreshStore } from '../stores/useRefreshStore';
 interface EnhancedListState extends ListState {
   onDelete?: (key: number) => Promise<void>;
   onCopy?: (portalCode: string) => void;
@@ -133,11 +134,14 @@ function ListPage () {
   const getGalaxies = useMetaStore((s) => s.getGalaxies);
   const getBiomes = useMetaStore((s) => s.getBiomes);
 
+  const startAutoRefresh = useAutoRefreshStore((s) => s.start);
+
   const optionGalaxies = useMetaStore((s) => s.optionGalaxies);
   const optionBiomes = useMetaStore((s) => s.optionBiomes);
   const nav = useNavigate();
 
   useEffect(() => {
+    startAutoRefresh();
     getGalaxies(true);
     getBiomes(true);
     getPage(1, pageSize);

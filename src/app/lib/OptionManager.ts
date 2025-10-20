@@ -8,6 +8,7 @@ export interface OptionManagerType {
   locationThumbDir: string;
   databasePath: string;
   charName: string;
+  fishtrackerFile: string;
 }
 
 const BASE_DIR = path.join(app.getPath('home'), '.nms-log');
@@ -16,6 +17,7 @@ const DEFAULT: OptionManagerType = {
   savePath: '',
   locationThumbDir: path.join(BASE_DIR, 'thumbs'),
   databasePath: path.join(BASE_DIR, 'nms-log.sqlite'),
+  fishtrackerFile: path.join(BASE_DIR, 'fishtracker.json'),
   charName: ''
 };
 

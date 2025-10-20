@@ -110,11 +110,12 @@ export const createSettlementMissions = (BaseContext: BaseContext, owner: string
           Settlement_LandingZone: 3600,
           Settlement_Market: 7200,
           Settlement_SmallIndustrial: 1200,
+          Settlement_Factory: 5730,
           DroneHive: null,
           Settlement_FishPond: 1200,
           Settlement_Bar: 3600,
           Settlement_Tower: 3600,
-          Settlement_Farm: 5580,
+          Settlement_Farm: 5730,
           Settlement_Double: 3600
         };
 

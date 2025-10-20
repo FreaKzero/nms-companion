@@ -11,6 +11,7 @@ const defState: OptionManagerType = {
   savePath: '',
   locationThumbDir: '',
   databasePath: '',
+  fishtrackerFile: '',
   charName: ''
 };
 

@@ -1,10 +1,11 @@
-import { PlusCircle, ListChecksIcon, MapPlusIcon, SettingsIcon, MapPinIcon, TestTube, Rss } from 'lucide-react';
+import { PlusCircle, ListChecksIcon, MapPlusIcon, SettingsIcon, MapPinIcon, TestTube, Rss, FishIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import LocationForm from './components/LocationForm';
 import SettingsPage from './lib/Settings';
 import CurrentPage from './screens/Current';
 import EditLocationPage from './screens/EditLocation';
+import FishTrackerPage from './screens/Fishtracker';
 import ListPage from './screens/List';
 import MissionsPage from './screens/Missions';
 import RedditPage from './screens/Reddit';
@@ -28,6 +29,13 @@ export const routes = [
     Component: MissionsPage,
     order: 1,
     index: true
+  },
+  {
+    text: 'Legendary Fishtracker',
+    location: '/fish',
+    Icon: FishIcon,
+    Component: FishTrackerPage,
+    order: 1.5
   },
   {
     text: 'Locations',
