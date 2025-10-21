@@ -9,11 +9,32 @@ import { FormInput } from '../components/FormInput';
 import useFishStore from '../stores/useFishStore';
 import { useAutoRefreshStore } from '../stores/useRefreshStore';
 
+interface TempBiomeRecord {
+  biome: string;
+  done: FishType[];
+}
+
 interface FishProps extends FishType {
   toggleDone: (id: number) => void;
   onTagClick: (biome: string) => void;
 }
 
+// @TODO research depths for Ocean and Gasgiant Biomes
+const getDepth = (size: string) => {
+  switch (size) {
+    case 'Small':
+      return 25;
+    case 'Medium':
+      return 50;
+    case 'Large':
+      return 70;
+    case 'Colossal':
+      return 80;
+    default:
+      return 0;
+      break;
+  }
+};
 const Fish: React.FC<FishProps> = ({ id, fish, biome, onlyNight, onlyDay, onlyExpedition, done, value, size, toggleDone, onTagClick }) => {
   const addClass = done ? 'line-through text-gray-500' : '';
   return (
@@ -31,8 +52,23 @@ const Fish: React.FC<FishProps> = ({ id, fish, biome, onlyNight, onlyDay, onlyEx
       <div className={`flex-1 font-semibold text-indigo-400 hover:text-indigo-300 text-sm text-left min-w-[80px] cursor-pointer transition duration-200 ${addClass}`} onClick={() => onTagClick(biome)}>
         {biome}
       </div>
+
       <div className={`text-gray-300 text-sm text-left min-w-[180px] ${addClass}`}>
-        {size}
+        <div className='relative group inline-block cursor-help'>
+          <span>{size}</span>
+          <span
+            className='
+            absolute left-1/2 -translate-x-1/2 -top-6
+            bg-gray-700 text-xs font-bold px-2 py-1 rounded-md whitespace-nowrap
+            opacity-0 group-hover:opacity-100 group-hover:-translate-y-1
+            pointer-events-none transition-all duration-150
+            shadow-md
+          '
+          >
+            Fish in atleast {getDepth(size)}u depth
+          </span>
+        </div>
+
       </div>
       <div className={`text-gray-300 text-sm text-right min-w-[100px] ${addClass}`}>
         {value}
@@ -57,8 +93,11 @@ function FishTrackerPage () {
   const [searchText, setSearchText] = useState('');
   const [searchBiome, setSearchBiome] = useState('');
 
-  const biomeOptions = Array.from(new Set(fishes.map((f) => f.biome))).map((b) => ({ label: b, value: b }));
-
+  const biomeOptions = Object.values(fishes.reduce((acc, fish) => {
+    if (!acc[fish.biome]) acc[fish.biome] = { biome: fish.biome, done: [] };
+    if (fish.done) acc[fish.biome].done.push(fish);
+    return acc;
+  }, {} as Record<string, TempBiomeRecord>)).map((b) => ({ label: `${b.biome} ${b.done.length}/4`, value: b.biome }));
   useEffect(() => {
     getFishes();
     startAutoRefresh();
