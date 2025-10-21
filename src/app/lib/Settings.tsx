@@ -16,6 +16,7 @@ function SettingsPage () {
   useEffect(() => {
     const getSettings = async () => {
       const settings = await electron.ipcRenderer.invoke('GET_SETTINGS');
+      setValue('fishtrackerFile', settings.fishtrackerFile, { shouldValidate: true, shouldDirty: true });
       setValue('savePath', settings.savePath, { shouldValidate: true, shouldDirty: true });
       setValue('locationThumbDir', settings.locationThumbDir, { shouldValidate: true, shouldDirty: true });
       setValue('databasePath', settings.databasePath, { shouldValidate: true, shouldDirty: true });

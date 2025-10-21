@@ -1,7 +1,7 @@
 import { FishType } from '@/ipc/fishtrackerIPC';
 import units from 'assets/units.png';
 
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 
 import { FormCheckbox } from '../components/FormCheckbox';
 import { FormDropdown } from '../components/FormDropdown';
@@ -11,7 +11,7 @@ import { useAutoRefreshStore } from '../stores/useRefreshStore';
 
 interface TempBiomeRecord {
   biome: string;
-  done: FishType[];
+  done: number;
 }
 
 interface FishProps extends FishType {
@@ -94,10 +94,11 @@ function FishTrackerPage () {
   const [searchBiome, setSearchBiome] = useState('');
 
   const biomeOptions = Object.values(fishes.reduce((acc, fish) => {
-    if (!acc[fish.biome]) acc[fish.biome] = { biome: fish.biome, done: [] };
-    if (fish.done) acc[fish.biome].done.push(fish);
+    if (!acc[fish.biome]) acc[fish.biome] = { biome: fish.biome, done: 0 };
+    if (fish.done) acc[fish.biome].done++;
     return acc;
-  }, {} as Record<string, TempBiomeRecord>)).map((b) => ({ label: `${b.biome} ${b.done.length}/4`, value: b.biome }));
+  }, {} as Record<string, TempBiomeRecord>)).map((b) => ({ label: `${b.biome} ${b.done}/4`, value: b.biome }));
+
   useEffect(() => {
     getFishes();
     startAutoRefresh();
@@ -105,6 +106,10 @@ function FishTrackerPage () {
 
   const handleTagClick = (biome: string) => setSearchBiome(biome);
 
+  const handleOnChangeBiome = (value: string) => {
+    setSearchText('');
+    setSearchBiome(value);
+  };
   const fishDone = fishes.filter((a) => a.done === true).length;
 
   const filteredFishes = fishes.filter((fish) => {
@@ -135,7 +140,7 @@ function FishTrackerPage () {
             label='Biome'
             name='searchBiome'
             options={biomeOptions}
-            onChange={(value: string) => setSearchBiome(value)}
+            onChange={(value: string) => handleOnChangeBiome(value)}
           />
         </div>
 
