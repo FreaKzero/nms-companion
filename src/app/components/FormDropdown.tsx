@@ -16,6 +16,7 @@ interface FormDropdownProps {
   disabled?: boolean;
   writeable?: boolean;
   required?: string;
+  displayValue?: string;
   onChange?: (value: string | number) => void;
 }
 
@@ -28,6 +29,7 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
   disabled = false,
   writeable = false,
   required,
+  displayValue,
   onChange
 }) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -53,6 +55,13 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
     useEffect(() => {
       setValue(inputValue);
     }, []);
+
+    useEffect(() => {
+      if (displayValue) {
+        setSearch(displayValue);
+      }
+    }, [displayValue]);
+
     const filtered = options.filter((opt) => opt.label.toLowerCase().includes(search.toLowerCase()));
 
     const isCustomValue = writeable && value && !options.some((o) => o.value === value);

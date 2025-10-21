@@ -11,9 +11,10 @@ import { useAutoRefreshStore } from '../stores/useRefreshStore';
 
 interface FishProps extends FishType {
   toggleDone: (id: number) => void;
+  onTagClick: (biome: string) => void;
 }
 
-const Fish: React.FC<FishProps> = ({ id, fish, biome, onlyNight, onlyDay, onlyExpedition, done, value, size, toggleDone }) => {
+const Fish: React.FC<FishProps> = ({ id, fish, biome, onlyNight, onlyDay, onlyExpedition, done, value, size, toggleDone, onTagClick }) => {
   const addClass = done ? 'line-through text-gray-500' : '';
   return (
     <div className='flex items-center justify-between py-3 px-3 hover:bg-gray-800 transition rounded-lg'>
@@ -27,10 +28,10 @@ const Fish: React.FC<FishProps> = ({ id, fish, biome, onlyNight, onlyDay, onlyEx
         />
       </div>
 
-      <div className={`flex-1 text-gray-300 text-sm text-left min-w-[100px] ${addClass}`}>
+      <div className={`flex-1 font-semibold text-indigo-400 hover:text-indigo-300 text-sm text-left min-w-[80px] cursor-pointer transition duration-200 ${addClass}`} onClick={() => onTagClick(biome)}>
         {biome}
       </div>
-      <div className={`text-gray-300 text-sm text-left min-w-[100px] ${addClass}`}>
+      <div className={`text-gray-300 text-sm text-left min-w-[180px] ${addClass}`}>
         {size}
       </div>
       <div className={`text-gray-300 text-sm text-right min-w-[100px] ${addClass}`}>
@@ -63,6 +64,8 @@ function FishTrackerPage () {
     startAutoRefresh();
   }, []);
 
+  const handleTagClick = (biome: string) => setSearchBiome(biome);
+
   const fishDone = fishes.filter((a) => a.done === true).length;
 
   const filteredFishes = fishes.filter((fish) => {
@@ -89,6 +92,7 @@ function FishTrackerPage () {
             onClear={() => setSearchText('')}
           />
           <FormDropdown
+            displayValue={searchBiome}
             label='Biome'
             name='searchBiome'
             options={biomeOptions}
@@ -98,7 +102,7 @@ function FishTrackerPage () {
 
         {filteredFishes.length > 0
           ? (
-              filteredFishes.map((fish, idx) => <Fish key={`fish-${idx}`} {...fish} toggleDone={toggleDone} />)
+              filteredFishes.map((fish, idx) => <Fish key={`fish-${idx}`} {...fish} toggleDone={toggleDone} onTagClick={handleTagClick} />)
             )
           : (
             <p className='text-gray-400 text-center py-4'>No fish found.</p>
