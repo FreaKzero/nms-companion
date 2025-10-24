@@ -33,7 +33,7 @@ function decodeHtmlEntities (str: string): string {
 
 export function fetchReddit (subreddit = 'all', search?: string): Promise<string> {
   const url = search
-    ? `https://www.reddit.com/r/${subreddit}/search.rss?q=${search}&restrict_sr=1&sort=new`
+    ? `https://www.reddit.com/r/${subreddit}/search.rss?q=${encodeURI(search)}&restrict_sr=1&sort=new`
     : `https://www.reddit.com/r/${subreddit}/.rss`;
 
   const options = { headers: { 'User-Agent': 'nms-log/1.0' } };

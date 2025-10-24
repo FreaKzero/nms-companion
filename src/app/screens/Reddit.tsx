@@ -106,7 +106,6 @@ export default function RedditPage () {
 
   const handleReadAll = async () => {
     setRead();
-    await getFeed();
     nav('/');
   };
 
