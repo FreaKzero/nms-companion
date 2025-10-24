@@ -1,379 +1,44 @@
 [
-  {
-    "id": 1,
-    "fish": "Singing Sea-Snail",
-    "biome": "All",
-    "onlyNight": false,
-    "done": true,
-    "value": "50.000",
-    "size": "Small"
-  },
-  {
-    "id": 2,
-    "fish": "Golden Jellyfish",
-    "biome": "All",
-    "onlyNight": false,
-    "done": true,
-    "value": "100.000",
-    "size": "Medium"
-  },
-  {
-    "id": 3,
-    "fish": "Dragonfish",
-    "biome": "All",
-    "onlyNight": false,
-    "done": true,
-    "value": "150.000",
-    "size": "Large"
-  },
-  {
-    "id": 4,
-    "fish": "The Lunker",
-    "biome": "All",
-    "onlyNight": false,
-    "done": true,
-    "value": "200.000",
-    "size": "Colossal"
-  },
-  {
-    "id": 5,
-    "fish": "Emeril Sunstar",
-    "biome": "Toxic",
-    "onlyNight": false,
-    "done": false,
-    "value": "50.000",
-    "size": "Small"
-  },
-  {
-    "id": 6,
-    "fish": "Vampire Squid",
-    "biome": "Toxic",
-    "onlyNight": true,
-    "done": true,
-    "value": "100.000",
-    "size": "Medium"
-  },
-  {
-    "id": 7,
-    "fish": "Bleached Bonefish",
-    "biome": "Toxic",
-    "onlyNight": false,
-    "done": true,
-    "value": "150.000",
-    "size": "Large"
-  },
-  {
-    "id": 8,
-    "fish": "Translucent Gulper",
-    "biome": "Toxic",
-    "onlyNight": false,
-    "done": false,
-    "value": "200.000",
-    "size": "Colossal"
-  },
-  {
-    "id": 9,
-    "fish": "Many-Eyed Jellyfish",
-    "biome": "Irradiated",
-    "onlyNight": false,
-    "done": false,
-    "value": "50.000",
-    "size": "Small"
-  },
-  {
-    "id": 10,
-    "fish": "Aberrant Duskfin",
-    "biome": "Irradiated",
-    "onlyNight": true,
-    "done": false,
-    "value": "100.000",
-    "size": "Medium"
-  },
-  {
-    "id": 11,
-    "fish": "Helix Sawfish",
-    "biome": "Irradiated",
-    "onlyNight": false,
-    "done": false,
-    "value": "200.000",
-    "size": "Colossal"
-  },
-  {
-    "id": 12,
-    "fish": "Crystal Jelly",
-    "biome": "Frozen",
-    "onlyNight": false,
-    "done": false,
-    "value": "50.000",
-    "size": "Small"
-  },
-  {
-    "id": 13,
-    "fish": "Nautilia",
-    "biome": "Frozen",
-    "onlyNight": false,
-    "done": false,
-    "value": "200.000",
-    "size": "Colossal"
-  },
-  {
-    "id": 14,
-    "fish": "Glass Angel",
-    "biome": "Lush",
-    "onlyNight": false,
-    "done": false,
-    "value": "50.000",
-    "size": "Small"
-  },
-  {
-    "id": 15,
-    "fish": "Mist Serpent",
-    "biome": "Lush",
-    "onlyNight": false,
-    "done": true,
-    "value": "100.000",
-    "size": "Medium"
-  },
-  {
-    "id": 16,
-    "fish": "Reef Guardian",
-    "biome": "Lush",
-    "onlyNight": false,
-    "done": false,
-    "value": "150.000",
-    "size": "Large"
-  },
-  {
-    "id": 17,
-    "fish": "Ancient Irontail",
-    "biome": "Scorched",
-    "onlyNight": false,
-    "done": false,
-    "value": "200.000",
-    "size": "Colossal"
-  },
-  {
-    "id": 18,
-    "fish": "Blind Titancore",
-    "biome": "Lush",
-    "onlyNight": false,
-    "done": false,
-    "value": "200.000",
-    "size": "Colossal"
-  },
-  {
-    "id": 19,
-    "fish": "Jelly of the Veil",
-    "biome": "Scorched",
-    "onlyNight": true,
-    "done": false,
-    "value": "150.000",
-    "size": "Large"
-  },
-  {
-    "id": 20,
-    "fish": "Many-Mouthed Lunker",
-    "biome": "Mega exotic",
-    "onlyNight": false,
-    "done": false,
-    "value": "200.000",
-    "size": "Colossal"
-  },
-  {
-    "id": 21,
-    "fish": "Megalodon",
-    "biome": "Barren",
-    "onlyNight": false,
-    "done": true,
-    "value": "0",
-    "size": "Colossal"
-  },
-  {
-    "id": 22,
-    "fish": "Mirrorscale Skipper",
-    "biome": "Scorched",
-    "onlyNight": false,
-    "done": false,
-    "value": "100.000",
-    "size": "Medium"
-  },
-  {
-    "id": 23,
-    "fish": "Starshell Crab",
-    "biome": "Scorched",
-    "onlyNight": false,
-    "done": false,
-    "value": "50.000",
-    "size": "Small"
-  },
-  {
-    "id": 24,
-    "fish": "The Angler",
-    "biome": "All",
-    "onlyNight": false,
-    "done": false,
-    "value": "1.600",
-    "size": "Large",
-    "onlyExpedition": true
-  },
-  {
-    "id": 25,
-    "fish": "Leviathan Spawn",
-    "biome": "Ocean",
-    "onlyNight": false,
-    "done": true,
-    "value": "200.000",
-    "size": "Colossal"
-  },
-  {
-    "id": 26,
-    "fish": "Gamma Squid",
-    "biome": "Irradiated",
-    "onlyNight": false,
-    "done": false,
-    "value": "150.000",
-    "size": "Large"
-  },
-  {
-    "id": 27,
-    "fish": "Ghostfin",
-    "biome": "Frozen",
-    "onlyNight": true,
-    "done": false,
-    "value": "100.000",
-    "size": "Medium"
-  },
-  {
-    "id": 28,
-    "fish": "Iceblood Gulper",
-    "biome": "Frozen",
-    "onlyNight": true,
-    "done": false,
-    "value": "150.000",
-    "size": "Large"
-  },
-  {
-    "id": 29,
-    "fish": "Ossified Deinosuchus",
-    "biome": "Barren",
-    "onlyNight": false,
-    "done": false,
-    "value": "150.000",
-    "size": "Large"
-  },
-  {
-    "id": 30,
-    "fish": "Titanworm Larva",
-    "biome": "Barren",
-    "onlyNight": false,
-    "done": false,
-    "value": "100.000",
-    "size": "Medium"
-  },
-  {
-    "id": 31,
-    "fish": "Fragile Icthyoscale",
-    "biome": "Barren",
-    "onlyNight": false,
-    "done": false,
-    "value": "50.000",
-    "size": "Small"
-  },
-  {
-    "id": 32,
-    "fish": "The Hunter Below",
-    "biome": "Ocean",
-    "onlyNight": false,
-    "done": false,
-    "value": "150.000",
-    "size": "Large"
-  },
-  {
-    "id": 33,
-    "fish": "Brain Eel",
-    "biome": "Ocean",
-    "onlyNight": false,
-    "done": false,
-    "value": "100.000",
-    "size": "Medium"
-  },
-  {
-    "id": 34,
-    "fish": "Sentinel Crab",
-    "biome": "Ocean",
-    "onlyNight": false,
-    "done": false,
-    "value": "0",
-    "size": "Small"
-  },
-  {
-    "id": 35,
-    "fish": "The Maw of Titan",
-    "biome": "Gas Giant",
-    "onlyNight": false,
-    "onlyDay": false,
-    "done": false,
-    "value": "0",
-    "size": "Colossal"
-  },
-  {
-    "id": 36,
-    "fish": "Hyper-Cockle",
-    "biome": "Gas Giant",
-    "onlyNight": false,
-    "onlyDay": true,
-    "done": false,
-    "value": "0",
-    "size": "Large"
-  },
-  {
-    "id": 37,
-    "fish": "Mother-of-Quicksilver",
-    "biome": "Gas Giant",
-    "onlyNight": false,
-    "onlyDay": false,
-    "done": false,
-    "value": "100.000",
-    "size": "Medium"
-  },
-  {
-    "id": 38,
-    "fish": "Mandelbrot Worm",
-    "biome": "Gas Giant",
-    "onlyNight": false,
-    "onlyDay": false,
-    "done": false,
-    "value": "50.000",
-    "size": "Small"
-  },
-  {
-    "id": 39,
-    "fish": "Child of Helios",
-    "biome": "Mega exotic",
-    "onlyNight": false,
-    "onlyDay": false,
-    "done": true,
-    "value": "150.000",
-    "size": "Large"
-  },
-  {
-    "id": 40,
-    "fish": "Atlantidian Crab",
-    "biome": "Mega exotic",
-    "onlyNight": false,
-    "onlyDay": false,
-    "done": false,
-    "value": "100.000",
-    "size": "Medium"
-  },
-  {
-    "id": 41,
-    "fish": "Abyssal Horror Egg",
-    "biome": "Mega exotic",
-    "onlyNight": false,
-    "onlyDay": false,
-    "done": true,
-    "value": "50.000",
-    "size": "Small"
-  }
+  {"id":1,"fish":"Singing Sea-Snail","biome":"All","onlyNight":false,"done":true,"value":"50.000","size":"Small"},
+  {"id":2,"fish":"Golden Jellyfish","biome":"All","onlyNight":false,"done":true,"value":"100.000","size":"Medium"},
+  {"id":3,"fish":"Dragonfish","biome":"All","onlyNight":false,"done":true,"value":"150.000","size":"Large"},
+  {"id":4,"fish":"The Lunker","biome":"All","onlyNight":false,"done":true,"value":"200.000","size":"Colossal"},
+  {"id":5,"fish":"Emeril Sunstar","biome":"Toxic","onlyNight":false,"done":false,"value":"50.000","size":"Small"},
+  {"id":6,"fish":"Vampire Squid","biome":"Toxic","onlyNight":true,"done":true,"value":"100.000","size":"Medium"},
+  {"id":7,"fish":"Bleached Bonefish","biome":"Toxic","onlyNight":false,"done":true,"value":"150.000","size":"Large"},
+  {"id":8,"fish":"Translucent Gulper","biome":"Toxic","onlyNight":false,"done":false,"value":"200.000","size":"Colossal"},
+  {"id":9,"fish":"Many-Eyed Jellyfish","biome":"Irradiated","onlyNight":false,"done":false,"value":"50.000","size":"Small"},
+  {"id":10,"fish":"Aberrant Duskfin","biome":"Irradiated","onlyNight":true,"done":false,"value":"100.000","size":"Medium"},
+  {"id":11,"fish":"Helix Sawfish","biome":"Irradiated","onlyNight":false,"done":false,"value":"200.000","size":"Colossal"},
+  {"id":12,"fish":"Crystal Jelly","biome":"Frozen","onlyNight":false,"done":false,"value":"50.000","size":"Small"},
+  {"id":13,"fish":"Nautilia","biome":"Frozen","onlyNight":false,"done":false,"value":"200.000","size":"Colossal"},
+  {"id":14,"fish":"Glass Angel","biome":"Lush","onlyNight":false,"done":false,"value":"50.000","size":"Small"},
+  {"id":15,"fish":"Mist Serpent","biome":"Lush","onlyNight":false,"done":true,"value":"100.000","size":"Medium"},
+  {"id":16,"fish":"Reef Guardian","biome":"Lush","onlyNight":false,"done":false,"value":"150.000","size":"Large"},
+  {"id":17,"fish":"Ancient Irontail","biome":"Scorched","onlyNight":false,"done":false,"value":"200.000","size":"Colossal"},
+  {"id":18,"fish":"Blind Titancore","biome":"Lush","onlyNight":false,"done":false,"value":"200.000","size":"Colossal"},
+  {"id":19,"fish":"Jelly of the Veil","biome":"Scorched","onlyNight":true,"done":false,"value":"150.000","size":"Large"},
+  {"id":20,"fish":"Many-Mouthed Lunker","biome":"Mega exotic","onlyNight":false,"done":false,"value":"200.000","size":"Colossal"},
+  {"id":21,"fish":"Megalodon","biome":"Barren","onlyNight":false,"done":true,"value":"0","size":"Colossal"},
+  {"id":22,"fish":"Mirrorscale Skipper","biome":"Scorched","onlyNight":false,"done":false,"value":"100.000","size":"Medium"},
+  {"id":23,"fish":"Starshell Crab","biome":"Scorched","onlyNight":false,"done":false,"value":"50.000","size":"Small"},
+  {"id":24,"fish":"Leviathan Spawn","biome":"Ocean","onlyNight":false,"done":true,"value":"200.000","size":"Colossal"},
+  {"id":25,"fish":"Gamma Squid","biome":"Irradiated","onlyNight":false,"done":false,"value":"150.000","size":"Large"},
+  {"id":26,"fish":"Ghostfin","biome":"Frozen","onlyNight":true,"done":false,"value":"100.000","size":"Medium"},
+  {"id":27,"fish":"Iceblood Gulper","biome":"Frozen","onlyNight":true,"done":false,"value":"150.000","size":"Large"},
+  {"id":28,"fish":"Ossified Deinosuchus","biome":"Barren","onlyNight":false,"done":false,"value":"150.000","size":"Large"},
+  {"id":29,"fish":"Titanworm Larva","biome":"Barren","onlyNight":false,"done":false,"value":"100.000","size":"Medium"},
+  {"id":30,"fish":"Fragile Icthyoscale","biome":"Barren","onlyNight":false,"done":false,"value":"50.000","size":"Small"},
+  {"id":31,"fish":"The Hunter Below","biome":"Ocean","onlyNight":false,"done":false,"value":"150.000","size":"Large"},
+  {"id":32,"fish":"Brain Eel","biome":"Ocean","onlyNight":false,"done":false,"value":"100.000","size":"Medium"},
+  {"id":33,"fish":"Sentinel Crab","biome":"Ocean","onlyNight":false,"done":false,"value":"0","size":"Small"},
+  {"id":34,"fish":"The Maw of Titan","biome":"Gas Giant","onlyNight":false,"onlyDay":false,"done":false,"value":"0","size":"Colossal"},
+  {"id":35,"fish":"Hyper-Cockle","biome":"Gas Giant","onlyNight":false,"onlyDay":true,"done":false,"value":"0","size":"Large"},
+  {"id":36,"fish":"Mother-of-Quicksilver","biome":"Gas Giant","onlyNight":false,"onlyDay":false,"done":false,"value":"100.000","size":"Medium"},
+  {"id":37,"fish":"Mandelbrot Worm","biome":"Gas Giant","onlyNight":false,"onlyDay":false,"done":false,"value":"50.000","size":"Small"},
+  {"id":38,"fish":"Child of Helios","biome":"Mega exotic","onlyNight":false,"onlyDay":false,"done":true,"value":"150.000","size":"Large"},
+  {"id":39,"fish":"Atlantidian Crab","biome":"Mega exotic","onlyNight":false,"onlyDay":false,"done":false,"value":"100.000","size":"Medium"},
+  {"id":40,"fish":"Abyssal Horror Egg","biome":"Mega exotic","onlyNight":false,"onlyDay":false,"done":true,"value":"50.000","size":"Small"},
+  {"id":41,"fish":"Spawn of Arcadia","biome":"Expedition","onlyNight":false,"onlyDay":false,"done":true,"value":"50.000","size":"Small"},
+  {"id":42,"fish":"The Angler","biome":"Expedition","onlyNight":false,"done":false,"value":"1.600","size":"Large"}
 ]

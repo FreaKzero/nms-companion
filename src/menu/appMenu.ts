@@ -12,34 +12,40 @@ const MenuItems: Electron.MenuItemConstructorOptions[] = [
         accelerator: 'F1'
       },
       {
+        id: 'Supply Depots',
+        label: 'Supply Depots',
+        click: () => emitEvent('MENU-ROUTE', '/supply'),
+        accelerator: 'F2'
+      },
+      {
         id: 'locations',
         label: 'Locations',
         click: () => emitEvent('MENU-ROUTE', '/list'),
-        accelerator: 'F2'
+        accelerator: 'F3'
       },
       {
         id: 'saveCurrent',
         label: 'Save Current Location',
         click: () => emitEvent('MENU-ROUTE', '/current'),
-        accelerator: 'F3'
+        accelerator: 'F4'
       },
       {
         id: 'saveManual',
         label: 'Save Manual Location',
         click: () => emitEvent('MENU-ROUTE', '/manual'),
-        accelerator: 'F4'
+        accelerator: 'F5'
       },
       {
         id: 'reddit',
         label: 'Reddit Feed',
         click: () => emitEvent('MENU-ROUTE', '/reddit'),
-        accelerator: 'F5'
+        accelerator: 'F6'
       },
       {
         id: 'fish',
         label: 'Legendary Fish Tracker',
         click: () => emitEvent('MENU-ROUTE', '/fish'),
-        accelerator: 'F6'
+        accelerator: 'F7'
       },
       {
         type: 'separator'

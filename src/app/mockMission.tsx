@@ -5,10 +5,10 @@ export const MOCKFRIGATES = [
     lastEvent: new Date('2025-10-16T13:01:56.000Z'),
     frigates: 1,
     fail: 2,
-    success: 4,
+    success: 1,
     duration: 'VeryShort',
     events: 6,
-    done: 4
+    done: 6
   },
   {
     category: 'Combat',
@@ -16,10 +16,10 @@ export const MOCKFRIGATES = [
     lastEvent: new Date('2025-10-16T13:05:18.000Z'),
     frigates: 1,
     fail: 0,
-    success: 4,
+    success: 6,
     duration: 'Short',
     events: 6,
-    done: 4
+    done: 6
   },
   {
     category: 'Exploration',
