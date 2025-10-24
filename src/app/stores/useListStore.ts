@@ -1,4 +1,4 @@
-import { ListState } from '@/ipc/dbIPC';
+import { ListState } from '@/ipc/locationIPC';
 
 import { create } from 'zustand';
 

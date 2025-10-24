@@ -2,15 +2,17 @@ import path from 'node:path';
 
 import appMenu from '@/menu/appMenu';
 
+import Database from 'better-sqlite3';
 import { BrowserWindow, Menu, app } from 'electron';
 
-import { registerDbIpc } from './ipc/dbIPC';
 import { registerDialogIpc } from './ipc/dialogIPC';
 import registerFishTrackerIpc from './ipc/fishtrackerIPC';
+import { registerLocationIpc } from './ipc/locationIPC';
 import registerNmsIpc from './ipc/nmsIPC';
 import registerSystemIpc from './ipc/systemIPC';
 
 let appWindow: BrowserWindow;
+let db: Database.Database;
 
 /**
  * Create Application Window
@@ -65,9 +67,15 @@ export function createAppWindow (): BrowserWindow {
     appWindow = null;
     app.quit();
   });
-
   return appWindow;
 }
+
+app.on('before-quit', () => {
+  if (db) {
+    db.close();
+    console.log('SQLite database closed.');
+  }
+});
 
 /**
  * Register Inter Process Communication
@@ -77,9 +85,11 @@ function registerMainIPC () {
    * Here you can assign IPC related codes for the application window
    * to Communicate asynchronously from the main process to renderer processes.
    */
+  const settings = registerSystemIpc();
+  db = new Database(settings.databasePath);
+
+  registerLocationIpc(db);
   registerNmsIpc();
-  registerDbIpc();
   registerFishTrackerIpc();
   registerDialogIpc(appWindow);
-  registerSystemIpc();
 }

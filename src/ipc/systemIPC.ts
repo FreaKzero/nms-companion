@@ -42,6 +42,8 @@ const registerSystemIpc = () => {
     }).slice(1);
     return cleanposts;
   });
+
+  return OPTIONS;
 };
 
 export default registerSystemIpc;

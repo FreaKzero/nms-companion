@@ -1,4 +1,4 @@
-import { PlusCircle, ListChecksIcon, MapPlusIcon, SettingsIcon, MapPinIcon, TestTube, Rss, FishIcon } from 'lucide-react';
+import { PlusCircle, ListChecksIcon, MapPlusIcon, SettingsIcon, MapPinIcon, TestTube, Rss, FishIcon, ContainerIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import LocationForm from './components/LocationForm';
@@ -9,6 +9,7 @@ import FishTrackerPage from './screens/Fishtracker';
 import ListPage from './screens/List';
 import MissionsPage from './screens/Missions';
 import RedditPage from './screens/Reddit';
+import SupplyPage from './screens/Supply';
 import TestPage from './screens/Test';
 
 export interface RouteItem {
@@ -31,11 +32,11 @@ export const routes = [
     index: true
   },
   {
-    text: 'Legendary Fishtracker',
-    location: '/fish',
-    Icon: FishIcon,
-    Component: FishTrackerPage,
-    order: 1.5
+    text: 'Supply Depots',
+    location: '/supply',
+    Icon: ContainerIcon,
+    Component: SupplyPage,
+    order: 2
   },
   {
     text: 'Locations',
@@ -72,6 +73,13 @@ export const routes = [
     Icon: Rss,
     Component: RedditPage,
     order: 7
+  },
+  {
+    text: 'Legendary Fishtracker',
+    location: '/fish',
+    Icon: FishIcon,
+    Component: FishTrackerPage,
+    order: 7.5
   },
   {
     text: 'Settings',

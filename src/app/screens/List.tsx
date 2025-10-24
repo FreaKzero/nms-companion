@@ -4,7 +4,7 @@ import { Trash2Icon, ClipboardCopy, MessageCircleCode, PencilRulerIcon } from 'l
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { ListState } from '../../ipc/dbIPC';
+import { ListState } from '../../ipc/locationIPC';
 import { confirmModal } from '../components/ConfirmModal';
 import { openCustomModal } from '../components/CustomModal';
 import { FormDropdown } from '../components/FormDropdown';

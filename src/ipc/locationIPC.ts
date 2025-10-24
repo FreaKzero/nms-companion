@@ -1,7 +1,5 @@
-import OptionManager from '@/app/lib/OptionManager';
-
 import Database from 'better-sqlite3';
-import { app, ipcMain } from 'electron';
+import { ipcMain } from 'electron';
 
 export interface ListState {
   id?: number;
@@ -15,19 +13,7 @@ export interface ListState {
   Biome?: string | null;
 }
 
-let db: Database.Database;
-
-export function registerDbIpc () {
-  const OPTIONS = OptionManager.load();
-  db = new Database(OPTIONS.databasePath);
-
-  app.on('before-quit', () => {
-    if (db) {
-      db.close();
-      console.log('SQLite database closed.');
-    }
-  });
-
+export function registerLocationIpc (db: Database.Database) {
   // db.prepare('DROP TABLE locations').run();
 
   db.prepare(`

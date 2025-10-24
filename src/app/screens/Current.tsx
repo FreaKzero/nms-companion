@@ -1,4 +1,4 @@
-import { ListState } from '@/ipc/dbIPC';
+import { ListState } from '@/ipc/locationIPC';
 
 import React, { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';

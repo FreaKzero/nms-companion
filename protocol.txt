@@ -6,25 +6,35 @@
 - [] add not yet known prices to fishtracker
 - [] rename dbipc to dbLocationIpc
 
-# Supply Depot Feature Ideas
-## domain name: "supply"
+# Features
+- Supply Depot Feature
+- Import/Export
 
-## Known Attributes
+
+
+# Features
+## Supply Depot Feature Ideas
+### domain name: "supply"
+
+### Known Attributes
 - Time until Full (time)
 - Network Extraction Rate (per hour) (number)
 - Storage (number)
 - Material (string)
 
-## SQL 
-- id
-- Extraction
-- Storage
-- Material
-- LastPickup
+export interface SupplyState {
+  id?: number;
+  BaseName: string;
+  ExtractionPerHour: number;
+  Storage: number;
+  Material: string;
+  LastPickup?: Date
+}
 
-
+### Brainstorms
 LastPickup - NOW => Time (in seconds when use getTime)
 (Time * 60) - (Extraction) => Extracted in Minutes (maybe Seconds ?)
 Check "relativeTime" Function
+Check if we can use materialicons from the nms wiki
 
 
