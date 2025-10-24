@@ -7,12 +7,13 @@
 - [] rename dbipc to dbLocationIpc
 
 # Features
-- Supply Depot Feature
-- Import/Export
 
+## Globale RSS Suche (Proto Done)
+search.rss für suchen über den ganzen NMSCoordinates reddit
+https://www.reddit.com/r/NMSCoordinateExchange/search.rss?q=<Query>&restrict_sr=1&sort=new
 
+--- 
 
-# Features
 ## Supply Depot Feature Ideas
 ### domain name: "supply"
 
@@ -37,4 +38,8 @@ LastPickup - NOW => Time (in seconds when use getTime)
 Check "relativeTime" Function
 Check if we can use materialicons from the nms wiki
 
+---
 
+## Import/Export
+
+--- 

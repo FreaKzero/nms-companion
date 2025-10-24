@@ -34,6 +34,7 @@ const registerSystemIpc = () => {
     shell.openExternal(url);
   });
 
+  // @TODO Move reddit to own IPC
   ipcMain.handle('GET_REDDIT', async (_ev, lastRead: Date) => {
     const xml = await fetchReddit('NMSCoordinateExchange');
     const posts = parseRSS(xml, lastRead);
@@ -41,6 +42,12 @@ const registerSystemIpc = () => {
       return b.published.getTime() - a.published.getTime();
     }).slice(1);
     return cleanposts;
+  });
+
+  ipcMain.handle('SEARCH_REDDIT', async (_ev, search: string) => {
+    const xml = await fetchReddit('NMSCoordinateExchange', search);
+    const posts = parseRSS(xml);
+    return posts;
   });
 
   return OPTIONS;

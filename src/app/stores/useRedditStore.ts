@@ -10,6 +10,7 @@ interface RedditStoreState {
   lastRead: Date;
   getFeed: (subreddit?: string) => Promise<void>;
   setRead: () => void;
+  searchFeed: (search: string) => Promise<void>;
 }
 
 const loadLastRead = (): Date => {
@@ -17,7 +18,7 @@ const loadLastRead = (): Date => {
   return stored ? new Date(stored) : new Date();
 };
 
-const defState: Omit<RedditStoreState, 'getFeed' | 'setRead'> = {
+const defState: Omit<RedditStoreState, 'getFeed' | 'setRead' | 'searchFeed'> = {
   loading: true,
   error: false,
   newEntries: 0,
@@ -45,7 +46,19 @@ const useRedditStore = create<RedditStoreState>()((set, get) => ({
     } catch (_err) {
       set({ ...defState, loading: false, error: true });
     }
+  },
+
+  searchFeed: async (search: string) => {
+    set({ loading: true, error: false });
+
+    try {
+      const entries: redditFeed[] = await electron.ipcRenderer.invoke('SEARCH_REDDIT', search);
+      set({ entries, loading: false, error: false });
+    } catch (_err) {
+      set({ ...defState, loading: false, error: true });
+    }
   }
+
 }));
 
 export default useRedditStore;

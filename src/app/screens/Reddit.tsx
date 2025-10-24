@@ -42,7 +42,7 @@ const RedditPost: React.FC<redditFeed & {
   onSelect: (title: string, link: string, content: string) => void;
 }> = ({ title, author, imageUrl, link, published, content, isNew, onSelect }) => {
   const openInBrowser = () => electron.ipcRenderer.invoke('OPEN_URL', link);
-  const titleColor = isNew ? 'text-indigo-400 hover:text-indigo-300' : 'text-amber-400 hover:text-amber-300';
+  const titleColor = isNew ? 'text-amber-400 hover:text-amber-300' : 'text-indigo-400 hover:text-indigo-300';
 
   return (
     <div className='flex flex-col gap-3 py-4 hover:bg-gray-800 transition rounded-lg px-2 relative'>
@@ -74,28 +74,31 @@ export default function RedditPage () {
   const entries = useRedditStore((s) => s.entries);
   const getFeed = useRedditStore((s) => s.getFeed);
   const setRead = useRedditStore((s) => s.setRead);
+  const searchFeed = useRedditStore((s) => s.searchFeed);
   const newEntries = useRedditStore((s) => s.newEntries);
   const startAutoRefresh = useAutoRefreshStore((s) => s.start);
   const nav = useNavigate();
   const loading = useRedditStore((s) => s.loading);
 
   const [search, setSearch] = useState('');
-  const [filtered, setFiltered] = useState<redditFeed[]>([]);
 
   useEffect(() => {
     startAutoRefresh();
     getFeed();
-  }, [getFeed]);
+  }, []);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      const filteredEntries = entries.filter((post) => post.title.toLowerCase().includes(search.toLowerCase()) ||
-        post.content.toLowerCase().includes(search.toLowerCase()));
-      setFiltered(filteredEntries);
-    }, 300);
+    let timeout: any;
+    if (search !== '') {
+      timeout = setTimeout(() => {
+        searchFeed(search);
+      }, 400);
+    } else {
+      getFeed();
+    }
 
     return () => clearTimeout(timeout);
-  }, [search, entries]);
+  }, [search]);
 
   const handleSelect = (title: string, link: string, content: string) => {
     openCustomModal(<ContentModal content={content} link={link} title={title} />, 'w-[90%] relative rounded-xl overflow-hidden flex flex-col items-center justify-center bg-gray-900 p-5 text-left');
@@ -106,6 +109,7 @@ export default function RedditPage () {
     await getFeed();
     nav('/');
   };
+
   return (
     <div className='bg-gray-900 text-white rounded-lg shadow-md p-4 w-full'>
       {loading && <Loader message='Loading Feed ...' />}
@@ -114,7 +118,7 @@ export default function RedditPage () {
           <FormInput
             id='search'
             label='Search'
-            placeholder='Search in Content or Title ...'
+            placeholder='Search NMSCoordinateExchange Reddit ...'
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             onClear={() => setSearch('')}
@@ -126,7 +130,7 @@ export default function RedditPage () {
 
       </div>
       <div className='divide-y divide-gray-800'>
-        {filtered.map((post, idx) => (
+        {entries.map((post, idx) => (
           <RedditPost key={`reddit-${idx}`} {...post} onSelect={handleSelect} />
         ))}
       </div>

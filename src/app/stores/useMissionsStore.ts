@@ -41,9 +41,13 @@ const useMissionsStore = create<MissionsStoreState>()((set) => ({
         return;
       }
 
-      const needAction = mis.settlements.filter((settle) => (settle.buildActive === false &&
+      const needActionSettle = mis.settlements.filter((settle) => (settle.buildActive === false &&
         settle.buildClass !== 'None') ||
         settle.needsJudgement === true).length;
+
+      const needActionFrigate = mis.frigates.filter((fri) => fri.done === fri.events).length;
+
+      const needAction = needActionFrigate + needActionSettle;
 
       const settlements = mis.settlements.filter((settle) => settle.buildActive === true ||
         settle.buildClass !== 'None' ||

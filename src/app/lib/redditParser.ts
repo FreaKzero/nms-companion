@@ -31,8 +31,11 @@ function decodeHtmlEntities (str: string): string {
   });
 }
 
-export function fetchReddit (subreddit = 'all'): Promise<string> {
-  const url = `https://www.reddit.com/r/${subreddit}/.rss`;
+export function fetchReddit (subreddit = 'all', search?: string): Promise<string> {
+  const url = search
+    ? `https://www.reddit.com/r/${subreddit}/search.rss?q=${search}&restrict_sr=1&sort=new`
+    : `https://www.reddit.com/r/${subreddit}/.rss`;
+
   const options = { headers: { 'User-Agent': 'nms-log/1.0' } };
 
   return new Promise((resolve, reject) => {
@@ -53,7 +56,7 @@ export function purify (raw: string): string {
   return raw;
 }
 
-export function parseRSS (xml: string, lastRead: Date) {
+export function parseRSS (xml: string, lastRead?: Date) {
   const entries = xml.split(/<\/entry>/).slice(0, -1);
 
   return entries.map((e: string): redditFeed => {
@@ -72,7 +75,7 @@ export function parseRSS (xml: string, lastRead: Date) {
       link: (e.match(/<link[^>]*href="([^"]+)"/) || [])[1] || '',
       published,
       content: purify(content),
-      isNew: published.getTime() < lastRead.getTime(),
+      isNew: lastRead ? published.getTime() > lastRead.getTime() : false,
       imageUrl
     };
   });
