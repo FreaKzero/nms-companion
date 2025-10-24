@@ -9,11 +9,6 @@ import { FormInput } from '../components/FormInput';
 import useFishStore from '../stores/useFishStore';
 import { useAutoRefreshStore } from '../stores/useRefreshStore';
 
-interface TempBiomeRecord {
-  biome: string;
-  done: number;
-}
-
 interface FishProps extends FishType {
   toggleDone: (id: number) => void;
   onTagClick: (biome: string) => void;
@@ -35,7 +30,7 @@ const getDepth = (size: string) => {
       break;
   }
 };
-const Fish: React.FC<FishProps> = ({ id, fish, biome, onlyNight, onlyDay, onlyExpedition, done, value, size, toggleDone, onTagClick }) => {
+const Fish: React.FC<FishProps> = ({ id, fish, biome, onlyNight, onlyDay, done, value, size, toggleDone, onTagClick }) => {
   const addClass = done ? 'line-through text-gray-500' : '';
   return (
     <div className='flex items-center justify-between py-3 px-3 hover:bg-gray-800 transition rounded-lg'>
@@ -78,7 +73,7 @@ const Fish: React.FC<FishProps> = ({ id, fish, biome, onlyNight, onlyDay, onlyEx
       <div className='flex items-center gap-3 text-xs text-gray-400 w-[160px] justify-end '>
         {onlyDay && <span className='inline-block rounded-full border px-3 py-1 text-xs font-bold uppercase text-yellow-300 border-yellow-400 bg-amber-800'>Day Only</span>}
         {onlyNight && <span className='inline-block rounded-full border px-3 py-1 text-xs font-bold uppercase text-indigo-300 border-indigo-400 bg-indigo-900/50'>Night Only</span>}
-        {onlyExpedition && <span className='inline-block rounded-full border px-3 py-1 text-xs font-bold uppercase text-gray-300 border-gray-400 bg-gray-900'>Expedition</span>}
+        {biome === 'Expedition' && <span className='inline-block rounded-full border px-3 py-1 text-xs font-bold uppercase text-gray-300 border-gray-400 bg-gray-900'>Expedition</span>}
       </div>
     </div>
   );
@@ -93,11 +88,22 @@ function FishTrackerPage () {
   const [searchText, setSearchText] = useState('');
   const [searchBiome, setSearchBiome] = useState('');
 
-  const biomeOptions = Object.values(fishes.reduce((acc, fish) => {
-    if (!acc[fish.biome]) acc[fish.biome] = { biome: fish.biome, done: 0 };
-    if (fish.done) acc[fish.biome].done++;
+  const biomeOptions = fishes.reduce((acc, fish) => {
+    const biomeEntry = acc.find((b) => b.value === fish.biome);
+    if (!biomeEntry) {
+      acc.push({
+        label: `${fish.biome} ${fish.done ? 1 : 0}/1`,
+        value: fish.biome,
+        _done: fish.done ? 1 : 0,
+        _total: 1
+      });
+    } else {
+      biomeEntry._total++;
+      if (fish.done) biomeEntry._done++;
+      biomeEntry.label = `${biomeEntry.value} ${biomeEntry._done}/${biomeEntry._total}`;
+    }
     return acc;
-  }, {} as Record<string, TempBiomeRecord>)).map((b) => ({ label: `${b.biome} ${b.done}/4`, value: b.biome }));
+  }, [] as { label: string; value: string; _done: number; _total: number }[]);
 
   useEffect(() => {
     getFishes();

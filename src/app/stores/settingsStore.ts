@@ -12,7 +12,8 @@ const defState: OptionManagerType = {
   locationThumbDir: '',
   databasePath: '',
   fishtrackerFile: '',
-  charName: ''
+  charName: '',
+  redditFeed: ''
 };
 
 const useOptionManagerStore = create<OptionManagerStoreState>((set) => ({

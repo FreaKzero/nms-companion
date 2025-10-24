@@ -17,20 +17,29 @@ const FrigateListItem = (frigate: FrigateType) => {
   };
 
   interface IconProgressProps {
-    all: number;
-    current: number;
+    events: number;
+    done: number;
     category: string;
     fail: boolean;
   }
-  const IconProgress: React.FC<IconProgressProps> = ({ all, current, category, fail }) => {
-    const progress = all > 0 ? Math.min(current / all, 1) : 0;
+  const IconProgress: React.FC<IconProgressProps> = ({ events, done, category, fail }) => {
+    const progress = events > 0 ? Math.min(done / events, 1) : 0;
     const percentage = Math.round(progress * 100);
+    let color = 'linear-gradient(to top, #166534, #15803d)';
+
+    if (events === done) {
+      color = 'linear-gradient(to top, #b45309, #d97706)';
+    }
+
+    if (fail) {
+      color = 'linear-gradient(to top, #7F1D1D, #B91C1C)';
+    }
 
     return (
       <div
         className='w-15 h-15 rounded-lg flex items-center justify-center bg-gray-700'
         style={{
-          backgroundImage: fail ? 'linear-gradient(to top, #7F1D1D, #B91C1C)' : 'linear-gradient(to top, #166534, #15803d)',
+          backgroundImage: color,
           backgroundSize: `${percentage}% 100%`,
           backgroundRepeat: 'no-repeat'
         }}
@@ -45,7 +54,7 @@ const FrigateListItem = (frigate: FrigateType) => {
   return (
     <li className='flex items-start gap-3 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transtion-all duration-200 rounded-lg'>
 
-      <IconProgress all={frigate.events} current={frigate.done} category={frigate.category} fail={frigate.fail > 0} />
+      <IconProgress events={frigate.events} done={frigate.done} category={frigate.category} fail={frigate.fail > 0} />
 
       <div className='flex flex-col flex-1 text-sm text-gray-900 dark:text-gray-100 overflow-hidden'>
         <p className='line-clamp-2 text-lg font-nms'>{frigate.category} • {frigate.duration.replace('Very', 'Very ')} Mission ({frigate.frigates})</p>

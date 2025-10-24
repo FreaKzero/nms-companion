@@ -76,14 +76,14 @@ export default function RedditPage () {
   const setRead = useRedditStore((s) => s.setRead);
   const searchFeed = useRedditStore((s) => s.searchFeed);
   const newEntries = useRedditStore((s) => s.newEntries);
-  const startAutoRefresh = useAutoRefreshStore((s) => s.start);
+  const stopAutoRefresh = useAutoRefreshStore((s) => s.stop);
   const nav = useNavigate();
   const loading = useRedditStore((s) => s.loading);
 
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    startAutoRefresh();
+    stopAutoRefresh();
     getFeed();
   }, []);
 
@@ -117,7 +117,7 @@ export default function RedditPage () {
           <FormInput
             id='search'
             label='Search'
-            placeholder='Search NMSCoordinateExchange Reddit ...'
+            placeholder='Search ...'
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             onClear={() => setSearch('')}

@@ -2,15 +2,21 @@
 - [] rename entries routes and "list" namings to location
 - [] globalize tailwind styles in components
 - [] find a CORRECT source for Biome deciphering
-- [] add Expedition Fishes to fishtracker
+- [x] add Expedition Fishes to fishtracker
 - [] add not yet known prices to fishtracker
-- [] rename dbipc to dbLocationIpc
+- [x] rename dbipc to dbLocationIpc
+- [x] Reddit in settings
+- [x] Own Reddit IPC
+- [] Research different depths for fishing in fishtracker
+- [x] Mission: Make Frigates Yellow when they are Done
+- [] use defaultStates in Forms and remove the useEffect
 
 # Features
 
 ## Globale RSS Suche (Proto Done)
 search.rss für suchen über den ganzen NMSCoordinates reddit
 https://www.reddit.com/r/NMSCoordinateExchange/search.rss?q=<Query>&restrict_sr=1&sort=new
+Eigene register IPC für Reddit
 
 --- 
 

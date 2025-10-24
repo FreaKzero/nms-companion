@@ -21,6 +21,7 @@ function SettingsPage () {
       setValue('locationThumbDir', settings.locationThumbDir, { shouldValidate: true, shouldDirty: true });
       setValue('databasePath', settings.databasePath, { shouldValidate: true, shouldDirty: true });
       setValue('charName', settings.charName);
+      setValue('redditFeed', settings.redditFeed);
     };
     stopAutoRefresh();
     getSettings();
@@ -68,6 +69,12 @@ function SettingsPage () {
             name='fishtrackerFile'
             control={control}
             onlyPath
+          />
+
+          <FormInput
+            label='Reddit Feed'
+            id='redditFeed'
+            register={register('redditFeed', { required: 'Reddit Feed is required' })}
           />
 
         </div>
