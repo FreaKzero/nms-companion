@@ -44,7 +44,7 @@ export function registerDbIpc () {
     )
   `).run();
 
-  ipcMain.handle('DB-CREATE', (_ev, data: ListState) => {
+  ipcMain.handle('db.list.create', (_ev, data: ListState) => {
     const stmt = db.prepare(`
       INSERT INTO locations 
       (GalaxyName, PortalCode, ShareCode, Description, Screenshot, GalaxyIndex, Tag, Biome)
@@ -64,15 +64,15 @@ export function registerDbIpc () {
     return info.lastInsertRowid;
   });
 
-  ipcMain.handle('DB-READ-ALL', () => {
+  ipcMain.handle('db.list.getAll', () => {
     return db.prepare('SELECT * FROM locations ORDER BY ID DESC').all();
   });
 
-  ipcMain.handle('DB-GETID', (_ev, id: number) => {
+  ipcMain.handle('db.list.getId', (_ev, id: number) => {
     return db.prepare('SELECT * FROM locations WHERE id = ?').get(id);
   });
 
-  ipcMain.handle('DB-UPDATE', (_ev, id: number, data: ListState) => {
+  ipcMain.handle('db.list.update', (_ev, id: number, data: ListState) => {
     const stmt = db.prepare(`
       UPDATE locations SET
         GalaxyName = ?,
@@ -99,11 +99,11 @@ export function registerDbIpc () {
     return info.changes;
   });
 
-  ipcMain.handle('DB-DELETE', (_ev, id: number) => {
+  ipcMain.handle('db.list.delete', (_ev, id: number) => {
     return db.prepare('DELETE FROM locations WHERE id = ?').run(id).changes;
   });
 
-  ipcMain.handle('DB-GET-PAGE', (_ev, page: number = 1, pageSize: number = 20, search: string = '') => {
+  ipcMain.handle('db.list.getPage', (_ev, page: number = 1, pageSize: number = 20, search: string = '') => {
     const offset = (page - 1) * pageSize;
     let rows, totalRow;
 
@@ -148,27 +148,7 @@ export function registerDbIpc () {
     return { rows, total, page, pageSize };
   });
 
-  ipcMain.handle('DB-SEARCH', (_ev, term: string, page: number = 1, pageSize: number = 20) => {
-    const offset = (page - 1) * pageSize;
-    const likeTerm = `%${term}%`;
-
-    const rows = db.prepare(`
-      SELECT * FROM locations
-      WHERE Description LIKE ? OR Tag LIKE ? OR Biome LIKE ? OR GalaxyName LIKE ?
-      ORDER BY ID DESC
-      LIMIT ? OFFSET ?
-    `).all(likeTerm, likeTerm, likeTerm, likeTerm, pageSize, offset);
-
-    const totalRow = db.prepare(`
-      SELECT COUNT(*) as count FROM locations
-      WHERE Description LIKE ? OR Tag LIKE ? OR Biome LIKE ? OR GalaxyName LIKE ?
-    `).get(likeTerm, likeTerm, likeTerm, likeTerm) as { count: number };
-    const total = totalRow.count;
-
-    return { rows, total, page, pageSize };
-  });
-
-  ipcMain.handle('DB-GALAXIES', () => {
+  ipcMain.handle('db.list.getGalaxies', () => {
     const rows = db.prepare(`
       SELECT DISTINCT GalaxyName
       FROM locations
@@ -178,7 +158,7 @@ export function registerDbIpc () {
     return rows;
   });
 
-  ipcMain.handle('DB-TAGS', () => {
+  ipcMain.handle('db.list.getTags', () => {
     const rows = db.prepare(`
       SELECT DISTINCT Tag
       FROM locations
@@ -188,7 +168,7 @@ export function registerDbIpc () {
     return rows;
   });
 
-  ipcMain.handle('DB-BIOMES', () => {
+  ipcMain.handle('db.list.getBiomes', () => {
     const rows = db.prepare(`
       SELECT DISTINCT Biome
       FROM locations

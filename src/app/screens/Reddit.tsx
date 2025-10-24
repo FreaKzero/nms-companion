@@ -2,6 +2,7 @@ import noscreen from 'assets/noscreen.png';
 
 import { FileWarning, RefreshCcw, ExternalLink } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { openCustomModal } from '../components/CustomModal';
 import { FormInput } from '../components/FormInput';
@@ -75,7 +76,7 @@ export default function RedditPage () {
   const setRead = useRedditStore((s) => s.setRead);
   const newEntries = useRedditStore((s) => s.newEntries);
   const startAutoRefresh = useAutoRefreshStore((s) => s.start);
-
+  const nav = useNavigate();
   const loading = useRedditStore((s) => s.loading);
 
   const [search, setSearch] = useState('');
@@ -103,6 +104,7 @@ export default function RedditPage () {
   const handleReadAll = async () => {
     setRead();
     await getFeed();
+    nav('/');
   };
   return (
     <div className='bg-gray-900 text-white rounded-lg shadow-md p-4 w-full'>

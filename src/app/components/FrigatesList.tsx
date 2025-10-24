@@ -30,7 +30,7 @@ const FrigateListItem = (frigate: FrigateType) => {
       <div
         className='w-15 h-15 rounded-lg flex items-center justify-center bg-gray-700'
         style={{
-          backgroundImage: fail ? 'linear-gradient(to top, #B45309, #D97706)' : 'linear-gradient(to top, #166534, #15803d)',
+          backgroundImage: fail ? 'linear-gradient(to top, #7F1D1D, #B91C1C)' : 'linear-gradient(to top, #166534, #15803d)',
           backgroundSize: `${percentage}% 100%`,
           backgroundRepeat: 'no-repeat'
         }}

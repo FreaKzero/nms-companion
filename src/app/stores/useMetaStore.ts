@@ -44,7 +44,7 @@ const useMetaStore = create<MetaStoreState>((set) => ({
   getTags: async () => {
     set({ ...defState, loading: true });
     try {
-      const tags: iTag[] = await electron.ipcRenderer.invoke('DB-TAGS');
+      const tags: iTag[] = await electron.ipcRenderer.invoke('db.list.getTags');
       const optionTags = tags.map((i) => ({ label: i.Tag, value: i.Tag }));
 
       set({ optionTags, tags: tags.map((i) => i.Tag), loading: false, error: false });
@@ -55,7 +55,7 @@ const useMetaStore = create<MetaStoreState>((set) => ({
   getGalaxies: async (withAllOpt: boolean) => {
     set({ ...defState, loading: true });
     try {
-      const galaxies: iGalaxy[] = await electron.ipcRenderer.invoke('DB-GALAXIES');
+      const galaxies: iGalaxy[] = await electron.ipcRenderer.invoke('db.list.getGalaxies');
       let optionGalaxies = galaxies.map((i) => ({ label: i.GalaxyName, value: i.GalaxyName }));
 
       if (withAllOpt) {
@@ -70,7 +70,7 @@ const useMetaStore = create<MetaStoreState>((set) => ({
   getBiomes: async (withAllOpt: boolean) => {
     set({ ...defState, loading: true });
     try {
-      const biomes: iBiome[] = await electron.ipcRenderer.invoke('DB-BIOMES');
+      const biomes: iBiome[] = await electron.ipcRenderer.invoke('db.list.getBiomes');
       let optionBiomes = biomes.map((i) => ({ label: i.Biome, value: i.Biome }));
 
       if (withAllOpt) {

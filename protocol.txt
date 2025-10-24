@@ -1,0 +1,30 @@
+# Debt
+- [] rename entries routes and "list" namings to location
+- [] globalize tailwind styles in components
+- [] find a CORRECT source for Biome deciphering
+- [] add Expedition Fishes to fishtracker
+- [] add not yet known prices to fishtracker
+- [] rename dbipc to dbLocationIpc
+
+# Supply Depot Feature Ideas
+## domain name: "supply"
+
+## Known Attributes
+- Time until Full (time)
+- Network Extraction Rate (per hour) (number)
+- Storage (number)
+- Material (string)
+
+## SQL 
+- id
+- Extraction
+- Storage
+- Material
+- LastPickup
+
+
+LastPickup - NOW => Time (in seconds when use getTime)
+(Time * 60) - (Extraction) => Extracted in Minutes (maybe Seconds ?)
+Check "relativeTime" Function
+
+

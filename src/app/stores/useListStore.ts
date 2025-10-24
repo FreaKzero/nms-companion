@@ -29,12 +29,12 @@ const useListStore = create<iListStore>()((set, get) => ({
 
   add: async (item: ListState, file?: Nullable<ArrayBuffer>) => {
     set({ loading: true });
-    const ID = await electron.ipcRenderer.invoke('DB-CREATE', item);
+    const ID = await electron.ipcRenderer.invoke('db.list.create', item);
 
     if (file) {
       const fileName = await electron.ipcRenderer.invoke('SAVE_SCREEN', file, ID);
       item.Screenshot = fileName;
-      await electron.ipcRenderer.invoke('DB-UPDATE', ID, item);
+      await electron.ipcRenderer.invoke('db.list.update', ID, item);
     }
 
     set({ loading: false, entries: [...get().entries, { ...item, id: ID }] });
@@ -42,7 +42,7 @@ const useListStore = create<iListStore>()((set, get) => ({
 
   delete: async (id: number) => {
     set({ loading: true });
-    await electron.ipcRenderer.invoke('DB-DELETE', id);
+    await electron.ipcRenderer.invoke('db.list.delete', id);
     set({
       loading: false,
       entries: get().entries.filter((item) => item.id !== id),
@@ -52,7 +52,7 @@ const useListStore = create<iListStore>()((set, get) => ({
 
   update: async (id: number, item: ListState) => {
     set({ loading: true });
-    await electron.ipcRenderer.invoke('DB-UPDATE', id, item);
+    await electron.ipcRenderer.invoke('db.list.update', id, item);
     set({
       loading: false,
       entries: get().entries.map((e) => (e.id === id ? { ...item, id } : e))
@@ -61,19 +61,19 @@ const useListStore = create<iListStore>()((set, get) => ({
 
   getAll: async () => {
     set({ loading: true });
-    const list: ListState[] = await electron.ipcRenderer.invoke('DB-READ-ALL');
+    const list: ListState[] = await electron.ipcRenderer.invoke('db.list.getAll');
     set({ loading: false, entries: list, totalEntries: list.length });
   },
 
   getId: async (id: number) => {
     set({ loading: true, edit: null });
-    const edit: ListState = await electron.ipcRenderer.invoke('DB-GETID', id);
+    const edit: ListState = await electron.ipcRenderer.invoke('db.list.getId', id);
     set({ loading: false, edit });
   },
 
   getPage: async (page = 1, pageSize = 20, search = '') => {
     set({ loading: true });
-    const { rows, total } = await electron.ipcRenderer.invoke('DB-GET-PAGE', page, pageSize, search);
+    const { rows, total } = await electron.ipcRenderer.invoke('db.list.getPage', page, pageSize, search);
     set({
       loading: false,
       entries: rows,

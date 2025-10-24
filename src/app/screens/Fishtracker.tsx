@@ -1,7 +1,7 @@
 import { FishType } from '@/ipc/fishtrackerIPC';
 import units from 'assets/units.png';
 
-import { SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { FormCheckbox } from '../components/FormCheckbox';
 import { FormDropdown } from '../components/FormDropdown';
