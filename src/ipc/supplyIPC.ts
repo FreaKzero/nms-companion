@@ -7,7 +7,7 @@ export interface SupplyState {
   ExtractionPerHour: number;
   Storage: number;
   Material: string;
-  LastPickup?: Date;
+  LastPickup?: string;
 }
 
 export function registerSupplyIpc (db: Database.Database) {
@@ -58,7 +58,8 @@ export function registerSupplyIpc (db: Database.Database) {
       return db.prepare(sql).all(params);
     }
 
-    return db.prepare('SELECT * FROM supply ORDER BY id DESC').all();
+    const entries = db.prepare('SELECT * FROM supply ORDER BY id DESC').all() as unknown as SupplyState[];
+    return entries.sort((a, b) => new Date(a.LastPickup).getTime() - new Date(b.LastPickup).getTime());
   });
 
   ipcMain.handle('db.supply.getId', (_ev, id: number) => {
@@ -66,7 +67,9 @@ export function registerSupplyIpc (db: Database.Database) {
   });
 
   ipcMain.handle('db.supply.update', (_ev, id: number, data: SupplyState) => {
-    const stmt = db.prepare(`
+    try {
+      const date = new Date().toISOString();
+      const stmt = db.prepare(`
       UPDATE supply SET
         BaseName = ?,
         ExtractionPerHour = ?,
@@ -75,15 +78,18 @@ export function registerSupplyIpc (db: Database.Database) {
         LastPickup = ?
       WHERE id = ?
     `);
-    const info = stmt.run(
-      data.BaseName,
-      data.ExtractionPerHour,
-      data.Storage,
-      data.Material,
-      data.LastPickup ? new Date(data.LastPickup).toISOString() : null,
-      id
-    );
-    return info.changes;
+      stmt.run(
+        data.BaseName,
+        data.ExtractionPerHour,
+        data.Storage,
+        data.Material,
+        date,
+        id
+      );
+      return data;
+    } catch (e) {
+      console.log(e);
+    }
   });
 
   ipcMain.handle('db.supply.delete', (_ev, id: number) => {
@@ -98,6 +104,22 @@ export function registerSupplyIpc (db: Database.Database) {
     `).all();
 
     return rows;
+  });
+
+  ipcMain.handle('db.supply.pickup', (_ev, id: number) => {
+    const date = new Date().toISOString();
+
+    const stmt = db.prepare(`
+      UPDATE supply SET
+        LastPickup = ?
+      WHERE id = ?
+    `);
+
+    stmt.run(
+      date,
+      id
+    );
+    return date;
   });
 
   ipcMain.handle('db.supply.getBases', () => {

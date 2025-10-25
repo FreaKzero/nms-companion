@@ -10,39 +10,8 @@
 - [] Research different depths for fishing in fishtracker
 - [x] Mission: Make Frigates Yellow when they are Done
 - [] use defaultStates in Forms and remove the useEffect
-
+- [] Forms: Errorstates in Components
 # Features
-
-## Globale RSS Suche (Proto Done)
-search.rss für suchen über den ganzen NMSCoordinates reddit
-https://www.reddit.com/r/NMSCoordinateExchange/search.rss?q=<Query>&restrict_sr=1&sort=new
-Eigene register IPC für Reddit
-
---- 
-
-## Supply Depot Feature Ideas
-### domain name: "supply"
-
-### Known Attributes
-- Time until Full (time)
-- Network Extraction Rate (per hour) (number)
-- Storage (number)
-- Material (string)
-
-export interface SupplyState {
-  id?: number;
-  BaseName: string;
-  ExtractionPerHour: number;
-  Storage: number;
-  Material: string;
-  LastPickup?: Date
-}
-
-### Brainstorms
-LastPickup - NOW => Time (in seconds when use getTime)
-(Time * 60) - (Extraction) => Extracted in Minutes (maybe Seconds ?)
-Check "relativeTime" Function
-Check if we can use materialicons from the nms wiki
 
 ---
 

@@ -10,6 +10,7 @@ import registerFishTrackerIpc from './ipc/fishtrackerIPC';
 import { registerLocationIpc } from './ipc/locationIPC';
 import registerNmsIpc from './ipc/nmsIPC';
 import registerRedditIPC from './ipc/redditIPC';
+import { registerSupplyIpc } from './ipc/supplyIPC';
 import registerSystemIpc from './ipc/systemIPC';
 
 let appWindow: BrowserWindow;
@@ -90,6 +91,7 @@ function registerMainIPC () {
   db = new Database(settings.databasePath);
 
   registerLocationIpc(db);
+  registerSupplyIpc(db);
 
   registerRedditIPC();
   registerNmsIpc();
