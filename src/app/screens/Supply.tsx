@@ -55,8 +55,8 @@ const SupplyForm: React.FC<SupplyFormProps> = ({ initialData, onSubmitCallback }
   const add = useSupplyStore((s) => s.add);
   const update = useSupplyStore((s) => s.update);
 
-  const { handleSubmit, register, reset, formState: { errors }, control, setValue } = useForm<SupplyState>({
-    defaultValues: initialData || {}
+  const { handleSubmit, register, reset, formState: { errors, touchedFields }, control, setValue } = useForm<SupplyState>({
+    defaultValues: initialData || undefined
   });
 
   useEffect(() => {
@@ -82,6 +82,7 @@ const SupplyForm: React.FC<SupplyFormProps> = ({ initialData, onSubmitCallback }
     onSubmitCallback();
   };
 
+  const touched = Object.keys(touchedFields).length > 0;
   return (
     <div className='bg-gray-900 text-white rounded-lg shadow-md p-4 w-full mb-5'>
       <form
@@ -100,11 +101,6 @@ const SupplyForm: React.FC<SupplyFormProps> = ({ initialData, onSubmitCallback }
               writeable
               required='Tag is required'
             />
-            {errors.Material && (
-              <p className='text-indigo-500 text-sm mt-1'>
-                {errors.Material.message}
-              </p>
-            )}
           </div>
           <div>
             <FormInput id='BaseName' label='Base Name' register={register('BaseName', { required: 'Base Name is required' })} />
@@ -132,7 +128,7 @@ const SupplyForm: React.FC<SupplyFormProps> = ({ initialData, onSubmitCallback }
           </div>
 
           <button className='button self-end p-2 pl-5 pr-5'>Save</button>
-          {initialData && <button type='button' className='button2 self-end p-2 pl-5 pr-5' onClick={() => handleCancel()}>Cancel</button>}
+          {(initialData || touched) && <button type='button' className='button2 self-end p-2 pl-5 pr-5' onClick={() => handleCancel()}>Cancel</button>}
         </div>
       </form>
     </div>
@@ -149,12 +145,18 @@ const SupplyDepot = (supply: SupplyState & { onEdit: (s: SupplyState) => void })
   const pickup = useSupplyStore((s) => s.pickup);
   const deleteDepot = useSupplyStore((s) => s.delete);
 
+  const uiStorage = Math.floor(extracted) > supply.Storage ? supply.Storage : Math.floor(extracted);
+
   const handleDelete = async (id: number) => {
     if (await confirmModal('Do you really want to delete this Supply Depot?')) {
       await deleteDepot(id);
     }
   };
 
+  const handleEdit = (item: SupplyState) => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    supply.onEdit(item);
+  };
   return (
     <li className='flex items-start gap-3 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transtion-all duration-200 rounded-lg'>
       <div className='w-15 h-15 rounded-lg flex items-center justify-center bg-gradient-to-t from-green-900 to-green-700'>
@@ -165,13 +167,13 @@ const SupplyDepot = (supply: SupplyState & { onEdit: (s: SupplyState) => void })
         <div className='flex justify-between'>
           <div>
             <p className='text-gray-600 dark:text-gray-400 text-xs'><strong>Extraction:</strong><span className='ml-[10px]'>{supply.ExtractionPerHour} per Hour</span></p>
-            <p className='text-gray-600 dark:text-gray-400 text-xs'><strong>Storage:</strong> <span className='ml-[21px]'>{Math.floor(extracted)} / {supply.Storage}</span></p>
+            <p className='text-gray-600 dark:text-gray-400 text-xs'><strong>Storage:</strong> <span className='ml-[21px]'>{uiStorage} / {supply.Storage}</span></p>
           </div>
           <div className='self-end flex gap-2'>
             <button className='cursor-pointer' onClick={() => pickup(supply.id)}>
               <Package2Icon size='20' className='text-indigo-400 hover:text-indigo-500 transition duration-250' />
             </button>
-            <button className='cursor-pointer' onClick={() => supply.onEdit(supply)}>
+            <button className='cursor-pointer' onClick={() => handleEdit(supply)}>
               <PencilRulerIcon size={20} className='text-indigo-400 hover:text-indigo-500 transition duration-250' />
             </button>
             <button
