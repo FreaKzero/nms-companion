@@ -3,7 +3,7 @@
 - [] globalize tailwind styles in components
 - [] find a CORRECT source for Biome deciphering
 - [x] add Expedition Fishes to fishtracker
-- [] add not yet known prices to fishtracker
+- [x] add not yet known prices to fishtracker
 - [x] rename dbipc to dbLocationIpc
 - [x] Reddit in settings
 - [x] Own Reddit IPC
