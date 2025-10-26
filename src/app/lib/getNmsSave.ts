@@ -146,6 +146,10 @@ export const createSettlementMissions = (BaseContext: BaseContext, owner: string
         produce
       };
     })
+    .filter((settle) => settle.buildActive === true ||
+      settle.buildClass !== 'None' ||
+      settle.needsJudgement === true ||
+      settle.produce > 0)
     .sort((a, b) => b.buildProgress - a.buildProgress);
 
   return x;
@@ -164,6 +168,10 @@ export const createFrigateMissions = (BaseContext: BaseContext): FrigateType[] =
       events: a.Events.length,
       done: a.NumberOfFailedEventsThisExpedition + a.NumberOfSuccessfulEventsThisExpedition
     };
+  }).sort((a, b) => {
+    const ratioA = a.events > 0 ? a.done / a.events : 0;
+    const ratioB = b.events > 0 ? b.done / b.events : 0;
+    return ratioB - ratioA;
   });
 };
 

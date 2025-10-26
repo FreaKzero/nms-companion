@@ -2,7 +2,6 @@ import noscreen from 'assets/noscreen.png';
 
 import { RefreshCcw, ExternalLink } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { openCustomModal } from '../components/CustomModal';
 import { FormInput } from '../components/FormInput';
@@ -78,7 +77,6 @@ export default function RedditPage () {
   const stopAutoRefresh = useAutoRefreshStore((s) => s.stop);
   const startAutoRefresh = useAutoRefreshStore((s) => s.start);
 
-  const nav = useNavigate();
   const loading = useRedditStore((s) => s.loading);
 
   const [search, setSearch] = useState('');

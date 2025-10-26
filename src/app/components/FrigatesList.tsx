@@ -68,16 +68,10 @@ const FrigateListItem = (frigate: FrigateType) => {
 };
 
 function FrigateList ({ frigates }: { frigates: FrigateType[] }) {
-  const sortedFrigates = frigates.sort((a, b) => {
-    const ratioA = a.events > 0 ? a.done / a.events : 0;
-    const ratioB = b.events > 0 ? b.done / b.events : 0;
-    return ratioB - ratioA;
-  });
-
   return (
     <div>
       <ul className='flex flex-col divide-y divide-gray-800'>
-        {sortedFrigates.map((a, i) => {
+        {frigates.map((a, i) => {
           return (<FrigateListItem key={`frigate-${i}`} {...a} />);
         })}
       </ul>

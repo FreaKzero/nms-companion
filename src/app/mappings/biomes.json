@@ -23,7 +23,9 @@
       "Rocky",
       "Bleak",
       "Parched",
+      "Abandoned",
       "Dusty",
+      "Desolate",
       "Wind-swept"
     ]
   },
@@ -36,10 +38,59 @@
       "Desolate",
       "Lifeless",
       "Forsaken",
-      "Life-Incompatible",
+      "Life Incompatible",
       "Low Atmosphere",
       "Airless",
       "Abandoned"
+    ]
+  },
+  {
+    "name": "Exotic",
+    "altname": [
+      "Fissured",
+      "of Light",
+      "Breached",
+      "Rattling",
+      "Spined",
+      "Skeletal",
+      "Bubbling",
+      "Frothing",
+      "Foaming",
+      "Contoured",
+      "Cabled",
+      "Webbed",
+      "Mechanical",
+      "Metallic",
+      "Metallurgic",
+      "Hexagonal",
+      "Plated",
+      "Scaly",
+      "Fungal",
+      "Sporal",
+      "Capped",
+      "Finned",
+      "Bladed",
+      "Shell-Strewn",
+      "Ossified",
+      "Petrified",
+      "Calcified",
+      "Columned",
+      "Sharded",
+      "Pillared",
+      "Shattered",
+      "Fractured",
+      "Fragmented",
+      "Crimson",
+      "Planetary Anomaly",
+      "Malfunctioning",
+      "Infected",
+      "[REDACTED]",
+      "Glassy",
+      "Thirsty",
+      "Doomed",
+      "Erased",
+      "Temporary",
+      "Corrupted"
     ]
   },
   {
@@ -107,6 +158,7 @@
     "altname": [
       "Marshy",
       "Swamp",
+      "Tropical",
       "Foggy",
       "Misty",
       "Boggy",
@@ -140,88 +192,50 @@
     ]
   },
   {
-    "name": "Mega Exotic",
+    "name": "Ocean",
     "altname": [
-      "Planetary Anomaly",
-      "Lost Red",
-      "Lost Green",
-      "Lost Blue",
-      "Stellar Corruption Detected",
-      "Chromatic Fog",
-      "Vile Anomaly",
-      "Vermillion Globe",
-      "Toxic Anomaly",
-      "Frozen Anomaly",
-      "Harsh Blue Globe",
-      "Scarlet",
-      "Doomed Jade",
-      "Azure",
-      "Blood",
-      "Haunted Emeril",
-      "Cerulean",
-      "Wine Dark",
-      "Deathly Green Anomaly",
-      "Ultramarine"
+      "Oceanic",
+      "Reef",
+      "Island Chains",
+      "Archipelago",
+      "Wetlands",
+      "Riverland",
+      "Continental",
+      "Pangean",
+      "Drowning",
+      "Tidal",
+      "Waterlocked",
+      "Aquatic",
+      "Endless Seas",
+      "Marine"
     ]
   },
   {
-    "name": "Shard Exotic",
-    "altname": ["Pillared", "Columned", "Sharded"]
-  },
-  {
-    "name": "Beams",
-    "altname": ["Fissured", "of Light", "Breached"]
-  },
-  {
-    "name": "Bone Spires",
-    "altname": ["Rattling", "Spined", "Skeletal"]
-  },
-  {
-    "name": "Bubbles",
-    "altname": ["Bubbling", "Frothing", "Foaming"]
-  },
-  {
-    "name": "Contour",
-    "altname": ["Contoured", "Cabled", "Webbed"]
-  },
-  {
-    "name": "Fract Cube",
-    "altname": ["Mechanical", "Metallic", "Metallurgic"]
-  },
-  {
-    "name": "Hexagon",
-    "altname": ["Hexagonal", "Plated", "Scaly"]
-  },
-  {
-    "name": "Hydro Garden",
-    "altname": ["Fungal", "Sporal", "Capped"]
-  },
-  {
-    "name": "Shells",
-    "altname": ["Finned", "Bladed", "Shell-Strewn"]
-  },
-  {
-    "name": "Bone Virus",
-    "altname": ["Ossified", "Petrified", "Calcified"]
-  },
-  {
-    "name": "Wire Cell",
-    "altname": ["Shattered", "Fractured", "Fragmented"]
-  },
-  {
-    "name": "Glitched",
+    "name": "Mega Exotic",
     "altname": [
       "Crimson",
       "Planetary Anomaly",
-      "Malfunctioning",
-      "Infected",
+      "Lost Green",
+      "Lost Blue",
+      "Lost Red",
       "[REDACTED]",
-      "Glassy",
-      "Thirsty",
-      "Doomed",
-      "Erased",
-      "Temporary",
-      "Corrupted"
+      "Stellar Corruption Detected",
+      "Chromatic Fog",
+      "Vile Anomaly",
+      "Harsh Blue Globe",
+      "Vermillion Globe",
+      "Toxic Anomaly",
+      "Frozen Anomaly",
+      "Scarlet",
+      "Doomed Jade",
+      "Blood",
+      "Wine Dark",
+      "Haunted Emeril",
+      "Deathly Green Anomaly",
+      "Azure",
+      "Cerulean",
+      "Ultramarine",
+      "Monochrome"
     ]
   }
-]
+]   

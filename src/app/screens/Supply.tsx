@@ -1,6 +1,6 @@
 import { SupplyState } from '@/ipc/supplyIPC';
 
-import { DrillIcon, Package2Icon, Trash2Icon, PencilRulerIcon } from 'lucide-react';
+import { Factory, Package2Icon, Trash2Icon, PencilRulerIcon } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -34,7 +34,7 @@ const IconProgress: React.FC<IconProgressProps> = ({ progress }) => {
       {progress < 100
         ? (
           <div className='text-white flex flex-col items-center'>
-            <DrillIcon />
+            <Factory />
           </div>
           )
         : (
@@ -136,16 +136,24 @@ const SupplyForm: React.FC<SupplyFormProps> = ({ initialData, onSubmitCallback }
 };
 
 const SupplyDepot = (supply: SupplyState & { onEdit: (s: SupplyState) => void }) => {
-  const now = new Date();
-  const diffMs = now.getTime() - new Date(supply.LastPickup).getTime();
-  const diffHours = diffMs / (1000 * 60 * 60);
-
-  const extracted = diffHours * supply.ExtractionPerHour;
-  const progress = Math.min((extracted / supply.Storage) * 100, 100);
   const pickup = useSupplyStore((s) => s.pickup);
   const deleteDepot = useSupplyStore((s) => s.delete);
 
-  const uiStorage = Math.floor(extracted) > supply.Storage ? supply.Storage : Math.floor(extracted);
+  let uiStorage;
+  let progress;
+
+  // @TODO do this in backend ?
+  const now = new Date();
+  const diffMs = now.getTime() - new Date(supply.LastPickup).getTime();
+
+  if (diffMs < 172800000) { // 2 days max
+    const extracted = (diffMs / (1000 * 60 * 60)) * supply.ExtractionPerHour;
+    progress = Math.min((extracted / supply.Storage) * 100, 100);
+    uiStorage = Math.floor(extracted);
+  } else {
+    uiStorage = supply.Storage;
+    progress = 100;
+  }
 
   const handleDelete = async (id: number) => {
     if (await confirmModal('Do you really want to delete this Supply Depot?')) {
