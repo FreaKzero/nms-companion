@@ -25,7 +25,7 @@ export default function MissionsPage () {
       {loading && <Loader message='Loading Missions ...' />}
       <div className='mt-3 flex flex-1 gap-5'>
         <Card
-          className='max-h-[331px] overflow-y-scroll'
+          className='max-h-[331px] overflow-y-scroll p-5'
           title={`Frigates ${
             frigates.length ? `• ${frigates.length} on Mission` : ''
           }`}
@@ -42,7 +42,7 @@ export default function MissionsPage () {
         </Card>
 
         <Card
-          className='max-h-[331px] overflow-y-scroll'
+          className='max-h-[331px] overflow-y-scroll p-5'
           title={`Settlements ${
             settlements.length ? `• ${settlements.length} need Attention` : ''
           }`}
@@ -58,10 +58,14 @@ export default function MissionsPage () {
               )}
         </Card>
       </div>
-      <div className='mt-3 flex flex-1 gap-5'>
+      <div className='grid lg:grid-cols-3 gap-5'>
         <TimerMission storageKey='timer1' />
         <TimerMission storageKey='timer2' />
         <TimerMission storageKey='timer3' />
+        <TimerMission storageKey='timer4' />
+        <TimerMission storageKey='timer5' />
+        <TimerMission storageKey='timer6' />
+
       </div>
 
     </div>

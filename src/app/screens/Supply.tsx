@@ -194,17 +194,20 @@ function SupplyPage () {
   const entries = useSupplyStore((s) => s.entries);
   const loading = useSupplyStore((s) => s.loading);
   const stopAutoRefresh = useAutoRefreshStore((s) => s.stop);
+  const startAutoRefresh = useAutoRefreshStore((s) => s.start);
+
   const [search, setSearch] = useState('');
   const [editingSupply, setEditingSupply] = useState<SupplyState | null>(null);
 
   useEffect(() => {
-    stopAutoRefresh();
-    getAll();
-  }, []);
-
-  useEffect(() => {
     const timeout = setTimeout(() => {
-      search.trim() !== '' ? getAll(search) : getAll();
+      if (search.trim() === '') {
+        getAll();
+        startAutoRefresh();
+      } else {
+        getAll(search);
+        stopAutoRefresh();
+      }
     }, 300);
     return () => clearTimeout(timeout);
   }, [search]);
@@ -226,9 +229,9 @@ function SupplyPage () {
           onClear={() => setSearch('')}
           className='w-full mb-8'
         />
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 divide-y divide-gray-800'>
+        <ul className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 divide-y divide-gray-800'>
           {entries.map((supply) => <SupplyDepot key={`supply-${supply.id}`} {...supply} onEdit={setEditingSupply} />)}
-        </div>
+        </ul>
       </div>
     </div>
   );

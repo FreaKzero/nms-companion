@@ -5,6 +5,7 @@ import useRedditStore from './useRedditStore';
 import useSupplyStore from './useSupplyStore';
 
 import { FrigateType, PositionType, SettlementType } from '../lib/getNmsSave';
+import { MOCKFRIGATES, MOCKSETTLE } from '../mockMission';
 
 export interface MissionsType {
   error?: any;
@@ -50,6 +51,7 @@ const useMissionsStore = create<MissionsStoreState>()((set) => ({
 
       const needAction = needActionFrigate + needActionSettle;
 
+      // @TODO - do this in backend like sorting with frigates
       const settlements = mis.settlements.filter((settle) => settle.buildActive === true ||
         settle.buildClass !== 'None' ||
         settle.needsJudgement === true ||

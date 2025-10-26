@@ -14,7 +14,7 @@ export default function Card ({ children, title, className }: CardProps) {
           <h2 className='text-2xl text-white ml-5 font-nms'>{title}</h2>
         </div>
         <div className='border-b border-neutral-700' />
-        <div className={`p-5 ${className}`}>
+        <div className={`h-full ${className}`}>
           {children}
         </div>
       </div>

@@ -1,6 +1,6 @@
 import noscreen from 'assets/noscreen.png';
 
-import { FileWarning, RefreshCcw, ExternalLink } from 'lucide-react';
+import { RefreshCcw, ExternalLink } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -75,38 +75,33 @@ export default function RedditPage () {
   const getFeed = useRedditStore((s) => s.getFeed);
   const setRead = useRedditStore((s) => s.setRead);
   const searchFeed = useRedditStore((s) => s.searchFeed);
-  const newEntries = useRedditStore((s) => s.newEntries);
   const stopAutoRefresh = useAutoRefreshStore((s) => s.stop);
+  const startAutoRefresh = useAutoRefreshStore((s) => s.start);
+
   const nav = useNavigate();
   const loading = useRedditStore((s) => s.loading);
 
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    stopAutoRefresh();
-    getFeed();
-  }, []);
-
-  useEffect(() => {
-    let timeout: any;
-    if (search !== '') {
-      timeout = setTimeout(() => {
+    const timeout = setTimeout(() => {
+      if (search.trim() === '') {
+        getFeed();
+        startAutoRefresh();
+      } else {
         searchFeed(search);
-      }, 400);
-    } else {
-      getFeed();
-    }
+        stopAutoRefresh();
+      }
+    }, 400);
 
-    return () => clearTimeout(timeout);
+    return () => {
+      clearTimeout(timeout);
+      setRead();
+    };
   }, [search]);
 
   const handleSelect = (title: string, link: string, content: string) => {
     openCustomModal(<ContentModal content={content} link={link} title={title} />, 'w-[90%] relative rounded-xl overflow-hidden flex flex-col items-center justify-center bg-gray-900 p-5 text-left');
-  };
-
-  const handleReadAll = async () => {
-    setRead();
-    nav('/');
   };
 
   return (
@@ -123,8 +118,6 @@ export default function RedditPage () {
             onClear={() => setSearch('')}
           />
         </div>
-
-        {newEntries > 0 && <IconButton onClick={handleReadAll} label='Mark all as Read' Icon={FileWarning} className='mt-[28px] ml-2' />}
         <IconButton onClick={() => getFeed()} label='Refresh Feed' Icon={RefreshCcw} className='mt-[28px] ml-2' />
 
       </div>

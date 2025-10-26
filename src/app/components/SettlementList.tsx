@@ -130,7 +130,7 @@ const SettleListItem = (settle: SettlementType) => {
 function SettlementsList ({ settlements }: { settlements: SettlementType[] }) {
   return (
     <div>
-      <ul className='flex flex-col'>
+      <ul className='flex flex-col divide-y divide-gray-800'>
         {settlements.map((a, i) => {
           return (<SettleListItem key={`settle-${i}`} {...a} />);
         })}

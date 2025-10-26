@@ -61,7 +61,7 @@ const SidebarAutorefresh: React.FC = () => {
 
   return (
     <div>
-      <div className='sidebar-icon group' onClick={toggleAutoRefresh}>
+      <div className={`sidebar-icon group ${!autoRefresh && 'text-gray-400 hover:text-white'}`} onClick={toggleAutoRefresh}>
         {autoRefresh
           ? (
             <RefreshCcwDot className='w-6 h-6 animate-spin-pause' />

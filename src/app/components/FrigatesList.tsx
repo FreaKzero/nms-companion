@@ -76,7 +76,7 @@ function FrigateList ({ frigates }: { frigates: FrigateType[] }) {
 
   return (
     <div>
-      <ul className='flex flex-col'>
+      <ul className='flex flex-col divide-y divide-gray-800'>
         {sortedFrigates.map((a, i) => {
           return (<FrigateListItem key={`frigate-${i}`} {...a} />);
         })}

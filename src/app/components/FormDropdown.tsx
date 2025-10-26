@@ -54,8 +54,7 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
   ) => {
     useEffect(() => {
       setValue(value);
-      // @ts-expect-error test
-      setSearch(value);
+      // setSearch(value);
     }, [value]);
 
     useEffect(() => {
