@@ -92,7 +92,7 @@ function LocationForm ({ editItem }: ManualPageProps) {
     navigate('/list');
   };
 
-  const galaxyOptions = GalaxyNames.map((i, idx) => ({ label: i, value: idx }));
+  const galaxyOptions = GalaxyNames.map((i, idx) => ({ label: i, value: String(idx) }));
 
   function extractPortalCode (input: string) {
     const matches = input.match(/:portal([a-zA-Z0-9]):/g);
