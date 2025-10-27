@@ -77,7 +77,16 @@ function FishTrackerPage () {
     startAutoRefresh();
   }, []);
 
-  const handleTagClick = (biome: string) => setSearchBiome(biome);
+  useEffect(() => {
+    if (searchText.trim() !== '') {
+      setSearchBiome('');
+    }
+  }, [searchText]);
+
+  const handleTagClick = (biome: string) => {
+    setSearchText('');
+    setSearchBiome(biome);
+  };
 
   const handleOnChangeBiome = (value: string) => {
     setSearchText('');

@@ -1,20 +1,26 @@
 # Debt
 - [] rename entries routes and "list" namings to location
 - [] globalize tailwind styles in components
-- [] find a CORRECT source for Biome deciphering
+- [x] find a CORRECT source for Biome deciphering
 - [x] add Expedition Fishes to fishtracker
 - [x] add not yet known prices to fishtracker
 - [x] rename dbipc to dbLocationIpc
 - [x] Reddit in settings
 - [x] Own Reddit IPC
-- [] Research different depths for fishing in fishtracker
+- [x] Research different depths for fishing in fishtracker
 - [x] Mission: Make Frigates Yellow when they are Done
 - [] use defaultStates in Forms and remove the useEffect
 - [] Forms: Errorstates in Components
+- [x] find a list of all 255 Galaxies
 # Features
-
 ---
 
 ## Import/Export
 
 --- 
+
+## Refactor Front
+
+--
+
+## Refactor Back
