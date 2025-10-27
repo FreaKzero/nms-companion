@@ -3,8 +3,8 @@ import units from 'assets/units.png';
 
 import { useEffect, useState } from 'react';
 
+import { FormBiomeInput } from '../components/FormBiomeInput';
 import { FormCheckbox } from '../components/FormCheckbox';
-import { FormDropdown } from '../components/FormDropdown';
 import { FormInput } from '../components/FormInput';
 import useFishStore from '../stores/useFishStore';
 import { useAutoRefreshStore } from '../stores/useRefreshStore';
@@ -14,23 +14,7 @@ interface FishProps extends FishType {
   onTagClick: (biome: string) => void;
 }
 
-// @TODO research depths for Ocean and Gasgiant Biomes
-const getDepth = (size: string) => {
-  switch (size) {
-    case 'Small':
-      return 25;
-    case 'Medium':
-      return 50;
-    case 'Large':
-      return 70;
-    case 'Colossal':
-      return 80;
-    default:
-      return 0;
-      break;
-  }
-};
-const Fish: React.FC<FishProps> = ({ id, fish, biome, onlyNight, onlyDay, done, value, size, toggleDone, onTagClick }) => {
+const Fish: React.FC<FishProps> = ({ id, fish, biome, onlyNight, onlyDay, done, value, size, depth, toggleDone, onTagClick }) => {
   const addClass = done ? 'line-through text-gray-500' : '';
   return (
     <div className='flex items-center justify-between py-3 px-3 hover:bg-gray-800 transition rounded-lg'>
@@ -60,7 +44,7 @@ const Fish: React.FC<FishProps> = ({ id, fish, biome, onlyNight, onlyDay, done, 
             shadow-md
           '
           >
-            Fish in atleast {getDepth(size)}u depth
+            {depth} U depth
           </span>
         </div>
 
@@ -87,23 +71,6 @@ function FishTrackerPage () {
 
   const [searchText, setSearchText] = useState('');
   const [searchBiome, setSearchBiome] = useState('');
-
-  const biomeOptions = fishes.reduce((acc, fish) => {
-    const biomeEntry = acc.find((b) => b.value === fish.biome);
-    if (!biomeEntry) {
-      acc.push({
-        label: `${fish.biome} ${fish.done ? 1 : 0}/1`,
-        value: fish.biome,
-        _done: fish.done ? 1 : 0,
-        _total: 1
-      });
-    } else {
-      biomeEntry._total++;
-      if (fish.done) biomeEntry._done++;
-      biomeEntry.label = `${biomeEntry.value} ${biomeEntry._done}/${biomeEntry._total}`;
-    }
-    return acc;
-  }, [] as { label: string; value: string; _done: number; _total: number }[]);
 
   useEffect(() => {
     getFishes();
@@ -141,13 +108,13 @@ function FishTrackerPage () {
             className='flex-1'
             onClear={() => setSearchText('')}
           />
-          <FormDropdown
-            displayValue={searchBiome}
+
+          <FormBiomeInput
             label='Biome'
-            name='searchBiome'
-            options={biomeOptions}
+            value={searchBiome}
             onChange={(value: string) => handleOnChangeBiome(value)}
           />
+
         </div>
 
         {filteredFishes.length > 0

@@ -18,6 +18,7 @@ export interface FishType {
   onlyExpedition?: boolean;
   value: string;
   size: string;
+  depth: number;
 }
 
 const registerFishTrackerIpc = () => {
