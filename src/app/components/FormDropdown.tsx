@@ -105,6 +105,8 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
         else if (writeable && search) handleSelect(search);
       } else if (e.key === 'Escape') {
         setOpen(false);
+      } else if (e.key === 'Backspace') {
+        handleClear();
       }
     };
 
