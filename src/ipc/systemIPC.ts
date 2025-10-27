@@ -1,8 +1,9 @@
-import { writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFile, writeFileSync } from 'node:fs';
+import path from 'node:path';
 
 import OptionManager, { OptionManagerType } from '@/app/lib/OptionManager';
 
-import { ipcMain, app, shell } from 'electron';
+import { ipcMain, app, shell, nativeImage } from 'electron';
 
 import getSave from '../app/lib/getNmsSave';
 
@@ -14,9 +15,35 @@ const registerSystemIpc = () => {
     return OPTIONS;
   });
 
+  ipcMain.handle('SHOW_FILE', (_ev, filePath: string) => shell.showItemInFolder(filePath));
+
   ipcMain.handle('SET_SETTINGS', (_ev, data: OptionManagerType) => {
     OPTIONS = OptionManager.update(data);
     return OPTIONS;
+  });
+
+  ipcMain.handle('SAVE_SCREEN', async (_ev, arrayBuffer: ArrayBuffer, id: string) => {
+    try {
+      const buffer = Buffer.from(arrayBuffer);
+      const image = nativeImage.createFromBuffer(buffer);
+      const resized = image.resize({ width: 1000 });
+      const outBuffer = resized.toPNG();
+      const outPath = path.join(OPTIONS.locationThumbDir, `${id}.png`);
+
+      if (!existsSync(OPTIONS.locationThumbDir)) {
+        mkdirSync(OPTIONS.locationThumbDir);
+      }
+
+      await writeFile(outPath, outBuffer, (err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+
+      return outPath;
+    } catch (err) {
+      console.error('Save Screen Error:', err);
+    }
   });
 
   ipcMain.handle('APP_RESTART', () => {

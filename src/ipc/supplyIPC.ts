@@ -55,11 +55,12 @@ export function registerSupplyIpc (db: Database.Database) {
         WHERE ${whereClauses}
         ORDER BY id DESC
       `;
-      return db.prepare(sql).all(params);
+      const entries = db.prepare('SELECT * FROM supply ORDER BY id DESC').all() as unknown as SupplyState[];
+      return entries.sort((a, b) => new Date(b.LastPickup).getTime() - new Date(a.LastPickup).getTime());
     }
 
     const entries = db.prepare('SELECT * FROM supply ORDER BY id DESC').all() as unknown as SupplyState[];
-    return entries.sort((a, b) => new Date(a.LastPickup).getTime() - new Date(b.LastPickup).getTime());
+    return entries.sort((a, b) => new Date(b.LastPickup).getTime() - new Date(a.LastPickup).getTime());
   });
 
   ipcMain.handle('db.supply.getId', (_ev, id: number) => {

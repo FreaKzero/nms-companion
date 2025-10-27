@@ -1,6 +1,6 @@
 import noscreen from 'assets/noscreen.png';
 
-import { Trash2Icon, ClipboardCopy, MessageCircleCode, PencilRulerIcon } from 'lucide-react';
+import { Trash2Icon, Share2, PencilRulerIcon } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -31,9 +31,10 @@ interface ScreenshotProps {
 }
 
 const GlyphModal: React.FC<ListState> = (list) => {
-  const discordCode = list.PortalCode.split('').map((c) => `:portal${c.toLowerCase()}: `)
-    .join('')
-    .trim();
+  const handleShare = (list: ListState) => {
+    navigator.clipboard.writeText(`${list.GalaxyName} - ${list.Description}`);
+    electron.ipcRenderer.invoke('SHOW_FILE', list.Screenshot);
+  };
 
   return (
     <div className='relative w-full h-full rounded-xl overflow-hidden'>
@@ -45,19 +46,11 @@ const GlyphModal: React.FC<ListState> = (list) => {
 
       <div className='absolute top-4 right-4 z-20 flex gap-3'>
         <button
-          onClick={() => navigator.clipboard.writeText(discordCode)}
+          onClick={() => handleShare(list)}
           className='p-2 rounded-full bg-black/40 hover:bg-indigo-700/60 duration-300 backdrop-blur-sm transition cursor-pointer'
-          title='Copy Portal Code (Discord)'
+          title='Share (Copies Description)'
         >
-          <MessageCircleCode size={20} className='text-white' />
-        </button>
-
-        <button
-          onClick={() => navigator.clipboard.writeText(list.PortalCode)}
-          className='p-2 rounded-full bg-black/40 hover:bg-indigo-700/60 duration-300 backdrop-blur-sm transition cursor-pointer'
-          title='Copy Portal Code (Discord)'
-        >
-          <ClipboardCopy size={20} className='text-white' />
+          <Share2 size={20} className='text-white' />
         </button>
       </div>
 
