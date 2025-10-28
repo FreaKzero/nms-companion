@@ -55,7 +55,7 @@ export function registerSupplyIpc (db: Database.Database) {
         WHERE ${whereClauses}
         ORDER BY id DESC
       `;
-      const entries = db.prepare('SELECT * FROM supply ORDER BY id DESC').all() as unknown as SupplyState[];
+      const entries = db.prepare(sql).all() as unknown as SupplyState[];
       return entries.sort((a, b) => new Date(b.LastPickup).getTime() - new Date(a.LastPickup).getTime());
     }
 

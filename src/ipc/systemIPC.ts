@@ -22,11 +22,12 @@ const registerSystemIpc = () => {
     return OPTIONS;
   });
 
+  // @TODO - make width customizeable in settings
   ipcMain.handle('SAVE_SCREEN', async (_ev, arrayBuffer: ArrayBuffer, id: string) => {
     try {
       const buffer = Buffer.from(arrayBuffer);
       const image = nativeImage.createFromBuffer(buffer);
-      const resized = image.resize({ width: 1000 });
+      const resized = image.resize({ width: 1200 });
       const outBuffer = resized.toPNG();
       const outPath = path.join(OPTIONS.locationThumbDir, `${id}.png`);
 

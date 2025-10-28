@@ -1,12 +1,10 @@
 import http from 'http';
 import https from 'https';
-import { existsSync, mkdirSync, writeFile } from 'node:fs';
-import path from 'node:path';
 
 import getSave, { createFrigateMissions, createPosition, createSettlementMissions } from '@/app/lib/getNmsSave';
 import OptionManager from '@/app/lib/OptionManager';
 
-import { ipcMain, nativeImage } from 'electron';
+import { ipcMain } from 'electron';
 
 export interface PositionType {
   error?: boolean;

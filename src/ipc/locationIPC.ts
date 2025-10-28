@@ -85,6 +85,8 @@ export function registerLocationIpc (db: Database.Database) {
     return info.changes;
   });
 
+  // @TODO - delete images when existing
+
   ipcMain.handle('db.list.delete', (_ev, id: number) => {
     return db.prepare('DELETE FROM locations WHERE id = ?').run(id).changes;
   });

@@ -98,7 +98,6 @@ const SupplyForm: React.FC<SupplyFormProps> = ({ initialData, onSubmitCallback }
               control={control}
               options={materials}
               placeholder='Search Material'
-              writeable
               required='Tag is required'
             />
           </div>

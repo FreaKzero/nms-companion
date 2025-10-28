@@ -4,21 +4,19 @@ import { Controller, Control } from 'react-hook-form';
 
 export interface Option {
   label: string;
-  value: string;
+  value: string | number;
 }
 
 interface FormDropdownProps {
   label: string;
-  name?: string;
+  name: string;
   control?: Control<any>;
   options: Option[];
   placeholder?: string;
   disabled?: boolean;
   writeable?: boolean;
   required?: string;
-  value?: string;
-  displayValue?: string;
-  onChange?: (value: string) => void;
+  onChange?: (value: string | number) => void;
 }
 
 export const FormDropdown: React.FC<FormDropdownProps> = ({
@@ -26,73 +24,76 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
   name,
   control,
   options,
-  placeholder,
+  placeholder = 'Select...',
   disabled = false,
   writeable = false,
   required,
-  value,
-  displayValue,
   onChange
 }) => {
-  const isControlled = value !== undefined && onChange !== undefined;
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState('');
+  const [highlightedIndex, setHighlightedIndex] = useState(0);
 
-  const DropdownCore: React.FC<{
-    value: string;
-    onChange: (val: string) => void;
-    error?: string;
-  }> = ({ value, onChange, error }) => {
-    const [open, setOpen] = useState(false);
-    const [search, setSearch] = useState(displayValue ?? value ?? '');
-    const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
+  const renderDropdown = (
+    value: string | number,
+    setValue: (v: string | number) => void,
+    error?: any
+  ) => {
     useEffect(() => {
-      const selectedOption = options.find((o) => o.value === value);
-      setSearch(selectedOption ? selectedOption.label : value ?? '');
-    }, [value, options]);
-
-    useEffect(() => {
-      const handleClickOutside = (e: MouseEvent) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-          setOpen(false);
-        }
-      };
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
+      if (writeable) return;
+      setValue(value);
+      const found = options.find((i) => i.value === value);
+      setSearch(found?.label ?? '');
+    }, [
+      value,
+      options,
+      writeable
+    ]);
 
     const filtered = options.filter((opt) => opt.label.toLowerCase().includes(search.toLowerCase()));
 
     const isCustomValue = writeable && value && !options.some((o) => o.value === value);
-    const inputValue = search || (isCustomValue ? value : options.find((o) => o.value === value)?.label ?? '');
-
-    const handleSelect = (val: Option | string) => {
-      const newValue = typeof val === 'string' ? val : val.value;
-      const newLabel = typeof val === 'string' ? val : val.label;
-      setSearch(newLabel);
-      setOpen(false);
-      setHighlightedIndex(-1);
-      onChange?.(newValue);
-    };
+    const displayLabel = isCustomValue
+      ? String(value)
+      : options.find((o) => o.value === value)?.label ?? '';
+    const inputValue = search || displayLabel;
 
     const handleInputChange = (val: string) => {
       setSearch(val);
-      if (!open) setOpen(true);
-      if (writeable) onChange?.(val);
+      setOpen(true);
+      if (writeable) {
+        setValue(val);
+        onChange?.(val);
+      }
       setHighlightedIndex(0);
     };
 
-    const handleClear = () => {
-      onChange?.('');
-      setSearch('');
-      setHighlightedIndex(-1);
+    const handleSelect = (opt: Option | string) => {
+      if (typeof opt === 'string') {
+        setValue(opt);
+        onChange?.(opt);
+        setSearch(opt);
+      } else {
+        setValue(opt.value);
+        onChange?.(opt.value);
+        setSearch(opt.label);
+      }
+      setOpen(false);
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (!open && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
-        setOpen(true);
-        return;
-      }
+      if (!open) return;
       if (e.key === 'ArrowDown') {
         e.preventDefault();
         setHighlightedIndex((prev) => Math.min(prev + 1, filtered.length - 1));
@@ -110,9 +111,16 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
       }
     };
 
+    const handleClear = () => {
+      setValue(undefined);
+      setSearch('');
+      onChange?.('');
+      setHighlightedIndex(0);
+    };
+
     return (
       <div className='flex flex-col gap-1 relative' ref={dropdownRef}>
-        <label className='input-text-label'>{label}</label>
+        <label htmlFor={name} className='input-text-label'>{label}</label>
         <div className='relative'>
           <input
             type='text'
@@ -120,12 +128,21 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
             onChange={(e) => handleInputChange(e.target.value)}
             onFocus={() => setOpen(true)}
             onKeyDown={handleKeyDown}
-            placeholder={placeholder || 'Select...'}
+            placeholder={placeholder}
             disabled={disabled}
-            className='input-text pr-16'
+            className='input-text pr-10'
             readOnly={!writeable && !open}
           />
+          {inputValue && (
+            <button
+              type='button'
+              onClick={handleClear}
+              className='absolute inset-y-0 right-9 text-gray-400 hover:text-gray-200 flex items-center cursor-pointer'
 
+            >
+              <X size={18} />
+            </button>
+          )}
           <button
             type='button'
             onClick={() => setOpen(!open)}
@@ -133,27 +150,16 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
           >
             <ArrowDownWideNarrow />
           </button>
-
-          {inputValue && (
-            <button
-              type='button'
-              onClick={handleClear}
-              className='absolute inset-y-0 right-9 text-gray-400 hover:text-gray-200 flex items-center cursor-pointer'
-            >
-              <X size={18} />
-            </button>
-          )}
-
           {open && (
             <div className='absolute z-10 mt-1 w-full bg-gray-900/80 backdrop-blur-md border border-neutral-700 rounded-lg max-h-60 overflow-auto shadow-lg'>
               {filtered.length > 0
-                ? filtered.map((opt, i) => (
+                ? filtered.map((opt, index) => (
                   <div
                     key={opt.value}
                     onClick={() => handleSelect(opt)}
-                    className={`px-3 py-2 cursor-pointer ${
-                      highlightedIndex === i ? 'bg-indigo-600 text-white' : ''
-                    } ${value === opt.value ? 'font-semibold' : ''} hover:bg-indigo-600`}
+                    className={`px-3 py-2 cursor-pointer hover:bg-indigo-600 ${
+                        highlightedIndex === index ? 'bg-indigo-700 text-white' : ''
+                      } ${value === opt.value ? 'font-semibold' : ''}`}
                   >
                     {opt.label}
                   </div>
@@ -173,14 +179,12 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
             </div>
           )}
         </div>
-        {error && <p className='text-indigo-500 text-sm mt-1'>{error}</p>}
+        {error && <p className='text-indigo-500 text-sm mt-1'>{error.message}</p>}
       </div>
     );
   };
 
-  if (isControlled) return <DropdownCore value={value!} onChange={onChange!} />;
-
-  if (control && name) {
+  if (control) {
     return (
       <Controller
         name={name}
@@ -191,17 +195,11 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
             return true;
           }
         }}
-        render={({ field, fieldState }) => (
-          <DropdownCore
-            value={field.value ?? ''}
-            // eslint-disable-next-line react/jsx-handler-names
-            onChange={field.onChange}
-            error={fieldState.error?.message}
-          />
-        )}
+        render={({ field, fieldState }) => renderDropdown(field.value ?? '', field.onChange, fieldState?.error)}
       />
     );
   }
 
-  return <DropdownCore value={value ?? ''} onChange={() => {}} />;
+  const [internalValue, setInternalValue] = useState<string | number>('');
+  return renderDropdown(internalValue, setInternalValue);
 };
