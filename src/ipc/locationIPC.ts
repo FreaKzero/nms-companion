@@ -1,3 +1,8 @@
+import { existsSync, rmSync } from 'node:fs';
+import path from 'node:path';
+
+import OptionManager from '@/app/lib/OptionManager';
+
 import Database from 'better-sqlite3';
 import { ipcMain } from 'electron';
 
@@ -85,9 +90,14 @@ export function registerLocationIpc (db: Database.Database) {
     return info.changes;
   });
 
-  // @TODO - delete images when existing
-
   ipcMain.handle('db.list.delete', (_ev, id: number) => {
+    const opt = OptionManager.load();
+    const picture = path.join(opt.locationThumbDir, `${String(id)}.png`);
+
+    if (existsSync(picture)) {
+      rmSync(picture);
+    }
+
     return db.prepare('DELETE FROM locations WHERE id = ?').run(id).changes;
   });
 
