@@ -1,5 +1,5 @@
 # Debt
-- [] rename entries routes and "list" namings to location
+- [x] rename entries routes and "list" namings to location
 - [] globalize tailwind styles in components
 - [x] find a CORRECT source for Biome deciphering
 - [x] add Expedition Fishes to fishtracker
@@ -18,11 +18,3 @@
 ## Import/Export
 
 --- 
-
-## Refactor Front
-
---
-
-## Refactor Back
-
-
