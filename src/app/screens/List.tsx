@@ -24,7 +24,6 @@ interface EnhancedListState extends ListState {
   onEdit: (id: number) => void;
 }
 
-// @TODO - initialstate biome undefined || null
 interface ScreenshotProps {
   screen: Nullable<string>;
   alt: string;

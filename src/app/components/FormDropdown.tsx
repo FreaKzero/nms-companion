@@ -145,8 +145,11 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
           )}
           <button
             type='button'
-            onClick={() => setOpen(!open)}
-            className='absolute inset-y-0 right-2 text-gray-400 hover:text-gray-200 flex items-center'
+            onClick={() => {
+              handleClear();
+              setOpen(!open);
+            }}
+            className='absolute inset-y-0 right-2 text-gray-400 hover:text-gray-200 flex items-center cursor-pointer'
           >
             <ArrowDownWideNarrow />
           </button>

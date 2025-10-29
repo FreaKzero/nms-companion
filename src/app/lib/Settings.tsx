@@ -22,6 +22,7 @@ function SettingsPage () {
       setValue('databasePath', settings.databasePath, { shouldValidate: true, shouldDirty: true });
       setValue('charName', settings.charName);
       setValue('redditFeed', settings.redditFeed);
+      setValue('picSize', settings.picSize);
     };
     stopAutoRefresh();
     getSettings();
@@ -75,6 +76,12 @@ function SettingsPage () {
             label='Reddit Feed'
             id='redditFeed'
             register={register('redditFeed', { required: 'Reddit Feed is required' })}
+          />
+
+          <FormInput
+            id='picSize'
+            label='Picture Resize (px)'
+            register={register('picSize', { required: 'Picture Resize is required' })}
           />
 
         </div>

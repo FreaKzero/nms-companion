@@ -10,6 +10,7 @@ export interface OptionManagerType {
   charName: string;
   fishtrackerFile: string;
   redditFeed: string;
+  picSize: string;
 }
 
 const BASE_DIR = path.join(app.getPath('home'), '.nms-log');
@@ -20,7 +21,8 @@ const DEFAULT: OptionManagerType = {
   databasePath: path.join(BASE_DIR, 'nms-log.sqlite'),
   fishtrackerFile: path.join(BASE_DIR, 'fishtracker.json'),
   charName: '',
-  redditFeed: 'NMSCoordinateExchange'
+  redditFeed: 'NMSCoordinateExchange',
+  picSize: '1200'
 };
 
 if (!fs.existsSync(BASE_DIR)) {
