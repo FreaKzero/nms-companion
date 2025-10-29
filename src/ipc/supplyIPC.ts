@@ -8,6 +8,8 @@ export interface SupplyState {
   Storage: number;
   Material: string;
   LastPickup?: string;
+  Progress?: number;
+  Stored?: number;
 }
 
 export function registerSupplyIpc (db: Database.Database) {
@@ -39,6 +41,32 @@ export function registerSupplyIpc (db: Database.Database) {
   });
 
   ipcMain.handle('db.supply.getAll', (_ev, search: string = '') => {
+    const enrichEntries = (data: SupplyState[]) => {
+      const now = new Date();
+
+      return data.map((supply) => {
+        let progress;
+        let stored;
+        const diffMs = now.getTime() - new Date(supply.LastPickup).getTime();
+
+        if (diffMs < 172800000) { // 2 days max
+          const extracted = (diffMs / (1000 * 60 * 60)) * supply.ExtractionPerHour;
+          progress = Math.min((extracted / supply.Storage) * 100, 100);
+          stored = Math.floor(extracted);
+        } else {
+          stored = supply.Storage;
+          progress = 100;
+        }
+
+        return {
+          ...supply,
+          Stored: stored,
+          Progress: progress
+        };
+      })
+        .sort((a, b) => new Date(b.LastPickup).getTime() - new Date(a.LastPickup).getTime());
+    };
+
     if (search && search.trim() !== '') {
       const terms = search.split(/\s+/).filter(Boolean);
       const whereClauses = terms
@@ -55,12 +83,13 @@ export function registerSupplyIpc (db: Database.Database) {
         WHERE ${whereClauses}
         ORDER BY id DESC
       `;
+
       const entries = db.prepare(sql).all() as unknown as SupplyState[];
-      return entries.sort((a, b) => new Date(b.LastPickup).getTime() - new Date(a.LastPickup).getTime());
+      return enrichEntries(entries);
     }
 
     const entries = db.prepare('SELECT * FROM supply ORDER BY id DESC').all() as unknown as SupplyState[];
-    return entries.sort((a, b) => new Date(b.LastPickup).getTime() - new Date(a.LastPickup).getTime());
+    return enrichEntries(entries);
   });
 
   ipcMain.handle('db.supply.getId', (_ev, id: number) => {

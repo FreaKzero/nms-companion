@@ -138,22 +138,6 @@ const SupplyDepot = (supply: SupplyState & { onEdit: (s: SupplyState) => void })
   const pickup = useSupplyStore((s) => s.pickup);
   const deleteDepot = useSupplyStore((s) => s.delete);
 
-  let uiStorage;
-  let progress;
-
-  // @TODO do this in backend ?
-  const now = new Date();
-  const diffMs = now.getTime() - new Date(supply.LastPickup).getTime();
-
-  if (diffMs < 172800000) { // 2 days max
-    const extracted = (diffMs / (1000 * 60 * 60)) * supply.ExtractionPerHour;
-    progress = Math.min((extracted / supply.Storage) * 100, 100);
-    uiStorage = Math.floor(extracted);
-  } else {
-    uiStorage = supply.Storage;
-    progress = 100;
-  }
-
   const handleDelete = async (id: number) => {
     if (await confirmModal('Do you really want to delete this Supply Depot?')) {
       await deleteDepot(id);
@@ -167,14 +151,14 @@ const SupplyDepot = (supply: SupplyState & { onEdit: (s: SupplyState) => void })
   return (
     <li className='flex items-start gap-3 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transtion-all duration-200 rounded-lg'>
       <div className='w-15 h-15 rounded-lg flex items-center justify-center bg-gradient-to-t from-green-900 to-green-700'>
-        <IconProgress progress={progress} /><br />
+        <IconProgress progress={supply.Progress} /><br />
       </div>
       <div className='flex flex-col flex-1 text-sm text-gray-900 dark:text-gray-100'>
         <p className='line-clamp-2 text-xl font-nms'>{supply.Material} • {supply.BaseName}</p>
         <div className='flex justify-between'>
           <div>
             <p className='text-gray-600 dark:text-gray-400 text-xs'><strong>Extraction:</strong><span className='ml-[10px]'>{supply.ExtractionPerHour} per Hour</span></p>
-            <p className='text-gray-600 dark:text-gray-400 text-xs'><strong>Storage:</strong> <span className='ml-[21px]'>{uiStorage} / {supply.Storage}</span></p>
+            <p className='text-gray-600 dark:text-gray-400 text-xs'><strong>Storage:</strong> <span className='ml-[21px]'>{supply.Stored} / {supply.Storage}</span></p>
           </div>
           <div className='self-end flex gap-2'>
             <button className='cursor-pointer' onClick={() => pickup(supply.id)}>
