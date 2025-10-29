@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import Loader from '../components/Loader';
 import LocationForm from '../components/LocationForm';
-import useListStore from '../stores/useListStore';
+import useListStore from '../stores/useLocationStore';
 
 function EditLocationPage () {
   const { id } = useParams();

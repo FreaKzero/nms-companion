@@ -13,7 +13,7 @@ import Glyphs from '../components/Glyphs';
 import Pagination from '../components/Pagination';
 import { TagList } from '../components/TagList';
 import { Nullable } from '../stores/apiInterfaces';
-import useListStore from '../stores/useListStore';
+import useListStore from '../stores/useLocationStore';
 import useMetaStore from '../stores/useMetaStore';
 import { useAutoRefreshStore } from '../stores/useRefreshStore';
 interface EnhancedListState extends ListState {

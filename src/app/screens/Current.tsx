@@ -12,7 +12,7 @@ import { FormInput } from '../components/FormInput';
 import { FormScreenShotPaster, ScreenshotValue } from '../components/FormScreenShotPaster';
 import { FormTextArea } from '../components/FormTextArea';
 import Loader from '../components/Loader';
-import useListStore from '../stores/useListStore';
+import useListStore from '../stores/useLocationStore';
 import useMetaStore from '../stores/useMetaStore';
 import usePositionStore from '../stores/usePositionStore';
 import { useAutoRefreshStore } from '../stores/useRefreshStore';

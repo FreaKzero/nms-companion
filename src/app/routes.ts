@@ -6,7 +6,7 @@ import SettingsPage from './lib/Settings';
 import CurrentPage from './screens/Current';
 import EditLocationPage from './screens/EditLocation';
 import FishTrackerPage from './screens/Fishtracker';
-import ListPage from './screens/List';
+import ListPage from './screens/Locations';
 import MissionsPage from './screens/Missions';
 import RedditPage from './screens/Reddit';
 import SupplyPage from './screens/Supply';

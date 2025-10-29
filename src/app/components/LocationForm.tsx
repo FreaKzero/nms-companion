@@ -13,7 +13,7 @@ import { FormScreenShotPaster, ScreenshotValue } from '../components/FormScreenS
 import { FormTextArea } from '../components/FormTextArea';
 import GlyphInput from '../components/GlyphInput';
 import { GalaxyNames } from '../mappings/GalaxyNames';
-import useListStore from '../stores/useListStore';
+import useListStore from '../stores/useLocationStore';
 import useMetaStore from '../stores/useMetaStore';
 import { useAutoRefreshStore } from '../stores/useRefreshStore';
 
