@@ -2,10 +2,13 @@ import { ThemeProvider } from '@/app/components/theme-provider';
 
 import { Route, HashRouter as Router, Routes } from 'react-router-dom';
 
+import { registerBiomeSearch } from './BiomeSearchModal';
 import ContentContainer from './components/ContentContainer';
 import RouterListener from './components/RouterListener';
 import SideBar from './components/Sidebar';
 import { routes } from './routes';
+
+registerBiomeSearch();
 
 export default function App () {
   return (

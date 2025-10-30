@@ -1,6 +1,6 @@
 import noscreen from 'assets/noscreen.png';
 
-import { Trash2Icon, Share2, Pencil } from 'lucide-react';
+import { Trash2Icon, Pencil, OmegaIcon, Share2Icon } from 'lucide-react';
 import React, { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -34,6 +34,9 @@ interface ScreenshotProps {
 const GlyphModal: React.FC<ListState> = (props) => {
   const { GalaxyName, Description, Screenshot, PortalCode } = props;
 
+  const handlePortalCopy = async () => {
+    await navigator.clipboard.writeText(`https://nmsportals.github.io/#${props.PortalCode}`);
+  };
   const handleShare = () => {
     navigator.clipboard.writeText(`${GalaxyName} - ${Description}`);
     electron.ipcRenderer.invoke('SHOW_FILE', Screenshot);
@@ -49,13 +52,23 @@ const GlyphModal: React.FC<ListState> = (props) => {
       />
 
       <div className='absolute top-4 right-4 z-20 flex gap-3'>
+
+        <button
+          onClick={handlePortalCopy}
+          className='p-2 rounded-full bg-black/40 hover:bg-indigo-700/60 duration-300 backdrop-blur-sm transition cursor-pointer'
+          title='Copy Portal Code (URL)'
+        >
+          <OmegaIcon size={20} className='text-white' />
+        </button>
+
         <button
           onClick={handleShare}
           className='p-2 rounded-full bg-black/40 hover:bg-indigo-700/60 duration-300 backdrop-blur-sm transition cursor-pointer'
           title='Share (Copies Description)'
         >
-          <Share2 size={20} className='text-white' />
+          <Share2Icon size={20} className='text-white' />
         </button>
+
       </div>
 
       <div className='absolute bottom-5 left-1/2 -translate-x-1/2 z-10 bg-black/30 backdrop-blur-sm rounded-xl p-5 flex flex-col items-center w-[760px] shadow-[0_0_15px_rgba(255,255,255,0.15)]'>

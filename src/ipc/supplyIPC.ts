@@ -69,14 +69,15 @@ export function registerSupplyIpc (db: Database.Database) {
 
     if (search && search.trim() !== '') {
       const terms = search.split(/\s+/).filter(Boolean);
-      const whereClauses = terms
-        .map((_, i) => `(BaseName LIKE @term${i} OR Material LIKE @term${i})`)
-        .join(' AND ');
 
       const params: Record<string, string> = {};
       terms.forEach((t, i) => {
         params[`term${i}`] = `%${t}%`;
       });
+
+      const whereClauses = terms
+        .map((_, i) => `(BaseName LIKE @term${i} OR Material LIKE @term${i})`)
+        .join(' AND ');
 
       const sql = `
         SELECT * FROM supply
@@ -84,7 +85,7 @@ export function registerSupplyIpc (db: Database.Database) {
         ORDER BY id DESC
       `;
 
-      const entries = db.prepare(sql).all() as unknown as SupplyState[];
+      const entries = db.prepare(sql).all(params) as unknown as SupplyState[];
       return enrichEntries(entries);
     }
 
