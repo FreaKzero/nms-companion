@@ -127,12 +127,12 @@ function CurrentPage () {
           </div>
         </div>
         <div className='mt-10 text-right'>
-          <button type='submit' className='button mr-5'>
-            Save Location
-          </button>
-
           <button type='button' className='button2' onClick={() => navigate('/list')}>
             Cancel
+          </button>
+
+          <button type='submit' className='button ml-5'>
+            Save Location
           </button>
         </div>
       </form>

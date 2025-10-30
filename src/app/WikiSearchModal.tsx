@@ -45,4 +45,8 @@ export function registerWikiSearch () {
   };
 
   window.addEventListener('keydown', handleShortcut);
+  electron.ipcRenderer.on('MENU_WIKISEARCH', () => {
+    openCustomModal(<Custom />, '', () => { isOpen = false; });
+    isOpen = true;
+  });
 }

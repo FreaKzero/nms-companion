@@ -59,6 +59,23 @@ const MenuItems: Electron.MenuItemConstructorOptions[] = [
     ]
   },
   {
+    label: 'Tools',
+    submenu: [
+      {
+        id: 'nmswiki',
+        label: 'Search in NMS Wiki',
+        click: () => emitEvent('MENU_WIKISEARCH'),
+        accelerator: 'CmdOrCtrl+F'
+      },
+      {
+        id: 'biome',
+        label: 'Biome Decoder',
+        click: () => emitEvent('MENU_BIOME'),
+        accelerator: 'CmdOrCtrl+B'
+      }
+    ]
+  },
+  {
     label: 'View',
     submenu: [
       {
