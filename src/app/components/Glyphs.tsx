@@ -78,7 +78,7 @@ const Glyphs = ({ portalCode, width = 'w-10' }: { portalCode?: string; width?: s
       <div
         onClick={handleClick}
         className={`
-          flex cursor-pointer transition-transform duration-75 active:scale-95
+          flex cursor-pointer transition-all duration-150 active:scale-90 select-none
           ${isPulsing ? 'animate-pulse' : ''}
         `}
       >

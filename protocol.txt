@@ -1,23 +1,36 @@
 # Debt
-- [x] rename entries routes and "list" namings to location
+
 - [] globalize tailwind styles in components
-- [x] find a CORRECT source for Biome deciphering
-- [x] add Expedition Fishes to fishtracker
-- [x] add not yet known prices to fishtracker
-- [x] rename dbipc to dbLocationIpc
-- [x] Reddit in settings
-- [x] Own Reddit IPC
-- [x] Research different depths for fishing in fishtracker
-- [x] Mission: Make Frigates Yellow when they are Done
 - [] use defaultStates in Forms and remove the useEffect
 - [] Forms: Errorstates in Components
-- [x] find a list of all 255 Galaxies
-- [x] fix Helper Modals
-- [x] add Helper Modals to Menubar
+- [] Remove Lab from Sidebar - show it in AppMenu without accelerator
 
-# Features
+# Features/Ideas
 ---
 
 ## Import/Export
 
+--- 
+
+## Galaxy Discoveries
+
+### Brainstorm
+Check on every Positioncheck also in a database if a galaxyindex already exists
+if it doesnt write galaxyname, galaxyindex, discoverydate in a dbtable
+UI Accessible via Toolbar
+
+### Raw Data Structure
+
+export interface discoveries {
+  id?: number;
+  GalaxyIndex: number;
+  GalaxyName: string;
+  DiscoveryDate: string;
+}   
+
+### UI Ideas
+Show also a number of Portalcoordinates - JOIN Database with locations via GalaxyIndex 
+Number onclick navigates to LocationsPage with Galaxyfilter
+
+Replace dev/lab on sidebar with GalaxyDiscoveries
 --- 

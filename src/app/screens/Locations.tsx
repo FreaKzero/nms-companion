@@ -38,7 +38,7 @@ const GlyphModal: React.FC<ListState> = (props) => {
     await navigator.clipboard.writeText(`https://nmsportals.github.io/#${props.PortalCode}`);
   };
   const handleShare = () => {
-    navigator.clipboard.writeText(`${GalaxyName} - ${Description}`);
+    navigator.clipboard.writeText(`${GalaxyName} - ${Description} \nhttps://nmsportals.github.io/#${props.PortalCode}`);
     electron.ipcRenderer.invoke('SHOW_FILE', Screenshot);
   };
 
@@ -177,8 +177,8 @@ function ListPage () {
 
   useEffect(() => {
     startAutoRefresh();
-    getGalaxies(true);
-    getBiomes(true);
+    getGalaxies();
+    getBiomes();
     getPage(1, pageSize);
   }, [
     startAutoRefresh,
