@@ -6,9 +6,10 @@ interface CustomModalProps {
   container: HTMLElement;
   children: React.ReactNode;
   className?: string;
+  closeCallback?: () => void;
 }
 
-const CustomModal: React.FC<CustomModalProps> = ({ root, container, children, className }) => {
+const CustomModal: React.FC<CustomModalProps> = ({ root, container, children, className, closeCallback }) => {
   const [visible, setVisible] = useState(false);
 
   const cl = className || 'bg-gray-900 rounded-xl shadow-2xl p-6 transform transition-all text-center duration-200';
@@ -18,6 +19,7 @@ const CustomModal: React.FC<CustomModalProps> = ({ root, container, children, cl
     setTimeout(() => {
       root.unmount();
       container.remove();
+      closeCallback();
     }, 150);
   };
 
@@ -50,10 +52,10 @@ const CustomModal: React.FC<CustomModalProps> = ({ root, container, children, cl
   );
 };
 
-export function openCustomModal (children: React.ReactNode, className?: string) {
+export function openCustomModal (children: React.ReactNode, className?: string, closeCallback?: () => void) {
   const container = document.createElement('div');
   document.body.appendChild(container);
   const root = ReactDOM.createRoot(container);
 
-  root.render(<CustomModal root={root} container={container} className={className}>{children}</CustomModal>);
+  root.render(<CustomModal root={root} container={container} className={className} closeCallback={closeCallback}>{children}</CustomModal>);
 }

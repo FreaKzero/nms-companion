@@ -23,9 +23,9 @@ interface MetaStoreState {
   optionTags: Option[];
   optionGalaxies: Option[];
   optionBiomes: Option[];
-  getTags: () => Promise<void>;
-  getGalaxies: (withAllOpt: boolean) => Promise<void>;
-  getBiomes: (withAllOpt: boolean) => Promise<void>;
+  getTags: (withAllOpt?: boolean) => Promise<void>;
+  getGalaxies: (withAllOpt?: boolean) => Promise<void>;
+  getBiomes: (withAllOpt?: boolean) => Promise<void>;
 }
 
 const defState = {
@@ -41,18 +41,22 @@ const defState = {
 
 const useMetaStore = create<MetaStoreState>((set) => ({
   ...defState,
-  getTags: async () => {
+  getTags: async (withAllOpt?: boolean) => {
     set({ ...defState, loading: true });
     try {
       const tags: iTag[] = await electron.ipcRenderer.invoke('db.list.getTags');
-      const optionTags = tags.map((i) => ({ label: i.Tag, value: i.Tag }));
+      let optionTags = tags.map((i) => ({ label: i.Tag, value: i.Tag }));
+
+      if (withAllOpt) {
+        optionTags = [{ label: 'All', value: '' }, ...optionTags];
+      }
 
       set({ optionTags, tags: tags.map((i) => i.Tag), loading: false, error: false });
     } catch (_err) {
       set({ ...defState, loading: false, error: true });
     }
   },
-  getGalaxies: async (withAllOpt: boolean) => {
+  getGalaxies: async (withAllOpt?: boolean) => {
     set({ ...defState, loading: true });
     try {
       const galaxies: iGalaxy[] = await electron.ipcRenderer.invoke('db.list.getGalaxies');
@@ -67,7 +71,7 @@ const useMetaStore = create<MetaStoreState>((set) => ({
       set({ ...defState, loading: false, error: true });
     }
   },
-  getBiomes: async (withAllOpt: boolean) => {
+  getBiomes: async (withAllOpt?: boolean) => {
     set({ ...defState, loading: true });
     try {
       const biomes: iBiome[] = await electron.ipcRenderer.invoke('db.list.getBiomes');

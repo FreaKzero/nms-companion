@@ -7,8 +7,10 @@ import ContentContainer from './components/ContentContainer';
 import RouterListener from './components/RouterListener';
 import SideBar from './components/Sidebar';
 import { routes } from './routes';
+import { registerWikiSearch } from './WikiSearchModal';
 
 registerBiomeSearch();
+registerWikiSearch();
 
 export default function App () {
   return (

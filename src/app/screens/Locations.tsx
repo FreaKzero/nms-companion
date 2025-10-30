@@ -158,6 +158,7 @@ function ListPage () {
 
   const getGalaxies = useMetaStore((s) => s.getGalaxies);
   const getBiomes = useMetaStore((s) => s.getBiomes);
+
   const optionGalaxies = useMetaStore((s) => s.optionGalaxies);
   const optionBiomes = useMetaStore((s) => s.optionBiomes);
 

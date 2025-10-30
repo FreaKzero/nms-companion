@@ -200,10 +200,15 @@ function LocationForm ({ editItem }: ManualPageProps) {
             {errors.Description && <p className='text-indigo-500 text-sm mt-1'>{errors.Description.message}</p>}
           </div>
         </div>
+        <div className='mt-10 text-right'>
+          <button type='submit' className='button mr-5'>
+            {editItem ? 'Update Location' : 'Save Location'}
+          </button>
 
-        <button type='submit' className='button mt-10'>
-          {editItem ? 'Update Location' : 'Save Location'}
-        </button>
+          <button type='button' className='button2' onClick={() => navigate('/list')}>
+            Cancel
+          </button>
+        </div>
 
         <GlyphInput onClick={handleSelectGlyph} active={glyphInput} />
       </form>

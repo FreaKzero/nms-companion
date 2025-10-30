@@ -1,5 +1,3 @@
-'use client';
-
 import { ArrowDownWideNarrow, X } from 'lucide-react';
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { Controller, Control } from 'react-hook-form';
@@ -20,6 +18,7 @@ interface FormBiomeInputProps {
   required?: string;
   value?: string;
   onChange?: (value: string) => void;
+  autoFocus?: boolean;
 }
 
 export const FormBiomeInput: React.FC<FormBiomeInputProps> = ({
@@ -30,7 +29,8 @@ export const FormBiomeInput: React.FC<FormBiomeInputProps> = ({
   disabled = false,
   required,
   value: controlledValue,
-  onChange: controlledOnChange
+  onChange: controlledOnChange,
+  autoFocus = false
 }) => {
   const isControlled = controlledValue !== undefined && controlledOnChange !== undefined;
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -43,10 +43,25 @@ export const FormBiomeInput: React.FC<FormBiomeInputProps> = ({
     const [open, setOpen] = useState(false);
     const [search, setSearch] = useState(value);
     const [highlightedIndex, setHighlightedIndex] = useState(-1);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
       setSearch(value);
     }, [value]);
+
+    useEffect(() => {
+      if (autoFocus && inputRef.current) {
+        inputRef.current.focus();
+        inputRef.current.setSelectionRange(search.length, search.length);
+      }
+    }, [autoFocus, search.length]);
+
+    useEffect(() => {
+      if (open && inputRef.current) {
+        inputRef.current.focus();
+        inputRef.current.setSelectionRange(search.length, search.length);
+      }
+    }, [open, search.length]);
 
     useEffect(() => {
       const handleClickOutside = (e: MouseEvent) => {
@@ -136,6 +151,7 @@ export const FormBiomeInput: React.FC<FormBiomeInputProps> = ({
 
         <div className='relative'>
           <input
+            ref={inputRef}
             type='text'
             disabled={disabled}
             value={search}
@@ -149,8 +165,9 @@ export const FormBiomeInput: React.FC<FormBiomeInputProps> = ({
           <button
             type='button'
             onClick={() => {
-              if (search) handleClear();
-              else setOpen((o) => !o);
+              handleClear();
+              setOpen(true);
+              autoFocus && setTimeout(() => inputRef.current?.focus(), 0);
             }}
             className='absolute inset-y-0 right-2 text-gray-400 hover:text-gray-200 flex items-center cursor-pointer'
           >
@@ -170,27 +187,23 @@ export const FormBiomeInput: React.FC<FormBiomeInputProps> = ({
           {open && (
             <div className='absolute z-10 mt-1 w-full bg-gray-900/80 backdrop-blur-md border border-neutral-700 rounded-lg max-h-60 overflow-auto shadow-lg'>
               {filteredOptions.length > 0
-                ? (
-                    filteredOptions.map((opt, i) => (
-                      <div
-                        key={`${opt.name}-${opt.alt}`}
-                        onClick={() => handleSelect(opt.name, opt.alt)}
-                        className={`px-3 py-2 cursor-pointer transition-colors ${
-                      highlightedIndex === i
-                        ? 'bg-indigo-600 text-white'
-                        : value === opt.name
-                        ? 'bg-indigo-700 text-white'
-                        : 'hover:bg-indigo-600'
-                    }`}
-                      >
-                        <span className='block text-white font-medium'>{opt.name}</span>
-                        <span className='block text-xs text-gray-400'>({opt.alt})</span>
-                      </div>
-                    ))
-                  )
-                : (
-                  <div className='px-3 py-2 text-sm text-gray-400'>No results found</div>
-                  )}
+                ? filteredOptions.map((opt, i) => (
+                  <div
+                    key={`${opt.name}-${opt.alt}`}
+                    onClick={() => handleSelect(opt.name, opt.alt)}
+                    className={`px-3 py-2 cursor-pointer transition-colors ${
+                        highlightedIndex === i
+                          ? 'bg-indigo-600 text-white'
+                          : value === opt.name
+                          ? 'bg-indigo-700 text-white'
+                          : 'hover:bg-indigo-600'
+                      }`}
+                  >
+                    <span className='block text-white font-medium'>{opt.name}</span>
+                    <span className='block text-xs text-gray-400'>({opt.alt})</span>
+                  </div>
+                ))
+                : <div className='px-3 py-2 text-sm text-gray-400'>No results found</div>}
             </div>
           )}
         </div>

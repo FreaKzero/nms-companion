@@ -12,6 +12,9 @@
 - [] use defaultStates in Forms and remove the useEffect
 - [] Forms: Errorstates in Components
 - [x] find a list of all 255 Galaxies
+- [x] fix Helper Modals
+- [] add Helper Modals to Menubar
+
 # Features
 ---
 

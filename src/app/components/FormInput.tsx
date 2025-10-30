@@ -1,5 +1,5 @@
 import { X } from 'lucide-react';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 interface FormInputProps {
@@ -13,6 +13,8 @@ interface FormInputProps {
   placeholder?: string;
   onClear?: () => void;
   className?: string;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  autoFocus?: boolean;
 }
 
 export const FormInput: React.FC<FormInputProps> = ({
@@ -25,8 +27,18 @@ export const FormInput: React.FC<FormInputProps> = ({
   disabled = false,
   placeholder,
   onClear,
-  className
+  onKeyDown,
+  className,
+  autoFocus = false
 }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (autoFocus && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [autoFocus]);
+
   return (
     <div className={`flex flex-col gap-1 relative ${className}`}>
       <label htmlFor={id} className='input-text-label'>
@@ -35,12 +47,14 @@ export const FormInput: React.FC<FormInputProps> = ({
       <div className='relative w-full'>
         <input
           id={id}
+          ref={inputRef}
           type={type}
           placeholder={placeholder}
           disabled={disabled}
           {...(register || {})}
           value={value}
           onChange={onChange}
+          onKeyDown={onKeyDown}
           className='input-text pr-8'
         />
         {onClear && value && value.length > 0 && (
@@ -53,7 +67,6 @@ export const FormInput: React.FC<FormInputProps> = ({
           </button>
         )}
       </div>
-
     </div>
   );
 };

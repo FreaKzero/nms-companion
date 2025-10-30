@@ -51,94 +51,85 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
     error?: any
   ) => {
     useEffect(() => {
-      if (writeable) return;
-      setValue(value);
-      const found = options.find((i) => i.value === value);
-      setSearch(found?.label ?? '');
-    }, [
-      value,
-      options,
-      writeable
-    ]);
+      const foundOption = options.find((opt) => opt.value === String(value));
+      setSearch(foundOption ? foundOption.label : (value ? String(value) : ''));
+    }, [value, options]);
 
-    const filtered = options.filter((opt) => opt.label.toLowerCase().includes(search.toLowerCase()));
+    const filteredOptions = options.filter((opt) => opt.label.toLowerCase().includes(search.toLowerCase()));
 
-    const isCustomValue = writeable && value && !options.some((o) => o.value === value);
-    const displayLabel = isCustomValue
-      ? String(value)
-      : options.find((o) => o.value === value)?.label ?? '';
-    const inputValue = search || displayLabel;
+    const isCustomValue = writeable && value && !options.some((opt) => opt.value === value);
+    const inputValue = search || (isCustomValue ? String(value) : '');
 
-    const handleInputChange = (val: string) => {
-      setSearch(val);
+    const handleInputChange = (newSearch: string) => {
+      setSearch(newSearch);
       setOpen(true);
-      if (writeable) {
-        setValue(val);
-        onChange?.(val);
-      }
       setHighlightedIndex(0);
+      if (writeable) {
+        setValue(newSearch);
+        onChange?.(newSearch);
+      }
     };
 
-    const handleSelect = (opt: Option | string) => {
-      if (typeof opt === 'string') {
-        setValue(opt);
-        onChange?.(opt);
-        setSearch(opt);
-      } else {
-        setValue(opt.value);
-        onChange?.(opt.value);
-        setSearch(opt.label);
-      }
+    const handleSelect = (selectedValue: string | number, selectedLabel: string) => {
+      setValue(selectedValue);
+      onChange?.(selectedValue);
+      setSearch(selectedLabel);
       setOpen(false);
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (!open) return;
       if (e.key === 'ArrowDown') {
         e.preventDefault();
-        setHighlightedIndex((prev) => Math.min(prev + 1, filtered.length - 1));
+        setHighlightedIndex((prev) => Math.min(prev + 1, filteredOptions.length - 1));
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
         setHighlightedIndex((prev) => Math.max(prev - 1, 0));
       } else if (e.key === 'Enter') {
         e.preventDefault();
-        if (filtered[highlightedIndex]) handleSelect(filtered[highlightedIndex]);
-        else if (writeable && search) handleSelect(search);
+        const highlightedOption = filteredOptions[highlightedIndex];
+        if (highlightedOption) {
+          handleSelect(highlightedOption.value, highlightedOption.label);
+        } else if (writeable && search) {
+          handleSelect(search, search);
+        }
       } else if (e.key === 'Escape') {
         setOpen(false);
-      } else if (e.key === 'Backspace') {
-        handleClear();
       }
     };
 
     const handleClear = () => {
-      setValue(undefined);
+      setValue('');
       setSearch('');
       onChange?.('');
       setHighlightedIndex(0);
+      setOpen(false);
     };
 
     return (
-      <div className='flex flex-col gap-1 relative' ref={dropdownRef}>
+      <div className='flex flex-col gap-1 relative' ref={dropdownRef} role='presentation'>
         <label htmlFor={name} className='input-text-label'>{label}</label>
         <div className='relative'>
           <input
+            id={name}
             type='text'
             value={inputValue}
             onChange={(e) => handleInputChange(e.target.value)}
-            onFocus={() => setOpen(true)}
+            onFocus={() => !disabled && setOpen(true)}
             onKeyDown={handleKeyDown}
             placeholder={placeholder}
             disabled={disabled}
             className='input-text pr-10'
             readOnly={!writeable && !open}
+            role='combobox'
+            aria-expanded={open}
+            aria-controls={`${name}-list`}
           />
           {inputValue && (
             <button
               type='button'
               onClick={handleClear}
               className='absolute inset-y-0 right-9 text-gray-400 hover:text-gray-200 flex items-center cursor-pointer'
-
+              aria-label='Clear selection'
             >
               <X size={18} />
             </button>
@@ -147,31 +138,42 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
             type='button'
             onClick={() => {
               handleClear();
-              setOpen(!open);
+              setOpen((prev) => !prev);
             }}
             className='absolute inset-y-0 right-2 text-gray-400 hover:text-gray-200 flex items-center cursor-pointer'
+            disabled={disabled}
+            aria-label='Toggle dropdown'
           >
             <ArrowDownWideNarrow />
           </button>
           {open && (
-            <div className='absolute z-10 mt-1 w-full bg-gray-900/80 backdrop-blur-md border border-neutral-700 rounded-lg max-h-60 overflow-auto shadow-lg'>
-              {filtered.length > 0
-                ? filtered.map((opt, index) => (
-                  <div
-                    key={opt.value}
-                    onClick={() => handleSelect(opt)}
-                    className={`px-3 py-2 cursor-pointer hover:bg-indigo-600 ${
-                        highlightedIndex === index ? 'bg-indigo-700 text-white' : ''
-                      } ${value === opt.value ? 'font-semibold' : ''}`}
-                  >
-                    {opt.label}
-                  </div>
-                ))
+            <div
+              id={`${name}-list`}
+              className='absolute z-10 mt-1 w-full bg-gray-900/80 backdrop-blur-md border border-neutral-700 rounded-lg max-h-60 overflow-auto shadow-lg'
+              role='listbox'
+            >
+              {filteredOptions.length > 0
+                ? (
+                    filteredOptions.map((opt, index) => (
+                      <div
+                        key={opt.value}
+                        onClick={() => handleSelect(opt.value, opt.label)}
+                        className={`px-3 py-2 cursor-pointer hover:bg-indigo-600 ${
+                      highlightedIndex === index ? 'bg-indigo-700 text-white' : ''
+                    } ${value === opt.value ? 'font-semibold' : ''}`}
+                        role='option'
+                        aria-selected={value === opt.value}
+                      >
+                        {opt.label}
+                      </div>
+                    ))
+                  )
                 : writeable && search
                   ? (
                     <div
                       className='px-3 py-2 cursor-pointer hover:bg-indigo-600 text-white'
-                      onClick={() => handleSelect(search)}
+                      onClick={() => handleSelect(search, search)}
+                      role='option'
                     >
                       Add new: {search}
                     </div>
@@ -194,11 +196,11 @@ export const FormDropdown: React.FC<FormDropdownProps> = ({
         control={control}
         rules={{
           validate: (v) => {
-            if (required && (v === undefined || v === null || v === '')) return required;
+            if (required && (v == null || v === '')) return required;
             return true;
           }
         }}
-        render={({ field, fieldState }) => renderDropdown(field.value ?? '', field.onChange, fieldState?.error)}
+        render={({ field, fieldState }) => renderDropdown(field.value ?? '', field.onChange, fieldState.error)}
       />
     );
   }
