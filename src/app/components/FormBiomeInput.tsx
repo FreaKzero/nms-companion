@@ -1,8 +1,15 @@
+'use client';
+
 import { ArrowDownWideNarrow, X } from 'lucide-react';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { Controller, Control } from 'react-hook-form';
 
 import BIOME_DATA from '../mappings/biomes.json';
+
+interface BiomeOption {
+  name: string;
+  alt: string;
+}
 
 interface FormBiomeInputProps {
   label: string;
@@ -19,13 +26,13 @@ export const FormBiomeInput: React.FC<FormBiomeInputProps> = ({
   label,
   name,
   control,
-  placeholder,
+  placeholder = 'Search Biome',
   disabled = false,
   required,
-  value,
-  onChange
+  value: controlledValue,
+  onChange: controlledOnChange
 }) => {
-  const isControlled = value !== undefined && onChange !== undefined;
+  const isControlled = controlledValue !== undefined && controlledOnChange !== undefined;
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const BiomeInputCore: React.FC<{
@@ -34,66 +41,94 @@ export const FormBiomeInput: React.FC<FormBiomeInputProps> = ({
     error?: string;
   }> = ({ value, onChange, error }) => {
     const [open, setOpen] = useState(false);
-    const [search, setSearch] = useState(value ?? '');
-    const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
+    const [search, setSearch] = useState(value);
+    const [highlightedIndex, setHighlightedIndex] = useState(-1);
 
     useEffect(() => {
-      setSearch(value ?? '');
+      setSearch(value);
     }, [value]);
 
     useEffect(() => {
       const handleClickOutside = (e: MouseEvent) => {
         if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
           setOpen(false);
+          setHighlightedIndex(-1);
         }
       };
       document.addEventListener('mousedown', handleClickOutside);
       return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const allAltNames = BIOME_DATA.flatMap((b) => b.altname.map((alt) => ({ alt, name: b.name })));
-    const filtered = allAltNames.filter((a) => a.alt.toLowerCase().includes(search.toLowerCase()));
+    const allOptions: BiomeOption[] = useMemo(() => {
+      return BIOME_DATA.flatMap((b) => b.altname.map((alt) => ({ name: b.name, alt })));
+    }, []);
 
-    const handleSelect = (val: string) => {
-      onChange(val);
-      setSearch(val);
+    const filteredOptions = useMemo(() => {
+      if (!search) return allOptions;
+      const lower = search.toLowerCase();
+      return allOptions.filter((opt) => opt.alt.toLowerCase().includes(lower));
+    }, [search, allOptions]);
+
+    const handleSelect = useCallback((name: string, alt: string) => {
+      onChange(name);
+      setSearch(alt);
       setOpen(false);
       setHighlightedIndex(-1);
-    };
+    }, [onChange]);
 
-    const handleInputChange = (val: string) => {
+    const handleInputChange = useCallback((val: string) => {
       setSearch(val);
-      if (!open) setOpen(true);
+      setOpen(true);
       setHighlightedIndex(0);
-    };
+    }, []);
 
-    const handleClear = () => {
+    const handleClear = useCallback(() => {
       onChange('');
       setSearch('');
       setHighlightedIndex(-1);
-    };
+    }, [onChange]);
 
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
       if (!open && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
         setOpen(true);
         return;
       }
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        setHighlightedIndex((prev) => Math.min(prev + 1, filtered.length - 1));
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        setHighlightedIndex((prev) => Math.max(prev - 1, 0));
-      } else if (e.key === 'Enter' && highlightedIndex >= 0 && filtered[highlightedIndex]) {
-        e.preventDefault();
-        handleSelect(filtered[highlightedIndex].name);
-      } else if (e.key === 'Escape') {
-        setOpen(false);
-      } else if (e.key === 'Backspace' && search === '') {
-        e.preventDefault();
-        handleClear();
+
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          setHighlightedIndex((prev) => Math.min(prev + 1, filteredOptions.length - 1));
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          setHighlightedIndex((prev) => Math.max(prev - 1, 0));
+          break;
+        case 'Enter':
+          if (highlightedIndex >= 0 && filteredOptions[highlightedIndex]) {
+            e.preventDefault();
+            const opt = filteredOptions[highlightedIndex];
+            handleSelect(opt.name, opt.alt);
+          }
+          break;
+        case 'Escape':
+          setOpen(false);
+          setHighlightedIndex(-1);
+          break;
+        case 'Backspace':
+          if (search === '') {
+            e.preventDefault();
+            handleClear();
+          }
+          break;
       }
-    };
+    }, [
+      open,
+      highlightedIndex,
+      filteredOptions,
+      handleSelect,
+      handleClear,
+      search
+    ]);
 
     return (
       <div className='flex flex-col gap-1 relative' ref={dropdownRef}>
@@ -107,14 +142,17 @@ export const FormBiomeInput: React.FC<FormBiomeInputProps> = ({
             onChange={(e) => handleInputChange(e.target.value)}
             onKeyDown={handleKeyDown}
             onFocus={() => setOpen(true)}
-            placeholder={placeholder || 'Search Biome'}
+            placeholder={placeholder}
             className='input-text pr-16'
           />
 
           <button
             type='button'
-            onClick={() => setOpen(!open)}
-            className='absolute inset-y-0 right-2 text-gray-400 hover:text-gray-200 flex items-center'
+            onClick={() => {
+              if (search) handleClear();
+              else setOpen((o) => !o);
+            }}
+            className='absolute inset-y-0 right-2 text-gray-400 hover:text-gray-200 flex items-center cursor-pointer'
           >
             <ArrowDownWideNarrow />
           </button>
@@ -131,13 +169,13 @@ export const FormBiomeInput: React.FC<FormBiomeInputProps> = ({
 
           {open && (
             <div className='absolute z-10 mt-1 w-full bg-gray-900/80 backdrop-blur-md border border-neutral-700 rounded-lg max-h-60 overflow-auto shadow-lg'>
-              {filtered.length > 0
+              {filteredOptions.length > 0
                 ? (
-                    filtered.map((opt, i) => (
+                    filteredOptions.map((opt, i) => (
                       <div
-                        key={i}
-                        onClick={() => handleSelect(opt.name)}
-                        className={`px-3 py-2 cursor-pointer ${
+                        key={`${opt.name}-${opt.alt}`}
+                        onClick={() => handleSelect(opt.name, opt.alt)}
+                        className={`px-3 py-2 cursor-pointer transition-colors ${
                       highlightedIndex === i
                         ? 'bg-indigo-600 text-white'
                         : value === opt.name
@@ -145,7 +183,7 @@ export const FormBiomeInput: React.FC<FormBiomeInputProps> = ({
                         : 'hover:bg-indigo-600'
                     }`}
                       >
-                        <span className='block text-white'>{opt.name}</span>
+                        <span className='block text-white font-medium'>{opt.name}</span>
                         <span className='block text-xs text-gray-400'>({opt.alt})</span>
                       </div>
                     ))
@@ -156,13 +194,14 @@ export const FormBiomeInput: React.FC<FormBiomeInputProps> = ({
             </div>
           )}
         </div>
+
         {error && <p className='text-indigo-500 text-sm mt-1'>{error}</p>}
       </div>
     );
   };
 
   if (isControlled) {
-    return <BiomeInputCore value={value!} onChange={onChange!} />;
+    return <BiomeInputCore value={controlledValue!} onChange={controlledOnChange!} />;
   }
 
   if (control && name) {
@@ -183,5 +222,5 @@ export const FormBiomeInput: React.FC<FormBiomeInputProps> = ({
     );
   }
 
-  return <BiomeInputCore value={value || ''} onChange={() => {}} />;
+  return <BiomeInputCore value='' onChange={() => {}} />;
 };

@@ -1,7 +1,7 @@
 import noscreen from 'assets/noscreen.png';
 
-import { Trash2Icon, Share2, PencilRulerIcon } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import { Trash2Icon, Share2, Pencil } from 'lucide-react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ListState } from '../../ipc/locationIPC';
@@ -16,6 +16,7 @@ import { Nullable } from '../stores/apiInterfaces';
 import useListStore from '../stores/useLocationStore';
 import useMetaStore from '../stores/useMetaStore';
 import { useAutoRefreshStore } from '../stores/useRefreshStore';
+
 interface EnhancedListState extends ListState {
   onDelete?: (key: number) => Promise<void>;
   onCopy?: (portalCode: string) => void;
@@ -30,23 +31,26 @@ interface ScreenshotProps {
   onClick: () => void;
 }
 
-const GlyphModal: React.FC<ListState> = (list) => {
-  const handleShare = (list: ListState) => {
-    navigator.clipboard.writeText(`${list.GalaxyName} - ${list.Description}`);
-    electron.ipcRenderer.invoke('SHOW_FILE', list.Screenshot);
+const GlyphModal: React.FC<ListState> = (props) => {
+  const { GalaxyName, Description, Screenshot, PortalCode } = props;
+
+  const handleShare = () => {
+    navigator.clipboard.writeText(`${GalaxyName} - ${Description}`);
+    electron.ipcRenderer.invoke('SHOW_FILE', Screenshot);
   };
 
   return (
     <div className='relative w-full h-full rounded-xl overflow-hidden'>
       <img
-        src={list.Screenshot || noscreen}
+        src={Screenshot || noscreen}
         alt='Screenshot'
         className='absolute inset-0 w-full h-full object-cover filter brightness-75'
+        onError={(e) => (e.currentTarget.src = noscreen)}
       />
 
       <div className='absolute top-4 right-4 z-20 flex gap-3'>
         <button
-          onClick={() => handleShare(list)}
+          onClick={handleShare}
           className='p-2 rounded-full bg-black/40 hover:bg-indigo-700/60 duration-300 backdrop-blur-sm transition cursor-pointer'
           title='Share (Copies Description)'
         >
@@ -55,62 +59,70 @@ const GlyphModal: React.FC<ListState> = (list) => {
       </div>
 
       <div className='absolute bottom-5 left-1/2 -translate-x-1/2 z-10 bg-black/30 backdrop-blur-sm rounded-xl p-5 flex flex-col items-center w-[760px] shadow-[0_0_15px_rgba(255,255,255,0.15)]'>
-        <h2 className='text-2xl text-white font-nms'>{list.GalaxyName}</h2>
-        <Glyphs portalCode={list.PortalCode} width='w-15' />
+        <h2 className='text-2xl text-white font-nms'>{GalaxyName}</h2>
+        <Glyphs portalCode={PortalCode} width='w-15' />
       </div>
     </div>
   );
 };
-const Screenshot: React.FC<ScreenshotProps> = ({ screen, alt, onClick }) => {
-  return screen
-    ? (
-      <img
-        src={screen}
-        alt={`${alt} thumbnail`}
-        className='rounded-md object-cover h-25 aspect-video border-4 border-indigo-500 hover:border-indigo-400 transition-all duration-200 cursor-pointer'
-        onClick={onClick}
-      />
-      )
-    : (
-      <img
-        src={noscreen}
-        alt={`${alt}`}
-        className='rounded-md object-cover h-25 aspect-video border-4 border-indigo-500 hover:border-indigo-400 transition-all duration-200 cursor-pointer'
-        onClick={onClick}
-      />
-      );
-};
 
-const ListItem: React.FC<EnhancedListState> = (loc) => {
-  const handleTagClick = (tag: string) => loc.onTagClick(tag);
+const Screenshot: React.FC<ScreenshotProps> = ({ screen, alt, onClick }) => {
+  const src = screen || noscreen;
 
   return (
-    <div className='flex flex-col justify-between items-start py-4 hover:bg-gray-800 transition rounded-lg px-2'>
-      <div className='flex gap-3 w-full'>
-        <Screenshot alt={loc.Description} screen={loc.Screenshot} onClick={() => loc.onSelect(loc)} />
-        <div className='w-full'>
-          <h3 className='text-indigo-400 hover:text-indigo-300 font-bold text-2xl cursor-pointer transition-colors duration-300 font-nms' onClick={() => loc.onSelect(loc)}>
-            {loc.Biome && `${loc.Biome} •`} {loc.GalaxyName}
+    <img
+      src={src}
+      alt={`${alt} thumbnail`}
+      className='rounded-md object-cover h-25 aspect-video border-4 border-indigo-500 hover:border-indigo-400 transition-all duration-200 cursor-pointer'
+      onClick={onClick}
+      onError={(e) => (e.currentTarget.src = noscreen)}
+    />
+  );
+};
+const ListItem: React.FC<EnhancedListState> = (loc) => {
+  const handleTagClick = (tag: string) => loc.onTagClick?.(tag);
+
+  return (
+    <div className='flex gap-4 py-4 hover:bg-gray-800 transition rounded-lg px-2'>
+      <Screenshot alt={loc.Description} screen={loc.Screenshot} onClick={() => loc.onSelect(loc)} />
+
+      <div className='flex-1 min-w-0 flex flex-col justify-between'>
+        <div className='flex items-start justify-between gap-4'>
+          <h3
+            className='text-indigo-400 hover:text-indigo-300 font-bold text-2xl cursor-pointer transition-colors duration-300 font-nms flex-shrink-0'
+            onClick={() => loc.onSelect(loc)}
+          >
+            {loc.Biome && `${loc.Biome} • `}{loc.GalaxyName}
           </h3>
-          <Glyphs portalCode={loc.PortalCode} width='w-7' />
-          <p className='mt-5'>{loc.Description}</p>
+
+          <div className='flex-1 min-w-0 flex justify-end mt-1'>
+            <TagList tags={loc.Tag} onClick={handleTagClick} />
+          </div>
         </div>
 
-        <div className='flex flex-col mt-3 sm:mt-0 justify-between items-end w-180'>
-          <TagList tags={loc.Tag} onClick={handleTagClick} />
-          <span className='text-gray-400 text-sm flex items-center gap-2'>
+        <div className='mt-2'>
+          <Glyphs portalCode={loc.PortalCode} width='w-8' />
+        </div>
+
+        <div className='flex items-end justify-between gap-3 mt-3'>
+          <p className='text-gray-300 line-clamp-2 flex-1'>
+            {loc.Description}
+          </p>
+
+          <div className='flex gap-3 self-end'>
             <button
-              className='cursor-pointer'
-              onClick={() => loc.onEdit?.(loc.id!)}
-            > <PencilRulerIcon size='20' className='text-indigo-400 hover:text-indigo-500 transition duration-250 mr-2' />
-            </button>
-            <button
-              className='cursor-pointer'
-              onClick={() => loc.onDelete?.(loc.id!)}
+              onClick={() => loc.onEdit(loc.id!)}
+              className='text-indigo-400 hover:text-indigo-500 transition cursor-pointer'
             >
-              <Trash2Icon size='20' className='text-red-400 hover:text-red-500 transition duration-250' />
+              <Pencil size={20} />
             </button>
-          </span>
+            <button
+              onClick={() => loc.onDelete?.(loc.id!)}
+              className='text-red-400 hover:text-red-500 transition cursor-pointer'
+            >
+              <Trash2Icon size={20} />
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -118,40 +130,61 @@ const ListItem: React.FC<EnhancedListState> = (loc) => {
 };
 
 function ListPage () {
-  const { getPage, delete: deleteEntry, entries, currentPage, pageSize, totalEntries } =
-    useListStore();
+  const {
+    getPage,
+    delete: deleteEntry,
+    entries,
+    currentPage,
+    pageSize,
+    totalEntries
+  } = useListStore();
+
   const [search, setSearch] = useState('');
   const [searchGalaxy, setSearchGalaxy] = useState('');
-  const [searchBiome, setsearchBiome] = useState('');
+  const [searchBiome, setSearchBiome] = useState('');
 
   const getGalaxies = useMetaStore((s) => s.getGalaxies);
   const getBiomes = useMetaStore((s) => s.getBiomes);
-
-  const startAutoRefresh = useAutoRefreshStore((s) => s.start);
-
   const optionGalaxies = useMetaStore((s) => s.optionGalaxies);
   const optionBiomes = useMetaStore((s) => s.optionBiomes);
+
+  const startAutoRefresh = useAutoRefreshStore((s) => s.start);
   const nav = useNavigate();
+
+  const searchQuery = useMemo(() => {
+    return `${searchBiome} ${searchGalaxy} ${search}`
+      .trim()
+      .replace(/\s+/g, ' ');
+  }, [
+    searchBiome,
+    searchGalaxy,
+    search
+  ]);
 
   useEffect(() => {
     startAutoRefresh();
     getGalaxies(true);
     getBiomes(true);
     getPage(1, pageSize);
-  }, []);
+  }, [
+    startAutoRefresh,
+    getGalaxies,
+    getBiomes,
+    getPage,
+    pageSize
+  ]);
 
+  // Debounced search
   useEffect(() => {
     const timeout = setTimeout(() => {
-      getPage(1, pageSize, `${searchBiome} ${searchGalaxy} ${search}`.replace(/^\s+|\s+$|\s+(?=\s)/g, ''));
+      getPage(1, pageSize, searchQuery);
     }, 300);
     return () => clearTimeout(timeout);
   }, [
-    search,
-    searchGalaxy,
-    searchBiome
+    searchQuery,
+    pageSize,
+    getPage
   ]);
-
-  const getSearch = () => `${searchBiome} ${searchGalaxy} ${search}`.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
 
   const handleDelete = async (id: number) => {
     if (await confirmModal('Do you really want to delete this Location?')) {
@@ -159,18 +192,20 @@ function ListPage () {
 
       const totalAfterDelete = totalEntries - 1;
       const totalPages = Math.max(1, Math.ceil(totalAfterDelete / pageSize));
-      const newPage = Math.min(currentPage, totalPages);
-      await getPage(newPage, pageSize, getSearch());
+      const newPage = currentPage > totalPages ? totalPages : currentPage;
+
+      await getPage(newPage, pageSize, searchQuery);
     }
   };
 
   const handlePageChange = async (page: number) => {
-    await getPage(page, pageSize, getSearch());
+    await getPage(page, pageSize, searchQuery);
   };
 
   const handleTagClick = (term: string) => {
-    if (!getSearch().includes(term)) {
-      setSearch((s) => `${s} ${term.toLocaleLowerCase()}`.trim());
+    const lowerTerm = term.toLowerCase();
+    if (!searchQuery.toLowerCase().includes(lowerTerm)) {
+      setSearch((s) => `${s} ${lowerTerm}`.trim());
     }
   };
 
@@ -178,8 +213,11 @@ function ListPage () {
     await navigator.clipboard.writeText(portalCode);
   };
 
-  const handleonSelect = async (data: ListState) => {
-    openCustomModal(<GlyphModal {...data} />, 'w-[95%] h-[95%] relative rounded-xl overflow-hidden flex flex-col items-center justify-center');
+  const handleOnSelect = async (data: ListState) => {
+    openCustomModal(
+      <GlyphModal {...data} />,
+      'w-[95%] h-[95%] relative rounded-xl overflow-hidden flex flex-col items-center justify-center'
+    );
   };
 
   const handleEdit = (id: number) => nav(`/edit/${id}`);
@@ -201,7 +239,7 @@ function ListPage () {
           label='Biome'
           name='searchBiome'
           options={optionBiomes}
-          onChange={(value: string) => setsearchBiome(value)}
+          onChange={(value: string) => setSearchBiome(value)}
         />
 
         <FormDropdown
@@ -210,11 +248,19 @@ function ListPage () {
           options={optionGalaxies}
           onChange={(value: string) => setSearchGalaxy(value)}
         />
-
       </div>
+
       <div className='divide-y divide-gray-800'>
-        {entries.map((loc, idx) => (
-          <ListItem key={`location-${loc.id}-${idx}`} {...loc} onDelete={handleDelete} onTagClick={handleTagClick} onCopy={handleOnCopy} onSelect={handleonSelect} onEdit={handleEdit} />
+        {entries.map((loc) => (
+          <ListItem
+            key={loc.id}
+            {...loc}
+            onDelete={handleDelete}
+            onTagClick={handleTagClick}
+            onCopy={handleOnCopy}
+            onSelect={handleOnSelect}
+            onEdit={handleEdit}
+          />
         ))}
       </div>
 
