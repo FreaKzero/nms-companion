@@ -1,9 +1,10 @@
-import { PlusCircle, ListChecksIcon, MapPlusIcon, SettingsIcon, MapPinIcon, TestTube, Rss, FishIcon, ContainerIcon } from 'lucide-react';
+import { PlusCircle, ListChecksIcon, MapPlusIcon, SettingsIcon, MapPinIcon, Rss, FishIcon, ContainerIcon, GlobeIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import LocationForm from './components/LocationForm';
 import SettingsPage from './lib/Settings';
 import CurrentPage from './screens/Current';
+import DiscoveriesPage from './screens/Discoveries';
 import EditLocationPage from './screens/EditLocation';
 import FishTrackerPage from './screens/Fishtracker';
 import ListPage from './screens/Locations';
@@ -40,7 +41,7 @@ export const routes = [
   },
   {
     text: 'Locations',
-    location: '/list',
+    location: '/locations',
     Icon: MapPinIcon,
     Component: ListPage,
     order: 2
@@ -82,6 +83,13 @@ export const routes = [
     order: 7.5
   },
   {
+    text: 'Discovered Galaxies',
+    location: '/discoveries',
+    Icon: GlobeIcon,
+    Component: DiscoveriesPage,
+    order: 8
+  },
+  {
     text: 'Settings',
     location: '/settings',
     Icon: SettingsIcon,
@@ -91,16 +99,16 @@ export const routes = [
   {
     text: 'dev',
     location: '/dev',
-    Icon: TestTube,
+    Icon: null,
     Component: TestPage,
-    order: 9
+    order: 10
   },
   {
     text: 'edit',
     location: '/edit/:id',
     Icon: null,
     Component: EditLocationPage,
-    order: 10
+    order: 11
   }
 
 ].sort((a, b) => a.order - b.order);

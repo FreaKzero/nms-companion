@@ -17,7 +17,7 @@ interface FishProps extends FishType {
 const Fish: React.FC<FishProps> = ({ id, fish, biome, onlyNight, onlyDay, done, value, size, depth, toggleDone, onTagClick }) => {
   const addClass = done ? 'line-through text-gray-500' : '';
   return (
-    <div className='flex items-center justify-between py-3 px-3 hover:bg-gray-800 transition rounded-lg'>
+    <li className='flex items-center justify-between py-3 px-3 hover:bg-gray-800 transition rounded-lg'>
       <div className='flex items-center gap-3 w-[250px] shrink-0'>
         <FormCheckbox
           id={`fishDone-${id}`}
@@ -59,7 +59,7 @@ const Fish: React.FC<FishProps> = ({ id, fish, biome, onlyNight, onlyDay, done, 
         {onlyNight && <span className='inline-block rounded-full border px-3 py-1 text-xs font-bold uppercase text-indigo-300 border-indigo-400 bg-indigo-900/50'>Night Only</span>}
         {biome === 'Expedition' && <span className='inline-block rounded-full border px-3 py-1 text-xs font-bold uppercase text-gray-300 border-gray-400 bg-gray-900'>Expedition</span>}
       </div>
-    </div>
+    </li>
   );
 };
 
@@ -125,14 +125,15 @@ function FishTrackerPage () {
           />
 
         </div>
-
-        {filteredFishes.length > 0
-          ? (
-              filteredFishes.map((fish, idx) => <Fish key={`fish-${idx}`} {...fish} toggleDone={toggleDone} onTagClick={handleTagClick} />)
-            )
-          : (
-            <p className='text-gray-400 text-center py-4'>No fish found.</p>
-            )}
+        <ul>
+          {filteredFishes.length > 0
+            ? (
+                filteredFishes.map((fish, idx) => <Fish key={`fish-${idx}`} {...fish} toggleDone={toggleDone} onTagClick={handleTagClick} />)
+              )
+            : (
+              <p className='text-gray-400 text-center py-4'>No fish found.</p>
+              )}
+        </ul>
       </div>
     </div>
   );

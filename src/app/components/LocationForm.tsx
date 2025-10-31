@@ -89,7 +89,7 @@ function LocationForm ({ editItem }: ManualPageProps) {
       await handleAddLocation(data, screenshot?.buffer);
     }
 
-    navigate('/list');
+    navigate('/locations');
   };
 
   const galaxyOptions = GalaxyNames.map((i, idx) => ({ label: i, value: String(idx) }));
@@ -201,7 +201,7 @@ function LocationForm ({ editItem }: ManualPageProps) {
           </div>
         </div>
         <div className='mt-10 text-right'>
-          <button type='button' className='button2' onClick={() => navigate('/list')}>
+          <button type='button' className='button2' onClick={() => navigate('/locations')}>
             Cancel
           </button>
 

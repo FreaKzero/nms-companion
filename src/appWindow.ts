@@ -6,6 +6,7 @@ import Database from 'better-sqlite3';
 import { BrowserWindow, Menu, app } from 'electron';
 
 import { registerDialogIpc } from './ipc/dialogIPC';
+import { registerDiscoveriesIpc } from './ipc/discoveriesIPC';
 import registerFishTrackerIpc from './ipc/fishtrackerIPC';
 import { registerLocationIpc } from './ipc/locationIPC';
 import registerNmsIpc from './ipc/nmsIPC';
@@ -92,6 +93,7 @@ function registerMainIPC () {
 
   registerLocationIpc(db);
   registerSupplyIpc(db);
+  registerDiscoveriesIpc(db);
 
   registerRedditIPC();
   registerNmsIpc();

@@ -2,7 +2,7 @@ import noscreen from 'assets/noscreen.png';
 
 import { Trash2Icon, Pencil, OmegaIcon, Share2Icon } from 'lucide-react';
 import React, { useEffect, useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { ListState } from '../../ipc/locationIPC';
 import { confirmModal } from '../components/ConfirmModal';
@@ -152,7 +152,8 @@ function ListPage () {
     totalEntries
   } = useListStore();
 
-  const [search, setSearch] = useState('');
+  const [searchParams, _setSearchParams] = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get('search') || '');
   const [searchGalaxy, setSearchGalaxy] = useState('');
   const [searchBiome, setSearchBiome] = useState('');
 

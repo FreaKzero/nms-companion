@@ -93,8 +93,8 @@ export default function RedditPage () {
     }, 400);
 
     return () => {
-      clearTimeout(timeout);
       setRead();
+      clearTimeout(timeout);
     };
   }, [search]);
 

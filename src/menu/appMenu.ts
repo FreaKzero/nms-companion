@@ -20,7 +20,7 @@ const MenuItems: Electron.MenuItemConstructorOptions[] = [
       {
         id: 'locations',
         label: 'Locations',
-        click: () => emitEvent('MENU-ROUTE', '/list'),
+        click: () => emitEvent('MENU-ROUTE', '/locations'),
         accelerator: 'F3'
       },
       {

@@ -2,6 +2,8 @@ import { PositionType } from '@/ipc/nmsIPC';
 
 import { create } from 'zustand';
 
+import useDiscoveriesStore from './useDiscoveriesStore';
+
 const defState = {
   loading: true,
   ShareCode: '',
@@ -26,7 +28,12 @@ interface PositionStoreState {
 
 const usePositionStore = create<PositionStoreState >()((set) => ({
   ...defState,
-  setCurrent: (data: PositionType) => {
+  setCurrent: async (data: PositionType) => {
+    await useDiscoveriesStore.getState().check({
+      GalaxyIndex: data.GalaxyIndex,
+      GalaxyName: data.GalaxyName
+    });
+
     set((state) => ({
       ...state,
       ...data
@@ -41,6 +48,11 @@ const usePositionStore = create<PositionStoreState >()((set) => ({
       if (position.error) {
         return set({ ...defState, loading: false, error: true });
       }
+
+      await useDiscoveriesStore.getState().check({
+        GalaxyIndex: position.GalaxyIndex,
+        GalaxyName: position.GalaxyName
+      });
 
       set({ ...position, loading: false });
     } catch (_err) {

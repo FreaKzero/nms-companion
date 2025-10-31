@@ -42,7 +42,7 @@ function CurrentPage () {
 
   const onSubmit: SubmitHandler<ListState> = async (data) => {
     handleAddLocation(data, screenshot.buffer);
-    navigate('/list');
+    navigate('/locations');
   };
 
   useEffect(() => {
@@ -127,7 +127,7 @@ function CurrentPage () {
           </div>
         </div>
         <div className='mt-10 text-right'>
-          <button type='button' className='button2' onClick={() => navigate('/list')}>
+          <button type='button' className='button2' onClick={() => navigate('/locations')}>
             Cancel
           </button>
 

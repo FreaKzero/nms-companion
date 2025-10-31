@@ -1,21 +1,13 @@
+import { Discoveries } from '@/ipc/discoveriesIPC';
+
 import { create } from 'zustand';
-
-import { Nullable } from './apiInterfaces';
-
-export interface DiscoveriesState {
-  id?: number;
-  GalaxyIndex: number;
-  GalaxyName: string;
-  DiscoveryDate: string;
-  PortalCount: number;
-}
 
 interface DiscoveriesStore {
   loading: boolean;
-  entries: DiscoveriesState[];
-  add: (item: DiscoveriesState) => Promise<void>;
-  update: (id: number, item: DiscoveriesState) => Promise<void>;
+  entries: Discoveries[];
+  add: (item: Discoveries) => Promise<void>;
   getAll: (search?: string) => Promise<void>;
+  check: (data: Discoveries) => Promise<Discoveries | null>;
   totalEntries: number;
 }
 
@@ -24,7 +16,7 @@ const useDiscoveriesStore = create<DiscoveriesStore>()((set, get) => ({
   entries: [],
   totalEntries: 0,
 
-  add: async (item: DiscoveriesState) => {
+  add: async (item: Discoveries) => {
     set({ loading: true });
     const ID = await electron.ipcRenderer.invoke('db.discoveries.create', item);
     set({
@@ -34,29 +26,19 @@ const useDiscoveriesStore = create<DiscoveriesStore>()((set, get) => ({
     });
   },
 
-  update: async (id: number, item: DiscoveriesState) => {
-    set({ loading: true });
-    try {
-      await electron.ipcRenderer.invoke('db.discoveries.update', id, {
-        GalaxyIndex: item.GalaxyIndex,
-        GalaxyName: item.GalaxyName,
-        DiscoveryDate: item.DiscoveryDate
-      });
-
-      set({
-        loading: false,
-        entries: get().entries.map((e) => (e.id === id ? { ...item, id } : e))
-      });
-    } catch (e) {
-      console.log(e);
-      set({ loading: false });
-    }
-  },
-
   getAll: async (search = '') => {
     set({ loading: true });
-    const list: DiscoveriesState[] = await electron.ipcRenderer.invoke('db.discoveries.getAll', search);
+    const list: Discoveries[] = await electron.ipcRenderer.invoke('db.discoveries.getAll', search);
     set({ loading: false, entries: list, totalEntries: list.length });
+  },
+
+  check: async (data) => {
+    const result = await electron.ipcRenderer.invoke('db.discoveries.check', data);
+    if (result !== null) {
+      set({ loading: false, entries: [...get().entries, result], totalEntries: get().totalEntries + 1 });
+    }
+
+    return result;
   }
 }));
 

@@ -5,7 +5,7 @@ export interface Discoveries {
   id?: number;
   GalaxyIndex: number;
   GalaxyName: string;
-  DiscoveryDate: string;
+  DiscoveryDate?: string;
   PortalCount?: number;
 }
 
@@ -39,7 +39,7 @@ export function registerDiscoveriesIpc (db: Database.Database) {
       LEFT JOIN locations l ON d.GalaxyIndex = l.GalaxyIndex
       WHERE d.GalaxyName LIKE ?
       GROUP BY d.id
-      ORDER BY d.id DESC
+      ORDER BY d.GalaxyIndex ASC
     `;
       rows = db.prepare(sql).all(`%${search}%`);
     } else {
@@ -48,7 +48,7 @@ export function registerDiscoveriesIpc (db: Database.Database) {
       FROM discoveries d
       LEFT JOIN locations l ON d.GalaxyIndex = l.GalaxyIndex
       GROUP BY d.id
-      ORDER BY d.id DESC
+      ORDER BY d.GalaxyIndex ASC
     `;
       rows = db.prepare(sql).all();
     }
@@ -56,35 +56,24 @@ export function registerDiscoveriesIpc (db: Database.Database) {
     return rows;
   });
 
-  ipcMain.handle('db.discoveries.getId', (_ev, id: number) => {
-    const sql = `
-      SELECT d.*, COUNT(l.id) AS PortalCount
-      FROM discoveries d
-      LEFT JOIN locations l ON d.GalaxyIndex = l.GalaxyIndex
-      WHERE d.id = ?
-      GROUP BY d.id
-    `;
-    return db.prepare(sql).get(id);
-  });
+  ipcMain.handle('db.discoveries.check', (_ev, data: Discoveries) => {
+    const existing = db.prepare(`
+    SELECT * FROM discoveries WHERE GalaxyIndex = ?
+  `).get(data.GalaxyIndex);
 
-  ipcMain.handle('db.discoveries.update', (_ev, id: number, data: Discoveries) => {
-    const stmt = db.prepare(`
-      UPDATE discoveries SET
-        GalaxyIndex = ?,
-        GalaxyName = ?,
-        DiscoveryDate = ?
-      WHERE id = ?
-    `);
-    const info = stmt.run(
-      data.GalaxyIndex,
-      data.GalaxyName,
-      data.DiscoveryDate || new Date().toISOString(),
-      id
-    );
-    return info.changes;
-  });
+    if (existing) {
+      return null;
+    }
 
-  ipcMain.handle('db.discoveries.delete', (_ev, id: number) => {
-    return db.prepare('DELETE FROM discoveries WHERE id = ?').run(id).changes;
+    const now = new Date().toISOString();
+    const insert = db.prepare(`
+    INSERT INTO discoveries (GalaxyIndex, GalaxyName, DiscoveryDate)
+    VALUES (?, ?, ?)
+  `);
+    const info = insert.run(data.GalaxyIndex, data.GalaxyName, now);
+
+    return db.prepare(`
+    SELECT * FROM discoveries WHERE id = ?
+  `).get(info.lastInsertRowid);
   });
 }
