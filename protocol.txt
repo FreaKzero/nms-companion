@@ -26,6 +26,7 @@ export interface discoveries {
   GalaxyIndex: number;
   GalaxyName: string;
   DiscoveryDate: string;
+  PortalCount: number;
 }   
 
 ### UI Ideas
