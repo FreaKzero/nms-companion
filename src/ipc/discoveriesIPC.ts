@@ -70,10 +70,10 @@ export function registerDiscoveriesIpc (db: Database.Database) {
     INSERT INTO discoveries (GalaxyIndex, GalaxyName, DiscoveryDate)
     VALUES (?, ?, ?)
   `);
-    const info = insert.run(data.GalaxyIndex, data.GalaxyName, now);
+    insert.run(data.GalaxyIndex, data.GalaxyName, now);
 
     return db.prepare(`
-    SELECT * FROM discoveries WHERE id = ?
-  `).get(info.lastInsertRowid);
+      SELECT * FROM discoveries
+  `).all();
   });
 }

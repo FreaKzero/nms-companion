@@ -1,11 +1,14 @@
 import { Discoveries } from '@/ipc/discoveriesIPC';
 
+import { LocateFixed } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { FormInput } from '../components/FormInput';
+import IconButton from '../components/IconButton';
 import Loader from '../components/Loader';
 import useDiscoveriesStore from '../stores/useDiscoveriesStore';
+import usePositionStore from '../stores/usePositionStore';
 import { useAutoRefreshStore } from '../stores/useRefreshStore';
 
 interface EnhancedDiscoveries extends Discoveries {
@@ -17,7 +20,7 @@ const Fish: React.FC<EnhancedDiscoveries> = ({ GalaxyIndex, GalaxyName, Discover
 
   return (
     <li className='flex items-center justify-between py-3 px-3 hover:bg-gray-800 transition rounded-lg'>
-      <div className='text-right w-[50px] '>
+      <div className='text-right w-[28px] '>
         {GalaxyIndex}
       </div>
 
@@ -48,6 +51,7 @@ export default function DiscoveriesPage () {
   const loading = useDiscoveriesStore((s) => s.loading);
   const startAutoRefresh = useAutoRefreshStore((s) => s.start);
   const nav = useNavigate();
+  const getPosition = usePositionStore((s) => s.getCurrent);
 
   useEffect(() => {
     getAll();
@@ -72,12 +76,17 @@ export default function DiscoveriesPage () {
     nav(`/locations?search=${encodeURI(galaxy)}`);
   };
 
+  const handleGetPosition = async () => {
+    await getPosition();
+  };
+
   return (
     <div>
       {loading && <Loader message='Loading Discoveries ...' />}
       <div className='w-11/12 m-auto'>
         <div className='flex justify-between'>
           <h2 className='font-bold font-nms text-3xl mb-8'>Discovered Galaxies</h2>
+          <IconButton Icon={LocateFixed} label='Get current Position' onClick={handleGetPosition} />
         </div>
         <div className='bg-gray-900 text-white rounded-lg shadow-md p-4'>
           <div className='flex gap-4 mb-4'>

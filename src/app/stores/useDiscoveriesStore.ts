@@ -33,12 +33,12 @@ const useDiscoveriesStore = create<DiscoveriesStore>()((set, get) => ({
   },
 
   check: async (data) => {
-    const result = await electron.ipcRenderer.invoke('db.discoveries.check', data);
-    if (result !== null) {
-      set({ loading: false, entries: [...get().entries, result], totalEntries: get().totalEntries + 1 });
+    const entries = await electron.ipcRenderer.invoke('db.discoveries.check', data);
+    if (entries !== null) {
+      set({ loading: false, entries, totalEntries: get().totalEntries + 1 });
     }
 
-    return result;
+    return entries;
   }
 }));
 

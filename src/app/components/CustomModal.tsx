@@ -19,7 +19,8 @@ const CustomModal: React.FC<CustomModalProps> = ({ root, container, children, cl
     setTimeout(() => {
       root.unmount();
       container.remove();
-      closeCallback();
+
+      if (closeCallback) closeCallback();
     }, 150);
   };
 
