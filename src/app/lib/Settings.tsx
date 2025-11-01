@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import { OptionManagerType } from './OptionManager';
 
@@ -10,6 +11,7 @@ import { FormInput } from '../components/FormInput';
 import { useAutoRefreshStore } from '../stores/useRefreshStore';
 
 function SettingsPage () {
+  const navigate = useNavigate();
   const { handleSubmit, setValue, control, register } = useForm<OptionManagerType>();
   const stopAutoRefresh = useAutoRefreshStore((s) => s.stop);
 
@@ -40,6 +42,13 @@ function SettingsPage () {
     <div className='w-full'>
       <form action='#' method='POST' className='mx-auto p-10 w-xlsm:mt-20' onSubmit={handleSubmit(onSubmit)}>
         <div className='grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2'>
+
+          <FormInput
+            id='charName'
+            label='NMS Character Name'
+            register={register('charName', { required: 'Character Name is required' })}
+          />
+
           <FormFilePicker
             label='NMS Save File'
             name='savePath'
@@ -48,14 +57,14 @@ function SettingsPage () {
           />
 
           <FormInput
-            id='charName'
-            label='NMS Character Name'
-            register={register('charName', { required: 'Character Name is required' })}
+            label='Reddit Feed'
+            id='redditFeed'
+            register={register('redditFeed', { required: 'Reddit Feed is required' })}
           />
 
           <FormDirectoryPicker
-            label='Select Thumbnails Folder'
-            name='locationThumbDir'
+            label='Select Cache Folder'
+            name='cacheDir'
             control={control}
           />
 
@@ -73,10 +82,10 @@ function SettingsPage () {
             onlyPath
           />
 
-          <FormInput
-            label='Reddit Feed'
-            id='redditFeed'
-            register={register('redditFeed', { required: 'Reddit Feed is required' })}
+          <FormDirectoryPicker
+            label='Select Thumbnails Folder'
+            name='locationThumbDir'
+            control={control}
           />
 
           <FormInput
@@ -85,19 +94,22 @@ function SettingsPage () {
             register={register('picSize', { required: 'Picture Resize is required' })}
           />
 
-          <FormDirectoryPicker
-            label='Select Cache Folder'
-            name='cacheDir'
-            control={control}
-          />
+        </div>
+
+        <div className='mt-10 text-right'>
+          <button type='button' className='button2' onClick={() => navigate('/')}>
+            Cancel
+          </button>
+
+          <button
+            type='submit'
+            className='button ml-5'
+          >
+            Save Settings
+          </button>
 
         </div>
-        <button
-          type='submit'
-          className='button mt-5'
-        >
-          Save Settings
-        </button>
+
       </form>
     </div>
   );

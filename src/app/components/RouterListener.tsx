@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+let initialized = false;
 export default function RouterListener (): any {
   const navigate = useNavigate();
 
@@ -9,11 +10,11 @@ export default function RouterListener (): any {
       navigate(route);
     };
 
-    electron.ipcRenderer.on('MENU-ROUTE', handler);
+    if (!initialized) {
+      electron.ipcRenderer.on('MENU-ROUTE', handler);
+    }
 
-    return () => {
-      electron.ipcRenderer.removeListener('MENU-ROUTE', handler);
-    };
+    initialized = true;
   }, [navigate]);
 
   return null;

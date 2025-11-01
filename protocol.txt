@@ -9,8 +9,7 @@
 
 - [] File Selectors => default paths
 - [] Error handling Backend -> Frontend
-- [] Load Metas globally on app (static data)
-- [] Refactor Settings Form, naming of labels and order of Files as also Paths
+- [x] Refactor Settings Form, naming of labels and order of Files as also Paths
 # Features/Ideas
 ---
 
