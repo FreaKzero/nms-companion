@@ -7,24 +7,29 @@
 - [] Missionstore => extract the foreign getStates to own state or use combine
 - [] File Selectors => default paths
 - [] Error handling Backend -> Frontend
+- [] Load Metas globally on app (static data)
+
 # Features/Ideas
 ---
 
 ## Import/Export
 
---- 
+---
 
 ## Glyph Roulette
 
 ### Brainstorm
 
 ---
-## Community Mission Tracker
+
+## Community Mission Tracker (done)
 ### Research
 https://community-mission.nmscd.com/?ref=AssistantNms
 https://api.nmsassistant.com/index.html
 
 ### Brainstorm
+- [x] Add Cache Folder to OptionsManager
+- [x] Save (Cache) data as JSON, cache it for 1 Hour
 
 ---
 ## Galaxy Discoveries (prototype done)

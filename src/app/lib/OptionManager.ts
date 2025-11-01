@@ -11,6 +11,7 @@ export interface OptionManagerType {
   fishtrackerFile: string;
   redditFeed: string;
   picSize: string;
+  cacheDir: string;
 }
 
 const BASE_DIR = path.join(app.getPath('home'), '.nms-log');
@@ -20,6 +21,7 @@ const DEFAULT: OptionManagerType = {
   locationThumbDir: path.join(BASE_DIR, 'thumbs'),
   databasePath: path.join(BASE_DIR, 'nms-log.sqlite'),
   fishtrackerFile: path.join(BASE_DIR, 'fishtracker.json'),
+  cacheDir: path.join(BASE_DIR, 'cache'),
   charName: '',
   redditFeed: 'NMSCoordinateExchange',
   picSize: '1200'

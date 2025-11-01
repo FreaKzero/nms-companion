@@ -1,10 +1,14 @@
-import { useEffect } from 'react';
+import { CommunityMissionType } from '@/ipc/nmsIPC';
+
+import { useEffect, useState } from 'react';
 
 import Card from '../components/Card';
+import CommunityProgressBar from '../components/CommunityProgress';
 import FrigateList from '../components/FrigatesList';
 import Loader from '../components/Loader';
 import SettlementsList from '../components/SettlementList';
 import { TimerMission } from '../components/TimerMission';
+import useMetaStore from '../stores/useMetaStore';
 import useMissionsStore from '../stores/useMissionsStore';
 import { useAutoRefreshStore } from '../stores/useRefreshStore';
 
@@ -14,8 +18,11 @@ export default function MissionsPage () {
   const loading = useMissionsStore((s) => s.loading);
   const getMissions = useMissionsStore((s) => s.getMissions);
   const startAutoRefresh = useAutoRefreshStore((s) => s.start);
+  const getCommunityMission = useMetaStore((s) => s.getCommunityMission);
+  const communityMission = useMetaStore((s) => s.communityMission);
 
   useEffect(() => {
+    getCommunityMission();
     startAutoRefresh();
     getMissions();
   }, []);
@@ -58,6 +65,8 @@ export default function MissionsPage () {
               )}
         </Card>
       </div>
+      <CommunityProgressBar progress={communityMission.percentage} tiers={communityMission.totalTiers} />
+
       <div className='grid lg:grid-cols-3 gap-5'>
         <TimerMission storageKey='timer1' />
         <TimerMission storageKey='timer2' />

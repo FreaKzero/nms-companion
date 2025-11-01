@@ -23,6 +23,7 @@ function SettingsPage () {
       setValue('charName', settings.charName);
       setValue('redditFeed', settings.redditFeed);
       setValue('picSize', settings.picSize);
+      setValue('cacheDir', settings.cacheDir);
     };
     stopAutoRefresh();
     getSettings();
@@ -82,6 +83,12 @@ function SettingsPage () {
             id='picSize'
             label='Picture Resize (px)'
             register={register('picSize', { required: 'Picture Resize is required' })}
+          />
+
+          <FormDirectoryPicker
+            label='Select Cache Folder'
+            name='cacheDir'
+            control={control}
           />
 
         </div>

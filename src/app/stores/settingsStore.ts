@@ -14,7 +14,8 @@ const defState: OptionManagerType = {
   fishtrackerFile: '',
   charName: '',
   redditFeed: '',
-  picSize: ''
+  picSize: '',
+  cacheDir: ''
 };
 
 const useOptionManagerStore = create<OptionManagerStoreState>((set) => ({

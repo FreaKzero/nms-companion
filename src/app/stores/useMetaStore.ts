@@ -1,3 +1,5 @@
+import { CommunityMissionType } from '@/ipc/nmsIPC';
+
 import { create } from 'zustand';
 
 import { Option } from '../components/FormDropdown';
@@ -23,9 +25,11 @@ interface MetaStoreState {
   optionTags: Option[];
   optionGalaxies: Option[];
   optionBiomes: Option[];
+  communityMission: CommunityMissionType;
   getTags: (withAllOpt?: boolean) => Promise<void>;
   getGalaxies: (withAllOpt?: boolean) => Promise<void>;
   getBiomes: (withAllOpt?: boolean) => Promise<void>;
+  getCommunityMission: () => Promise<void>;
 }
 
 const defState = {
@@ -36,11 +40,22 @@ const defState = {
   biomes: [] as string[],
   optionTags: [] as Option[],
   optionGalaxies: [] as Option[],
-  optionBiomes: [] as Option[]
+  optionBiomes: [] as Option[],
+  communityMission: {} as CommunityMissionType
 };
 
 const useMetaStore = create<MetaStoreState>((set) => ({
   ...defState,
+  getCommunityMission: async () => {
+    set({ ...defState, loading: true });
+    try {
+      const mission: CommunityMissionType = await electron.ipcRenderer.invoke('GET_COMMUNITYMISSION');
+      set({ communityMission: mission, loading: false, error: false });
+    } catch (_err) {
+      set({ ...defState, loading: false, error: true });
+    }
+  },
+
   getTags: async (withAllOpt?: boolean) => {
     set({ ...defState, loading: true });
     try {
