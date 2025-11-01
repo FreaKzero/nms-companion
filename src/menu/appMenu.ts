@@ -48,6 +48,12 @@ const MenuItems: Electron.MenuItemConstructorOptions[] = [
         accelerator: 'F7'
       },
       {
+        id: 'discoveries',
+        label: 'Discovered Galaxies',
+        click: () => emitEvent('MENU-ROUTE', '/discoveries'),
+        accelerator: 'F8'
+      },
+      {
         type: 'separator'
       },
       {

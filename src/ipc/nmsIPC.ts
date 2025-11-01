@@ -30,7 +30,7 @@ const OPTIONS = OptionManager.load();
 const registerNmsIpc = () => {
   ipcMain.handle('GET_POSITION', async () => {
     try {
-      const saveData = getSave(OPTIONS.savePath);
+      const saveData = await getSave(OPTIONS.savePath);
       const position: PositionType = createPosition(
         saveData.BaseContext.PlayerStateData.UniverseAddress,
         saveData.BaseContext.PlayerStateData.SaveSummary
@@ -67,7 +67,7 @@ const registerNmsIpc = () => {
 
   ipcMain.handle('GET_MISSIONS', async () => {
     try {
-      const saveData = getSave(OPTIONS.savePath);
+      const saveData = await getSave(OPTIONS.savePath);
 
       const frigates = createFrigateMissions(saveData.BaseContext);
       const settlements = OPTIONS.charName.trim() !== '' ? createSettlementMissions(saveData.BaseContext, OPTIONS.charName) : [];

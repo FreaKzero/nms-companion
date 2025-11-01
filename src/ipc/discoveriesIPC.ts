@@ -74,6 +74,7 @@ export function registerDiscoveriesIpc (db: Database.Database) {
 
     return db.prepare(`
       SELECT * FROM discoveries
+      ORDER BY d.GalaxyIndex ASC
   `).all();
   });
 }

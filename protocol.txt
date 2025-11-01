@@ -5,6 +5,8 @@
 - [] Forms: Errorstates in Components
 - [] Remove Lab from Sidebar - show it in AppMenu without accelerator
 - [] Missionstore => extract the foreign getStates to own state or use combine
+- [] File Selectors => default paths
+- [] Error handling Backend -> Frontend
 # Features/Ideas
 ---
 
@@ -12,7 +14,20 @@
 
 --- 
 
-## Galaxy Discoveries
+## Glyph Roulette
+
+### Brainstorm
+
+---
+## Community Mission Tracker
+### Research
+https://community-mission.nmscd.com/?ref=AssistantNms
+https://api.nmsassistant.com/index.html
+
+### Brainstorm
+
+---
+## Galaxy Discoveries (prototype done)
 
 ### Brainstorm
 Check on every Positioncheck also in a database if a galaxyindex already exists
@@ -35,3 +50,6 @@ Number onclick navigates to LocationsPage with Galaxyfilter
 
 Replace dev/lab on sidebar with GalaxyDiscoveries
 --- 
+
+
+

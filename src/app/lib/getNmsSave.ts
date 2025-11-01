@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
 
 import { BaseContext, NMSSave, UniverseAddress } from '../iface/nmssave';
 import { GalaxyNames } from '../mappings/GalaxyNames';
@@ -308,9 +308,9 @@ export function decompress (data: Buffer) {
   return Buffer.concat(outputChunks);
 }
 
-export default function getSave (savePath: string) {
+export default async function getSave (savePath: string) {
   try {
-    const data = readFileSync(savePath);
+    const data = await readFile(savePath);
     let processed;
 
     if (!(data[0] === 0x7B && data[1] === 0x22)) {
