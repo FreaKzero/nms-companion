@@ -57,6 +57,11 @@ const MenuItems: Electron.MenuItemConstructorOptions[] = [
         type: 'separator'
       },
       {
+        id: 'debug',
+        label: 'Developer Debug',
+        click: () => emitEvent('MENU-ROUTE', '/dev')
+      },
+      {
         id: MenuChannels.WINDOW_CLOSE,
         label: 'Exit',
         role: 'quit',

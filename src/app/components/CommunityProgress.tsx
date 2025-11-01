@@ -9,6 +9,8 @@ interface CommunityProgressBarProps {
 
 export default function CommunityProgressBar ({ progress, tiers = 5 }: CommunityProgressBarProps) {
   const sectionWidth = 100 / tiers;
+  const gradient = progress < 100 ? 'bg-gradient-to-t from-green-800 to-green-700' : 'bg-gradient-to-t from-amber-700 to-amber-600';
+  const color = progress < 100 ? 'text-green-700' : 'text-amber-700';
 
   return (
     <Card title={`Universal Community Research Progress • ${progress}% Done`} className='p-5 pt-10'>
@@ -16,7 +18,7 @@ export default function CommunityProgressBar ({ progress, tiers = 5 }: Community
 
         <div className='relative w-full h-3 bg-gray-700 rounded-sm overflow-hidden border border-gray-600'>
           <div
-            className='absolute top-0 left-0 h-full bg-gradient-to-t from-green-800 to-green-700 transition-all duration-500'
+            className={`absolute top-0 left-0 h-full ${gradient}`}
             style={{ width: `${progress}%` }}
           />
 
@@ -39,7 +41,7 @@ export default function CommunityProgressBar ({ progress, tiers = 5 }: Community
               <div key={i} className='text-center w-full'>
                 {isActive
                   ? (
-                    <span className='text-green-700 font-semibold'>
+                    <span className={`font-semibold ${color}`}>
                       Tier {i + 1} {progress}%
                     </span>
                     )

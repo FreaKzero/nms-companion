@@ -3,12 +3,14 @@
 - [] globalize tailwind styles in components
 - [] use defaultStates in Forms and remove the useEffect
 - [] Forms: Errorstates in Components
-- [] Remove Lab from Sidebar - show it in AppMenu without accelerator
+- [x] Remove Lab from Sidebar - show it in AppMenu without accelerator
 - [] Missionstore => extract the foreign getStates to own state or use combine
+  - [] CommunityMissions (!)
+
 - [] File Selectors => default paths
 - [] Error handling Backend -> Frontend
 - [] Load Metas globally on app (static data)
-
+- [] Refactor Settings Form, naming of labels and order of Files as also Paths
 # Features/Ideas
 ---
 
@@ -21,39 +23,28 @@
 ### Brainstorm
 
 ---
+## Weekendmission Widget
 
-## Community Mission Tracker (done)
+### Brainstorm
+
+---
+
+## Community Mission Tracker (prototype done)
 ### Research
 https://community-mission.nmscd.com/?ref=AssistantNms
 https://api.nmsassistant.com/index.html
 
-### Brainstorm
-- [x] Add Cache Folder to OptionsManager
-- [x] Save (Cache) data as JSON, cache it for 1 Hour
+### Features
+
+
+### Bugs
 
 ---
 ## Galaxy Discoveries (prototype done)
+### Features
 
-### Brainstorm
-Check on every Positioncheck also in a database if a galaxyindex already exists
-if it doesnt write galaxyname, galaxyindex, discoverydate in a dbtable
-UI Accessible via Toolbar
 
-### Raw Data Structure
-
-export interface discoveries {
-  id?: number;
-  GalaxyIndex: number;
-  GalaxyName: string;
-  DiscoveryDate: string;
-  PortalCount: number;
-}   
-
-### UI Ideas
-Show also a number of Portalcoordinates - JOIN Database with locations via GalaxyIndex 
-Number onclick navigates to LocationsPage with Galaxyfilter
-
-Replace dev/lab on sidebar with GalaxyDiscoveries
+### Bugs
 --- 
 
 

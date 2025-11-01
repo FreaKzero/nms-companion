@@ -1,6 +1,4 @@
-import { CommunityMissionType } from '@/ipc/nmsIPC';
-
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import Card from '../components/Card';
 import CommunityProgressBar from '../components/CommunityProgress';
@@ -65,6 +63,7 @@ export default function MissionsPage () {
               )}
         </Card>
       </div>
+
       <CommunityProgressBar progress={communityMission.percentage} tiers={communityMission.totalTiers} />
 
       <div className='grid lg:grid-cols-3 gap-5'>
