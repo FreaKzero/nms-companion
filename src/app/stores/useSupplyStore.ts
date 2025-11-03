@@ -81,7 +81,7 @@ const useSupplyStore = create<SupplyStore>()((set, get) => ({
     set({ loading: true });
     const LastPickup: string = await electron.ipcRenderer.invoke('db.supply.pickup', id);
     set({
-      entries: get().entries.map((e) => (e.id === id ? { ...e, LastPickup } : e)),
+      entries: get().entries.map((e) => (e.id === id ? { ...e, LastPickup, Stored: 0, Progress: 0 } : e)).sort((a, b) => new Date(b.LastPickup).getTime() - new Date(a.LastPickup).getTime()),
       loading: false
     });
   }
