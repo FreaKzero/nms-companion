@@ -14,7 +14,7 @@
 
 # Bugs / Subfeatures
 - [x] Discoveries -> when check is successful - JOINS arent done correctly for Planetfilters 
-- [ ] Discoveries -> if new galaxy was discovered there should be a popup of sort so it was discovered
+- [x] Discoveries -> if new galaxy was discovered there should be a popup of sort so it was discovered
 - [ ] Locations -> Edit: Screenshots should be editable
 - [x] Community Research -> 39% means the process of the current Tier - not the whole Research
 - [x] Supply Depots -> on "Grab" the list is not updated

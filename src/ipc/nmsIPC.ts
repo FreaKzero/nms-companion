@@ -34,7 +34,7 @@ interface RawType {
 }
 
 const OPTIONS = OptionManager.load();
-const CACHE_TTL = 0.5 * 60 * 60 * 1000;
+const CACHE_TTL = 1 * 60 * 60 * 1000;
 
 const registerNmsIpc = () => {
   ipcMain.handle('GET_COMMUNITYMISSION', async (_ev) => {
