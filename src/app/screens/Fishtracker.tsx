@@ -104,7 +104,7 @@ function FishTrackerPage () {
     <div className='w-11/12 m-auto'>
       <div className='flex justify-between'>
         <h2 className='font-bold font-nms text-3xl mb-8'>Legendary Fish Tracker</h2>
-        <h2 className='font-bold font-nms text-3xl mb-8'>{fishDone} of {fishes.length} catched</h2>
+        <h2 className='font-bold font-nms text-2xl mb-8 self-baseline-last text-gray-400'>{fishDone} of {fishes.length} catched</h2>
       </div>
       <div className='bg-gray-900 text-white rounded-lg shadow-md p-4'>
         <div className='flex gap-4 mb-4'>

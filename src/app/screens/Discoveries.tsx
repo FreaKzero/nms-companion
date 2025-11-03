@@ -86,7 +86,10 @@ export default function DiscoveriesPage () {
       <div className='w-11/12 m-auto'>
         <div className='flex justify-between'>
           <h2 className='font-bold font-nms text-3xl mb-8'>Discovered Galaxies</h2>
-          <IconButton Icon={LocateFixed} label='Get current Position' onClick={handleGetPosition} />
+          <div>
+            <h2 className='font-bold font-nms text-2xl mb-8 inline-block self-baseline-last text-gray-400'>{entries.length} Galaxies Discovered</h2>
+            <IconButton Icon={LocateFixed} label='Get current Position' onClick={handleGetPosition} className='inline-block ml-5' />
+          </div>
         </div>
         <div className='bg-gray-900 text-white rounded-lg shadow-md p-4'>
           <div className='flex gap-4 mb-4'>

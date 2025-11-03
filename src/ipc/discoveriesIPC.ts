@@ -72,9 +72,13 @@ export function registerDiscoveriesIpc (db: Database.Database) {
   `);
     insert.run(data.GalaxyIndex, data.GalaxyName, now);
 
-    return db.prepare(`
-      SELECT * FROM discoveries
-      ORDER BY d.GalaxyIndex ASC
-  `).all();
+    const sql = `
+      SELECT d.*, COUNT(l.id) AS PortalCount
+      FROM discoveries d
+      LEFT JOIN locations l ON d.GalaxyIndex = l.GalaxyIndex
+      GROUP BY d.id
+      ORDER BY d.GalaxyIndex ASC`;
+
+    return db.prepare(sql).all();
   });
 }

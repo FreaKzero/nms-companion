@@ -253,5 +253,6 @@ export const GalaxyNames = [
   'Haffneyrin',
   'Uliciawai',
   'Tuhgrespod',
-  'Iousongola'
+  'Iousongola',
+  'Odyalutai'
 ];
