@@ -3,26 +3,54 @@ import React from 'react';
 import Card from './Card';
 
 interface CommunityProgressBarProps {
-  progress: number;
-  tiers?: number;
+  currentTier: number;
+  percentage: number;
+  totalTiers: number;
 }
 
-export default function CommunityProgressBar ({ progress, tiers = 5 }: CommunityProgressBarProps) {
-  const sectionWidth = 100 / tiers;
-  const gradient = progress < 100 ? 'bg-gradient-to-t from-green-800 to-green-700' : 'bg-gradient-to-t from-amber-700 to-amber-600';
-  const color = progress < 100 ? 'text-green-700' : 'text-amber-700';
+export default function CommunityProgressBar ({
+  currentTier,
+  percentage,
+  totalTiers
+}: CommunityProgressBarProps) {
+  const sectionWidth = 100 / totalTiers;
+  const filledUntil = (currentTier - 1) * sectionWidth;
+  const currentProgress = filledUntil + (percentage / 100) * sectionWidth;
+
+  let gradient: string;
+
+  if (currentTier === totalTiers && percentage === 100) {
+    gradient = `linear-gradient(
+      to right,
+      #b45309 0%,
+      #d97706 100%
+    )`;
+  } else {
+    gradient = `linear-gradient(
+      to right,
+      #b45309 0%,
+      #d97706 ${filledUntil}%,
+      #166534 ${filledUntil}%,
+      #15803d ${currentProgress}%,
+      transparent ${currentProgress}%,
+      transparent 100%
+    )`;
+  }
 
   return (
-    <Card title={`Universal Community Research Progress • ${progress}% Done`} className='p-5 pt-10'>
+    <Card title={`Universal Community Research Progress • Tier ${currentTier} (${percentage}%)`} className='p-5 pt-10'>
       <div className='w-full'>
-
         <div className='relative w-full h-3 bg-gray-700 rounded-sm overflow-hidden border border-gray-600'>
           <div
-            className={`absolute top-0 left-0 h-full ${gradient}`}
-            style={{ width: `${progress}%` }}
+            className='absolute top-0 left-0 h-full'
+            style={{
+              width: '100%',
+              background: gradient,
+              transition: 'background 0.3s ease'
+            }}
           />
 
-          {Array.from({ length: tiers - 1 }).map((_, i) => (
+          {Array.from({ length: totalTiers - 1 }).map((_, i) => (
             <div
               key={i}
               className='absolute top-0 h-full w-[1px] bg-gray-900/50'
@@ -32,22 +60,33 @@ export default function CommunityProgressBar ({ progress, tiers = 5 }: Community
         </div>
 
         <div className='flex justify-between text-xs text-gray-400 mt-1'>
-          {Array.from({ length: tiers }).map((_, i) => {
-            const tierStart = i * sectionWidth;
-            const tierEnd = (i + 1) * sectionWidth;
-            const isActive = progress >= tierStart && progress < tierEnd;
+          {Array.from({ length: totalTiers }).map((_, i) => {
+            const tierNumber = i + 1;
+            const isActive = tierNumber === currentTier;
+            const isCompleted = tierNumber < currentTier;
+            const isFinal = currentTier === totalTiers && percentage === 100;
 
             return (
               <div key={i} className='text-center w-full'>
-                {isActive
+                {isFinal && tierNumber === totalTiers
                   ? (
-                    <span className={`font-semibold ${color}`}>
-                      Tier {i + 1} {progress}%
+                    <span className='font-semibold text-amber-600'>
+                      Tier {tierNumber} ✓
                     </span>
                     )
-                  : (
-                    <span>Tier {i + 1}</span>
-                    )}
+                  : isActive
+                    ? (
+                      <span className='font-semibold text-green-700'>
+                        Tier {tierNumber} {percentage}%
+                      </span>
+                      )
+                    : isCompleted
+                      ? (
+                        <span className='text-amber-600 font-semibold'>Tier {tierNumber} ✓</span>
+                        )
+                      : (
+                        <span>Tier {tierNumber}</span>
+                        )}
               </div>
             );
           })}
