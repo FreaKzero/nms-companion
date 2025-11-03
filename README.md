@@ -14,7 +14,7 @@
     - Galaxy autocomplete (all 255 Galaxies with correct Indexes)
     - Easy Screenshot Component, which can take URLs or clipboard image data
     - In Singleplayer automatically parses your position to the correct glyph Portalcode and fills out the correct galaxy
-- **Missions Dashboard**: View the current status of your settlements and frigate missions.
+- **Missions Dashboard**: View the current status of your settlements and frigate missions, as also current Community Research Progress (https://api.nmsassistant.com)
 - **Manual Timers**: Set Manual Timers for Eggs or other things
 - **Supply Depot Manager**: Track your produce of your Supply Depots
 - **Legendary Fish Tracker**: Todo/Tracklist for your Legendary Fishes, information about prices and biomes from [here](https://steamcommunity.com/sharedfiles/filedetails/?id=3331441951) and [nomansskyresources](https://www.nomansskyresources.com/)
