@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { nodeModuleNameResolver } from 'typescript';
 
 import Card from '../components/Card';
 import CommunityProgressBar from '../components/CommunityProgress';
@@ -80,5 +79,3 @@ export default function MissionsPage () {
     </div>
   );
 }
-
-// { "missionId": 106, "currentTier": 3, "percentage": 39, "totalTiers": 5 }
