@@ -11,7 +11,7 @@
 - **Searchable Location Database**: Browse a database of your saved locations, based on Tags, Description, Biomes and Galaxy
 - **Manual & Automatic Position Entry**: Add new locations manually or let the program detect them automatically.  
     - Biome decoder, decodes for example altnames like "Overgrown" to "Lush" via Autocomplete
-    - Galaxy autocomplete 
+    - Galaxy autocomplete (all 255 Galaxies with correct Indexes)
     - Easy Screenshot Component, which can take URLs or clipboard image data
     - In Singleplayer automatically parses your position to the correct glyph Portalcode and fills out the correct galaxy
 - **Missions Dashboard**: View the current status of your settlements and frigate missions.
@@ -19,6 +19,7 @@
 - **Supply Depot Manager**: Track your produce of your Supply Depots
 - **Legendary Fish Tracker**: Todo/Tracklist for your Legendary Fishes, information about prices and biomes from [here](https://steamcommunity.com/sharedfiles/filedetails/?id=3331441951) and [nomansskyresources](https://www.nomansskyresources.com/)
 - **NMS Coordinates Feed**: Simple RSS Feedreader for Reddit (by default: [nomansskyresources](https://www.nomansskyresources.com/))
+- **Galaxy Discoveries**: See which Galaxies you already visited (based on automatic lookup)
 
 ![Screenshot of No Man's Sky Companion](screenshots/2.PNG)
 ![Screenshot of No Man's Sky Companion](screenshots/3.PNG)

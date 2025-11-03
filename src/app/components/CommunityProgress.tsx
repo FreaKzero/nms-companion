@@ -53,7 +53,7 @@ export default function CommunityProgressBar ({
           {Array.from({ length: totalTiers - 1 }).map((_, i) => (
             <div
               key={i}
-              className='absolute top-0 h-full w-[1px] bg-gray-900/50'
+              className='absolute top-0 h-full w-[2px] bg-gray-900/50'
               style={{ left: `${(i + 1) * sectionWidth}%` }}
             />
           ))}
