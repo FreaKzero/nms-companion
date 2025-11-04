@@ -32,7 +32,7 @@ const useRedditStore = create<RedditStoreState>()((set, get) => ({
   setRead: () => {
     const now = new Date();
     localStorage.setItem('reddit_lastRead', now.toISOString());
-    set({ lastRead: now });
+    set({ lastRead: now, newEntries: 0 });
   },
 
   getFeed: async () => {
