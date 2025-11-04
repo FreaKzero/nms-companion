@@ -1,13 +1,11 @@
-import OptionManager from '@/app/lib/OptionManager';
+import { OptionManagerType } from '@/app/lib/OptionManager';
 import { fetchReddit, parseRSS } from '@/app/lib/redditParser';
 
 import { ipcMain } from 'electron';
 
-const OPTIONS = OptionManager.load();
-
-const registerRedditIPC = () => {
+const registerRedditIPC = (opt: OptionManagerType) => {
   ipcMain.handle('GET_REDDIT', async (_ev, lastRead: Date) => {
-    const xml = await fetchReddit(OPTIONS.redditFeed);
+    const xml = await fetchReddit(opt.redditFeed);
     const posts = parseRSS(xml, lastRead);
     const cleanposts = posts.sort((a, b) => {
       return b.published.getTime() - a.published.getTime();
@@ -16,7 +14,7 @@ const registerRedditIPC = () => {
   });
 
   ipcMain.handle('SEARCH_REDDIT', async (_ev, search: string) => {
-    const xml = await fetchReddit(OPTIONS.redditFeed, search);
+    const xml = await fetchReddit(opt.redditFeed, search);
     const posts = parseRSS(xml);
     return posts;
   });

@@ -3,10 +3,6 @@
 - [ ] globalize tailwind styles in components
 - [ ] use defaultStates in Forms and remove the useEffect
 - [ ] Forms: Errorstates in Components
-
-- [ ] Missionstore => extract the foreign getStates to own state or use combine
-  - [ ] CommunityMissions (!)
-
 - [ ] File Selectors => default paths
 - [ ] Error handling Backend -> Frontend
 - [ ] Emptystates for all List Components
@@ -14,10 +10,11 @@
 - [ ] Fix Devsave in DeveloperPage
 - [ ] Discoveries -> Bases combination - maybe in backend ?
 - [x] "Base Import" in Supply 
-- [ ] Options from outside (like database) in Backend
 - [x] fix importbutton FOUC in Supply
 - [x] Empty Caches in Settings
 - [ ] DB Migration -> UpdateDate for Locations
+- [x] Options from outside (like database) in Backend
+- [x] Remove SettingsStore and check code - we use direct IPC since we need to restart anyway
 
 # Bugs / Subfeatures
 - [ ] Locations -> Edit: Screenshots should be editable

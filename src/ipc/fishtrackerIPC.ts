@@ -1,12 +1,10 @@
 import { existsSync, promises as fs } from 'fs';
 
-import OptionManager from '@/app/lib/OptionManager';
+import { OptionManagerType } from '@/app/lib/OptionManager';
 
 import { ipcMain } from 'electron';
 
 import fishtrackerDef from '../app/mappings/fishtracker.json';
-
-const OPTIONS = OptionManager.load();
 
 export interface FishType {
   id: number;
@@ -21,11 +19,11 @@ export interface FishType {
   depth: number;
 }
 
-const registerFishTrackerIpc = () => {
+const registerFishTrackerIpc = (opt: OptionManagerType) => {
   ipcMain.handle('FISHTRACKER-GET', async () => {
-    if (!existsSync(OPTIONS.fishtrackerFile)) {
+    if (!existsSync(opt.fishtrackerFile)) {
       try {
-        await fs.writeFile(OPTIONS.fishtrackerFile, JSON.stringify(fishtrackerDef), 'utf8');
+        await fs.writeFile(opt.fishtrackerFile, JSON.stringify(fishtrackerDef), 'utf8');
         return fishtrackerDef;
       } catch (_e) {
         return { error: true };
@@ -33,7 +31,7 @@ const registerFishTrackerIpc = () => {
     }
 
     try {
-      const tracker = await fs.readFile(OPTIONS.fishtrackerFile, 'utf-8');
+      const tracker = await fs.readFile(opt.fishtrackerFile, 'utf-8');
       return JSON.parse(tracker);
     } catch (_e) {
       return { error: true };
@@ -42,7 +40,7 @@ const registerFishTrackerIpc = () => {
 
   ipcMain.handle('FISHTRACKER-SET', async (_ev, fishes: FishType[]) => {
     try {
-      await fs.writeFile(OPTIONS.fishtrackerFile, JSON.stringify(fishes), 'utf-8');
+      await fs.writeFile(opt.fishtrackerFile, JSON.stringify(fishes), 'utf-8');
     } catch (_e) {
       return { error: true };
     }

@@ -7,31 +7,28 @@ import { ipcMain, app, shell, nativeImage } from 'electron';
 
 import getSave from '../app/lib/getNmsSave';
 
-let OPTIONS = OptionManager.load();
-
-const registerSystemIpc = () => {
+const registerSystemIpc = (opt: OptionManagerType) => {
   ipcMain.handle('GET_SETTINGS', () => {
-    OPTIONS = OptionManager.load();
-    return OPTIONS;
+    return opt;
+  });
+
+  ipcMain.handle('SET_SETTINGS', (_ev, data: OptionManagerType) => {
+    const newOpt = OptionManager.update(data);
+    return newOpt;
   });
 
   ipcMain.handle('SHOW_FILE', (_ev, filePath: string) => shell.showItemInFolder(filePath));
-
-  ipcMain.handle('SET_SETTINGS', (_ev, data: OptionManagerType) => {
-    OPTIONS = OptionManager.update(data);
-    return OPTIONS;
-  });
 
   ipcMain.handle('SAVE_SCREEN', async (_ev, arrayBuffer: ArrayBuffer, id: string) => {
     try {
       const buffer = Buffer.from(arrayBuffer);
       const image = nativeImage.createFromBuffer(buffer);
-      const resized = image.resize({ width: Number(OPTIONS.picSize) });
+      const resized = image.resize({ width: Number(opt.picSize) });
       const outBuffer = resized.toPNG();
-      const outPath = path.join(OPTIONS.locationThumbDir, `${id}.png`);
+      const outPath = path.join(opt.locationThumbDir, `${id}.png`);
 
-      if (!existsSync(OPTIONS.locationThumbDir)) {
-        mkdirSync(OPTIONS.locationThumbDir);
+      if (!existsSync(opt.locationThumbDir)) {
+        mkdirSync(opt.locationThumbDir);
       }
 
       await writeFile(outPath, outBuffer, (err) => {
@@ -52,7 +49,7 @@ const registerSystemIpc = () => {
   });
 
   ipcMain.handle('DEBUG_SAVE', () => {
-    const saveData = getSave(OPTIONS.savePath);
+    const saveData = getSave(opt.savePath);
     writeFileSync('./devSave.json', JSON.stringify(saveData, null, 2));
   });
 
@@ -64,14 +61,12 @@ const registerSystemIpc = () => {
     const caches = ['cmcache.json'];
 
     caches.forEach((f) => {
-      const cacheFile = path.join(OPTIONS.cacheDir, f);
+      const cacheFile = path.join(opt.cacheDir, f);
       if (existsSync(cacheFile)) {
         unlinkSync(cacheFile);
       }
     });
   });
-
-  return OPTIONS;
 };
 
 export default registerSystemIpc;

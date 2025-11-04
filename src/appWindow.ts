@@ -5,6 +5,7 @@ import appMenu from '@/menu/appMenu';
 import Database from 'better-sqlite3';
 import { BrowserWindow, Menu, app } from 'electron';
 
+import OptionManager from './app/lib/OptionManager';
 import { registerDialogIpc } from './ipc/dialogIPC';
 import { registerDiscoveriesIpc } from './ipc/discoveriesIPC';
 import registerFishTrackerIpc from './ipc/fishtrackerIPC';
@@ -88,15 +89,17 @@ function registerMainIPC () {
    * Here you can assign IPC related codes for the application window
    * to Communicate asynchronously from the main process to renderer processes.
    */
-  const settings = registerSystemIpc();
-  db = new Database(settings.databasePath);
 
-  registerLocationIpc(db);
+  const opt = OptionManager.load();
+  db = new Database(opt.databasePath);
+
+  registerLocationIpc(opt, db);
+  registerSystemIpc(opt);
+  registerRedditIPC(opt);
+  registerNmsIpc(opt);
+  registerFishTrackerIpc(opt);
   registerSupplyIpc(db);
   registerDiscoveriesIpc(db);
 
-  registerRedditIPC();
-  registerNmsIpc();
-  registerFishTrackerIpc();
   registerDialogIpc(appWindow);
 }

@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import getSave, { createBases, createFrigateMissions, createPosition, createSettlementMissions, FrigateType, SettlementType } from '@/app/lib/getNmsSave';
-import OptionManager from '@/app/lib/OptionManager';
+import { OptionManagerType } from '@/app/lib/OptionManager';
 
 import { ipcMain } from 'electron';
 
@@ -40,15 +40,14 @@ export interface SaveType {
   bases: BasesType[];
 }
 
-const OPTIONS = OptionManager.load();
 const CACHE_TTL = 1 * 60 * 60 * 1000;
 
-const registerNmsIpc = () => {
+const registerNmsIpc = (opt: OptionManagerType) => {
   ipcMain.handle('GET_COMMUNITYMISSION', async (_ev) => {
-    const CACHE_PATH = path.join(OPTIONS.cacheDir, 'cmcache.json');
+    const CACHE_PATH = path.join(opt.cacheDir, 'cmcache.json');
 
-    if (!fs.existsSync(OPTIONS.cacheDir)) {
-      fs.mkdirSync(OPTIONS.cacheDir, { recursive: true });
+    if (!fs.existsSync(opt.cacheDir)) {
+      fs.mkdirSync(opt.cacheDir, { recursive: true });
     }
 
     try {
@@ -107,11 +106,11 @@ const registerNmsIpc = () => {
 
   ipcMain.handle('GET_SAVEFILE', async () => {
     try {
-      const saveData = await getSave(OPTIONS.savePath);
+      const saveData = await getSave(opt.savePath);
 
       const bases = createBases(saveData.BaseContext);
       const frigates = createFrigateMissions(saveData.BaseContext);
-      const settlements = OPTIONS.charName.trim() !== '' ? createSettlementMissions(saveData.BaseContext, OPTIONS.charName) : [];
+      const settlements = opt.charName.trim() !== '' ? createSettlementMissions(saveData.BaseContext, opt.charName) : [];
       const position: PositionType = createPosition(
         saveData.BaseContext.PlayerStateData.UniverseAddress,
         saveData.BaseContext.PlayerStateData.SaveSummary
