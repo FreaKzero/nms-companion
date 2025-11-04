@@ -2,6 +2,7 @@
   {
     "name": "Lush",
     "altname": [
+      "Corrupted Paradise",
       "Rainy",
       "Verdant",
       "Tropical",
@@ -12,7 +13,9 @@
       "Overgrown",
       "Flourishing",
       "Grassy",
-      "Bountiful"
+      "Bountiful",
+      "Xeno-Colony",
+      "Infested Planet"
     ]
   },
   {
@@ -26,7 +29,9 @@
       "Abandoned",
       "Dusty",
       "Desolate",
-      "Wind-swept"
+      "Wind-swept",
+      "Terrorsphere",
+      "Putrid World"
     ]
   },
   {
@@ -135,7 +140,8 @@
       "Acrid",
       "Blighted",
       "Miasmatic",
-      "Rotting"
+      "Rotting",
+      "Pustulent Planet"
     ]
   },
   {
