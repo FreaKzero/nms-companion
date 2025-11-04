@@ -41,6 +41,7 @@ const useSupplyStore = create<SupplyStore>()((set, get) => ({
     set({ loading: true });
     const ID = await electron.ipcRenderer.invoke('db.supply.create', item);
     set({
+      hasNoData: false,
       loading: false,
       entries: [...get().entries, { ...item, id: ID }],
       totalEntries: get().totalEntries + 1
