@@ -215,6 +215,7 @@ function ListPage () {
 
   const handlePageChange = async (page: number) => {
     await getPage(page, pageSize, searchQuery);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleTagClick = (term: string) => {

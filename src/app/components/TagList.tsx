@@ -15,20 +15,20 @@ interface TagPillProps {
 
 const TagPill: React.FC<TagPillProps> = ({ children, isFav, isPirate, onClick }) => {
   let color =
-    'border-green-400 bg-green-900/50 text-green-300 hover:bg-green-800/70 hover:text-green-200';
+    'border-green-400 bg-green-900/50 text-green-300 hover:bg-green-800/70 hover:text-green-200 px-3 py-1';
 
   if (isFav) {
     color =
-      'border-yellow-400 bg-amber-900/50 text-yellow-300 hover:bg-amber-800/70 hover:text-yellow-200';
+      'border-yellow-400 bg-amber-900/50 text-yellow-300 hover:bg-amber-800/70 hover:text-yellow-200 px-1.5 py-1';
   } else if (isPirate) {
     color =
-      'border-red-400 bg-red-900/50 text-red-300 hover:bg-red-800/70 hover:text-red-200';
+      'border-red-400 bg-red-900/50 text-red-300 hover:bg-red-800/70 hover:text-red-200 px-1.5 py-1';
   }
 
   return (
     <span
       onClick={onClick}
-      className={`inline-block rounded-full border px-3 py-1 text-xs font-bold uppercase cursor-pointer transition-colors duration-200 ${color}`}
+      className={`inline-block rounded-full border text-xs font-bold uppercase cursor-pointer transition-colors duration-200 ${color}`}
     >
       {children}
     </span>

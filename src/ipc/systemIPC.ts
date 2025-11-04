@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, writeFile, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, unlinkSync, writeFile, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 import OptionManager, { OptionManagerType } from '@/app/lib/OptionManager';
@@ -58,6 +58,17 @@ const registerSystemIpc = () => {
 
   ipcMain.handle('OPEN_URL', (_ev, url: string) => {
     shell.openExternal(url);
+  });
+
+  ipcMain.handle('EMPTY_CACHE', () => {
+    const caches = ['cmcache.json'];
+
+    caches.forEach((f) => {
+      const cacheFile = path.join(OPTIONS.cacheDir, f);
+      if (existsSync(cacheFile)) {
+        unlinkSync(cacheFile);
+      }
+    });
   });
 
   return OPTIONS;

@@ -38,6 +38,14 @@ function SettingsPage () {
     }
   };
 
+  const handleEmptyCache = () => {
+    electron.ipcRenderer.invoke('EMPTY_CACHE');
+    confirmModal({
+      message: 'Cache Cleared',
+      title: 'Information',
+      info: true
+    });
+  };
   return (
     <div className='w-full'>
       <form action='#' method='POST' className='mx-auto p-10 w-xlsm:mt-20' onSubmit={handleSubmit(onSubmit)}>
@@ -96,17 +104,25 @@ function SettingsPage () {
 
         </div>
 
-        <div className='mt-10 text-right'>
-          <button type='button' className='button2' onClick={() => navigate('/')}>
-            Cancel
-          </button>
+        <div className='flex justify-between mt-10'>
+          <div>
+            <button type='button' className='buttonred' onClick={handleEmptyCache}>
+              Clear Cache
+            </button>
+          </div>
+          <div>
 
-          <button
-            type='submit'
-            className='button ml-5'
-          >
-            Save Settings
-          </button>
+            <button type='button' className='button2' onClick={() => navigate('/')}>
+              Cancel
+            </button>
+
+            <button
+              type='submit'
+              className='button ml-5'
+            >
+              Save Settings
+            </button>
+          </div>
 
         </div>
 

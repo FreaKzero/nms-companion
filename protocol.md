@@ -16,6 +16,9 @@
 - [x] "Base Import" in Supply 
 - [ ] Options from outside (like database) in Backend
 - [ ] fix importbutton FOUC in Supply
+- [x] Empty Caches in Settings
+- [ ] DB Migration -> UpdateDate for Locations
+
 # Bugs / Subfeatures
 - [ ] Locations -> Edit: Screenshots should be editable
 # Learning Refactor 1 - Backend (Proto Done - in Testing)
