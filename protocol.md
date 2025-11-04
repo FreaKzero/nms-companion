@@ -3,11 +3,7 @@
 - [ ] globalize tailwind styles in components
 - [ ] use defaultStates in Forms and remove the useEffect
 - [ ] Forms: Errorstates in Components
-- [ ] File Selectors => default paths
-- [ ] Error handling Backend -> Frontend
 - [ ] Emptystates for all List Components
-- [ ] Fix Devsave in DeveloperPage
-- [ ] DB Migration -> UpdateDate for Locations
 - [x] Options from outside (like database) in Backend
 - [x] Remove SettingsStore and check code - we use direct IPC since we need to restart anyway
 - [x] Remove RAW from Positiontype, not needed anymore (was debug)
@@ -17,6 +13,15 @@
 
 # Bugs / Subfeatures
 - [ ] Locations -> Edit: Screenshots should be editable
+- [ ] Settings -> File Selectors => default paths
+
+## Backend Refactor 2 
+### Tasks
+- [ ] All IPC Methods should use try fetch and return an error object when error occurs with errormessage
+- [ ] All Zustand stores should check for the errorobject
+- [ ] On Error reroute to /settings and open an Dialogwindow with the Errormessage Info Dialog
+- [ ] Database Migration: UpdateDate in location table (needed for Import/Export)
+- [ ] Fix Devsave in Developer Page (and rename it)
 --
 ## Import/Export
 ### Brainstorm

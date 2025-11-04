@@ -33,7 +33,11 @@ function SettingsPage () {
 
   const onSubmit: SubmitHandler<OptionManagerType> = async (data) => {
     await electron.ipcRenderer.invoke('SET_SETTINGS', data);
-    if (await confirmModal('Applikation should be restarted, restart ?')) {
+    if (await confirmModal({
+      title: 'Warning',
+      message: 'Applikation will be restarted',
+      info: true
+    })) {
       electron.ipcRenderer.invoke('APP_RESTART');
     }
   };
