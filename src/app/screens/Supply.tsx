@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/jsx-closing-tag-location */
 import { SupplyState } from '@/ipc/supplyIPC';
 
 import { Factory, Package2Icon, Trash2Icon, PencilRulerIcon } from 'lucide-react';
@@ -148,6 +149,7 @@ const SupplyDepot = (supply: SupplyState & { onEdit: (s: SupplyState) => void })
     window.scrollTo({ top: 0, behavior: 'smooth' });
     supply.onEdit(item);
   };
+
   return (
     <li className='flex items-start gap-3 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transtion-all duration-200 rounded-lg'>
       <div className='w-15 h-15 rounded-lg flex items-center justify-center bg-gradient-to-t from-green-900 to-green-700'>
@@ -187,6 +189,8 @@ function SupplyPage () {
   const stopAutoRefresh = useAutoRefreshStore((s) => s.stop);
   const startAutoRefresh = useAutoRefreshStore((s) => s.start);
 
+  const handleImport = useSupplyStore((s) => s.importBases);
+
   const [search, setSearch] = useState('');
   const [editingSupply, setEditingSupply] = useState<SupplyState | null>(null);
 
@@ -220,9 +224,22 @@ function SupplyPage () {
           onClear={() => setSearch('')}
           className='w-full mb-8'
         />
-        <ul className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 divide-y divide-gray-800'>
-          {entries.map((supply) => <SupplyDepot key={`supply-${supply.id}`} {...supply} onEdit={setEditingSupply} />)}
-        </ul>
+        {entries.length
+          ? (
+            <div>
+
+              <ul className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 divide-y divide-gray-800'>
+                {entries.map((supply) => <SupplyDepot key={`supply-${supply.id}`} {...supply} onEdit={setEditingSupply} />)}
+              </ul></div>)
+          : (<div className='w-full m-auto text-center'>
+            {search.trim() === ''
+              ? <button className='button' onClick={handleImport}>Import Bases from Savefile</button>
+              : <h2 className='text-2xl text-center font-nms pt-1'>
+                {`No Base with Searchterm "${search}" found`}
+              </h2>}
+          </div>
+            )}
+
       </div>
     </div>
   );

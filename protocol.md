@@ -13,8 +13,9 @@
 - [x] Remove RAW from Positiontype, not needed anymore (was debug)
 - [ ] Fix Devsave in DeveloperPage
 - [ ] Discoveries -> Bases combination - maybe in backend ?
-- [ ] "Base Import" in Supply 
-- [ ] 
+- [x] "Base Import" in Supply 
+- [ ] Options from outside (like database) in Backend
+- [ ] fix importbutton FOUC in Supply
 # Bugs / Subfeatures
 - [ ] Locations -> Edit: Screenshots should be editable
 # Learning Refactor 1 - Backend (Proto Done - in Testing)

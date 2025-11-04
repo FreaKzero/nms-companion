@@ -12,6 +12,32 @@ export interface SupplyState {
   Stored?: number;
 }
 
+const enrichEntries = (data: SupplyState[]) => {
+  const now = new Date();
+
+  return data.map((supply) => {
+    let progress;
+    let stored;
+    const diffMs = now.getTime() - new Date(supply.LastPickup).getTime();
+
+    if (diffMs < 172800000) { // 2 days max
+      const extracted = (diffMs / (1000 * 60 * 60)) * supply.ExtractionPerHour;
+      progress = Math.min((extracted / supply.Storage) * 100, 100);
+      stored = Math.floor(extracted);
+    } else {
+      stored = supply.Storage;
+      progress = 100;
+    }
+
+    return {
+      ...supply,
+      Stored: stored,
+      Progress: progress
+    };
+  })
+    .sort((a, b) => new Date(b.LastPickup).getTime() - new Date(a.LastPickup).getTime());
+};
+
 export function registerSupplyIpc (db: Database.Database) {
   db.prepare(`
     CREATE TABLE IF NOT EXISTS supply (
@@ -24,12 +50,38 @@ export function registerSupplyIpc (db: Database.Database) {
     )
   `).run();
 
+  ipcMain.handle('db.supply.import', (_ev, jsonBases: string) => {
+    const bases = JSON.parse(jsonBases);
+
+    bases.forEach((base: string) => {
+      const stmt = db.prepare(`
+      INSERT INTO supply
+      (BaseName, ExtractionPerHour, Storage, Material, LastPickup)
+      VALUES (?, ?, ?, ?, ?)
+    `);
+      stmt.run(
+        base,
+        0,
+        0,
+        'Imported',
+        new Date().toISOString()
+      );
+    });
+
+    const entries = db.prepare(` 
+        SELECT * FROM supply
+        ORDER BY id DESC`).all() as unknown as SupplyState[];
+
+    return enrichEntries(entries);
+  });
+
   ipcMain.handle('db.supply.create', (_ev, data: SupplyState) => {
     const stmt = db.prepare(`
       INSERT INTO supply
       (BaseName, ExtractionPerHour, Storage, Material, LastPickup)
       VALUES (?, ?, ?, ?, ?)
     `);
+
     const info = stmt.run(
       data.BaseName,
       data.ExtractionPerHour,
@@ -41,32 +93,6 @@ export function registerSupplyIpc (db: Database.Database) {
   });
 
   ipcMain.handle('db.supply.getAll', (_ev, search: string = '') => {
-    const enrichEntries = (data: SupplyState[]) => {
-      const now = new Date();
-
-      return data.map((supply) => {
-        let progress;
-        let stored;
-        const diffMs = now.getTime() - new Date(supply.LastPickup).getTime();
-
-        if (diffMs < 172800000) { // 2 days max
-          const extracted = (diffMs / (1000 * 60 * 60)) * supply.ExtractionPerHour;
-          progress = Math.min((extracted / supply.Storage) * 100, 100);
-          stored = Math.floor(extracted);
-        } else {
-          stored = supply.Storage;
-          progress = 100;
-        }
-
-        return {
-          ...supply,
-          Stored: stored,
-          Progress: progress
-        };
-      })
-        .sort((a, b) => new Date(b.LastPickup).getTime() - new Date(a.LastPickup).getTime());
-    };
-
     if (search && search.trim() !== '') {
       const terms = search.split(/\s+/).filter(Boolean);
 
@@ -117,6 +143,10 @@ export function registerSupplyIpc (db: Database.Database) {
         date,
         id
       );
+      data.Stored = 0;
+      data.Progress = 0;
+      data.LastPickup = date;
+
       return data;
     } catch (e) {
       console.log(e);

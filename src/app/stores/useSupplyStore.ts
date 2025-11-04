@@ -3,6 +3,7 @@ import { SupplyState } from '@/ipc/supplyIPC';
 import { create } from 'zustand';
 
 import { Nullable } from './apiInterfaces';
+import useSaveStore from './useSaveStore';
 
 interface SupplyStore {
   loading: boolean;
@@ -13,6 +14,7 @@ interface SupplyStore {
   getAll: (search?: string) => Promise<void>;
   getId: (id: number) => Promise<void>;
   pickup: (id: number) => Promise<void>;
+  importBases: () => Promise<void>;
   totalEntries: number;
   edit: Nullable<SupplyState>;
 }
@@ -23,6 +25,16 @@ const useSupplyStore = create<SupplyStore>()((set, get) => ({
   totalEntries: 0,
   edit: null,
 
+  importBases: async () => {
+    set({ loading: true });
+    const bases = JSON.stringify(useSaveStore.getState().bases.map((i) => i.name));
+    const imported = await electron.ipcRenderer.invoke('db.supply.import', bases);
+    set({
+      loading: false,
+      entries: imported,
+      totalEntries: imported.entries
+    });
+  },
   add: async (item: SupplyState) => {
     set({ loading: true });
     const ID = await electron.ipcRenderer.invoke('db.supply.create', item);
@@ -46,7 +58,7 @@ const useSupplyStore = create<SupplyStore>()((set, get) => ({
   update: async (id: number, item: SupplyState) => {
     set({ loading: true });
     try {
-      await electron.ipcRenderer.invoke('db.supply.update', id, {
+      const newItem = await electron.ipcRenderer.invoke('db.supply.update', id, {
         BaseName: item.BaseName,
         ExtractionPerHour: item.ExtractionPerHour,
         Storage: item.Storage,
@@ -55,7 +67,7 @@ const useSupplyStore = create<SupplyStore>()((set, get) => ({
 
       set({
         loading: false,
-        entries: get().entries.map((e) => (e.id === id ? { ...item, id } : e))
+        entries: get().entries.map((e) => (e.id === id ? newItem : e))
       });
     } catch (e) {
       console.log(e);
