@@ -17,7 +17,7 @@ const ConfirmDialog: React.FC<{
   container: HTMLElement;
 }> = ({ options, resolve, root, container }) => {
   const {
-    title = 'Confirm',
+    title = options?.info ? 'Information' : 'Confirm',
     message = 'Are you sure?',
     confirmText = 'OK',
     cancelText = 'Cancel',

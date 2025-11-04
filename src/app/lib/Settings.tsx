@@ -42,7 +42,6 @@ function SettingsPage () {
     electron.ipcRenderer.invoke('EMPTY_CACHE');
     confirmModal({
       message: 'Cache Cleared',
-      title: 'Information',
       info: true
     });
   };
