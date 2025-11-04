@@ -15,7 +15,7 @@
 - [ ] Discoveries -> Bases combination - maybe in backend ?
 - [x] "Base Import" in Supply 
 - [ ] Options from outside (like database) in Backend
-- [ ] fix importbutton FOUC in Supply
+- [x] fix importbutton FOUC in Supply
 - [x] Empty Caches in Settings
 - [ ] DB Migration -> UpdateDate for Locations
 

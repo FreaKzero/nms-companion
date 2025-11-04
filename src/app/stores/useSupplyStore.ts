@@ -16,6 +16,7 @@ interface SupplyStore {
   pickup: (id: number) => Promise<void>;
   importBases: () => Promise<void>;
   totalEntries: number;
+  hasNoData: boolean | null;
   edit: Nullable<SupplyState>;
 }
 
@@ -23,6 +24,7 @@ const useSupplyStore = create<SupplyStore>()((set, get) => ({
   loading: true,
   entries: [],
   totalEntries: 0,
+  hasNoData: null,
   edit: null,
 
   importBases: async () => {
@@ -80,7 +82,11 @@ const useSupplyStore = create<SupplyStore>()((set, get) => ({
   getAll: async (search = '') => {
     set({ loading: true });
     const list: SupplyState[] = await electron.ipcRenderer.invoke('db.supply.getAll', search);
-    set({ loading: false, entries: list, totalEntries: list.length });
+    if (get().hasNoData === null && search === '') {
+      set({ loading: false, entries: list, totalEntries: list.length, hasNoData: list.length < 1 });
+    } else {
+      set({ loading: false, entries: list, totalEntries: list.length });
+    }
   },
 
   getId: async (id: number) => {

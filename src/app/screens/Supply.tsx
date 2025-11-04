@@ -185,6 +185,7 @@ const SupplyDepot = (supply: SupplyState & { onEdit: (s: SupplyState) => void })
 function SupplyPage () {
   const getAll = useSupplyStore((s) => s.getAll);
   const entries = useSupplyStore((s) => s.entries);
+  const hasNoData = useSupplyStore((s) => s.hasNoData);
   const loading = useSupplyStore((s) => s.loading);
   const stopAutoRefresh = useAutoRefreshStore((s) => s.stop);
   const startAutoRefresh = useAutoRefreshStore((s) => s.start);
@@ -232,11 +233,13 @@ function SupplyPage () {
                 {entries.map((supply) => <SupplyDepot key={`supply-${supply.id}`} {...supply} onEdit={setEditingSupply} />)}
               </ul></div>)
           : (<div className='w-full m-auto text-center'>
-            {search.trim() === ''
-              ? <button className='button' onClick={handleImport}>Import Bases from Savefile</button>
-              : <h2 className='text-2xl text-center font-nms pt-1'>
-                {`No Base with Searchterm "${search}" found`}
-              </h2>}
+            {
+              hasNoData
+                ? <button className='button' onClick={handleImport}>Import Bases from Savefile</button>
+                : <h2 className='text-2xl text-center font-nms pt-1'>
+                  No Supply Depots Found
+                </h2>
+            }
           </div>
             )}
 
