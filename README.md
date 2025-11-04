@@ -2,6 +2,8 @@
 
 **No Man's Sky Companion** is a utility tool for players of *No Man's Sky*. It allows you to read and parse your save files, providing useful information and tools to help you manage your universe more efficiently.
 
+See future developments, ideas and bugfixes in [protocol.md](protocol.md)
+
 ![Screenshot of No Man's Sky Companion](screenshots/1.PNG)
 
 ## Features

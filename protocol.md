@@ -19,7 +19,31 @@
 - [x] Community Research -> 39% means the process of the current Tier - not the whole Research
 - [x] Supply Depots -> on "Grab" the list is not updated
 
+
+# Learning Refactor 1 - Backend
+## Goal
+Data from Savegame should be only parsed once - not for each kind (missions, positions, etc)
+Only 1 API - parses all Data always from the Savefile
+
+## Brainstorm
+only 1 IPC for complete Data from Savefile - named GET_SAVEFILE
+Savefile should return following properties:
+
+- missions
+  - frigates
+  - settlements
+
+- PositionData
+- (Future) Bases
+
+
+---
+
 # Features/Ideas
+## Show bases in Discoveries -> wait for Big Refactor 1
+### Brainstorm
+### Research (devSave)
+--
 ## Import/Export
 ### Brainstorm
 ---
