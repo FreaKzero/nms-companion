@@ -10,11 +10,13 @@
 - [ ] File Selectors => default paths
 - [ ] Error handling Backend -> Frontend
 - [ ] Emptystates for all List Components
+- [x] Remove RAW from Positiontype, not needed anymore (was debug)
+- [ ] Fix Devsave in DeveloperPage
 
 # Bugs / Subfeatures
 - [ ] Locations -> Edit: Screenshots should be editable
 
-# Learning Refactor 1 - Backend
+# Learning Refactor 1 - Backend (Proto Done - in Testing)
 ## Goal
 Data from Savegame should be only parsed once - not for each kind (missions, positions, etc)
 Only 1 API - parses all Data always from the Savefile and uses 1 Store for all Components which need Savedata
@@ -34,6 +36,7 @@ Savefile should return following properties:
   1. Make new IPC Route "GET_SAVEFILE" and parse everything
   2. New Zustand State with Mission and Positiondata since they only can "get data" named useSaveStore
   3. Update all Components which use useMissionStore and usePositionStore
+  4. Update Autorefresh
 ---
 
 # Features/Ideas

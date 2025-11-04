@@ -30,21 +30,11 @@ export interface FrigateType {
 }
 
 export interface PositionType {
-  Raw: RawType;
   PortalCode: string;
   GalaxyIndex: number;
   GalaxyName: string;
   ShareCode: string;
   Summary: string;
-}
-
-interface RawType {
-  x: number;
-  y: number;
-  z: number;
-  planet: number;
-  solarSystem: number;
-  galaxy: number;
 }
 
 export function voxelToPortal (P: number, X: number, Y: number, Z: number, SSI: number) {
@@ -189,15 +179,7 @@ export const createPosition = (UniverseAddress: UniverseAddress, Summary: string
     GalaxyIndex: UniverseAddress.RealityIndex,
     GalaxyName: getGalaxyName(UniverseAddress.RealityIndex),
     PortalCode: portalCode,
-    Summary,
-    Raw: {
-      x: UniverseAddress.GalacticAddress.VoxelX,
-      y: UniverseAddress.GalacticAddress.VoxelY,
-      z: UniverseAddress.GalacticAddress.VoxelZ,
-      planet: UniverseAddress.GalacticAddress.PlanetIndex,
-      solarSystem: UniverseAddress.GalacticAddress.SolarSystemIndex,
-      galaxy: UniverseAddress.RealityIndex
-    }
+    Summary
   };
 };
 

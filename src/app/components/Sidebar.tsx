@@ -5,14 +5,14 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import Timer from './Timer';
 
 import { RouteItem, routes } from '../routes';
-import useMissionsStore from '../stores/useMissionsStore';
 import useRedditStore from '../stores/useRedditStore';
 import { useAutoRefreshStore } from '../stores/useRefreshStore';
+import useSaveStore from '../stores/useSaveStore';
 
 const SideBar = () => {
   const loc = useLocation();
   const newEntries = useRedditStore((s) => s.newEntries);
-  const needSettlementAction = useMissionsStore((s) => s.needAction);
+  const needSettlementAction = useSaveStore((s) => s.missions.needAction);
 
   const getBadgeCount = (route: RouteItem) => {
     let badgeCount = 0;
@@ -46,7 +46,7 @@ const SideBar = () => {
 };
 
 const SidebarAutorefresh: React.FC = () => {
-  const error = useMissionsStore((s) => s.error);
+  const error = useSaveStore((s) => s.error);
   const nav = useNavigate();
   const toggleAutoRefresh = useAutoRefreshStore((s) => s.toggleAutoRefresh);
   const stopAutoRefresh = useAutoRefreshStore((s) => s.stop);

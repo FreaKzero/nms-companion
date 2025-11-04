@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import useMissionsStore from './useMissionsStore';
+import useSaveStore from './useSaveStore';
 
 interface AutoRefreshStore {
   autoRefresh: boolean;
@@ -13,11 +13,11 @@ export const useAutoRefreshStore = create<AutoRefreshStore>((set, get) => {
   let intervalId: number | undefined;
   let isRunning = false;
 
-  const getMissions = async () => {
+  const getData = async () => {
     if (isRunning) return;
     isRunning = true;
     try {
-      await useMissionsStore.getState().getMissions();
+      await useSaveStore.getState().getSave();
     } finally {
       isRunning = false;
     }
@@ -25,7 +25,7 @@ export const useAutoRefreshStore = create<AutoRefreshStore>((set, get) => {
 
   const start = () => {
     if (!intervalId) {
-      intervalId = window.setInterval(getMissions, 2 * 60 * 1000);
+      intervalId = window.setInterval(getData, 2 * 60 * 1000);
       set({ autoRefresh: true });
     }
   };

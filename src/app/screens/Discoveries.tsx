@@ -8,8 +8,8 @@ import { FormInput } from '../components/FormInput';
 import IconButton from '../components/IconButton';
 import Loader from '../components/Loader';
 import useDiscoveriesStore from '../stores/useDiscoveriesStore';
-import usePositionStore from '../stores/usePositionStore';
 import { useAutoRefreshStore } from '../stores/useRefreshStore';
+import useSaveStore from '../stores/useSaveStore';
 
 interface EnhancedDiscoveries extends Discoveries {
   onSelect: (galaxy: string) => void;
@@ -51,7 +51,7 @@ export default function DiscoveriesPage () {
   const loading = useDiscoveriesStore((s) => s.loading);
   const startAutoRefresh = useAutoRefreshStore((s) => s.start);
   const nav = useNavigate();
-  const getPosition = usePositionStore((s) => s.getCurrent);
+  const getPosition = useSaveStore((s) => s.getSave);
 
   useEffect(() => {
     getAll();

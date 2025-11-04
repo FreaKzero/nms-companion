@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 
 import { confirmModal } from '../components/ConfirmModal';
-import useMissionsStore from '../stores/useMissionsStore';
+import useSaveStore from '../stores/useSaveStore';
 
 export default function TestPage () {
-  const frigates = useMissionsStore((s) => s.frigates);
-  const settlements = useMissionsStore((s) => s.settlements);
-  const getMissions = useMissionsStore((s) => s.getMissions);
+  const frigates = useSaveStore((s) => s.missions.frigates);
+  const settlements = useSaveStore((s) => s.missions.settlements);
+  const getSave = useSaveStore((s) => s.getSave);
 
   const handleDebugSave = async () => {
     await electron.ipcRenderer.invoke('DEBUG_SAVE');
@@ -14,8 +14,9 @@ export default function TestPage () {
   };
 
   useEffect(() => {
-    getMissions();
+    getSave();
   }, []);
+
   return (
     <div>
       <textarea rows={15} cols={50} className='border bg-gray-700 mr-5'>

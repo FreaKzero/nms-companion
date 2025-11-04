@@ -3,7 +3,7 @@ import https from 'https';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import getSave, { createFrigateMissions, createPosition, createSettlementMissions } from '@/app/lib/getNmsSave';
+import getSave, { createFrigateMissions, createPosition, createSettlementMissions, FrigateType, SettlementType } from '@/app/lib/getNmsSave';
 import OptionManager from '@/app/lib/OptionManager';
 
 import { ipcMain } from 'electron';
@@ -16,7 +16,6 @@ export interface CommunityMissionType {
 }
 export interface PositionType {
   error?: boolean;
-  Raw: RawType;
   PortalCode: string;
   GalaxyIndex: number;
   GalaxyName: string;
@@ -24,13 +23,15 @@ export interface PositionType {
   Summary: string;
 }
 
-interface RawType {
-  x: number;
-  y: number;
-  z: number;
-  planet: number;
-  solarSystem: number;
-  galaxy: number;
+export interface SaveType {
+  loading: boolean;
+  error: boolean;
+
+  missions: {
+    frigates: FrigateType[];
+    settlements: SettlementType[];
+  };
+  positionData: PositionType;
 }
 
 const OPTIONS = OptionManager.load();
@@ -74,19 +75,6 @@ const registerNmsIpc = () => {
     return JSON.parse(json) as CommunityMissionType;
   });
 
-  ipcMain.handle('GET_POSITION', async () => {
-    try {
-      const saveData = await getSave(OPTIONS.savePath);
-      const position: PositionType = createPosition(
-        saveData.BaseContext.PlayerStateData.UniverseAddress,
-        saveData.BaseContext.PlayerStateData.SaveSummary
-      );
-      return position;
-    } catch (err) {
-      return { error: err };
-    }
-  });
-
   ipcMain.handle('ARRAYBUFFER_SCREEN_URL', async (_ev, url: string) => {
     try {
       const arrayBuffer = await new Promise<ArrayBuffer>((resolve, reject) => {
@@ -111,7 +99,7 @@ const registerNmsIpc = () => {
     }
   });
 
-  ipcMain.handle('GET_MISSIONS', async () => {
+  ipcMain.handle('GET_SAVEFILE', async () => {
     try {
       const saveData = await getSave(OPTIONS.savePath);
 
@@ -122,7 +110,12 @@ const registerNmsIpc = () => {
         saveData.BaseContext.PlayerStateData.SaveSummary
       );
 
-      return { frigates, settlements, position };
+      return {
+        missions: {
+          frigates, settlements
+        },
+        position
+      };
     } catch (err) {
       return { error: err };
     }

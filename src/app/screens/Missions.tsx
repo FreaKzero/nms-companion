@@ -7,14 +7,15 @@ import Loader from '../components/Loader';
 import SettlementsList from '../components/SettlementList';
 import { TimerMission } from '../components/TimerMission';
 import useMetaStore from '../stores/useMetaStore';
-import useMissionsStore from '../stores/useMissionsStore';
 import { useAutoRefreshStore } from '../stores/useRefreshStore';
+import useSaveStore from '../stores/useSaveStore';
 
 export default function MissionsPage () {
-  const frigates = useMissionsStore((s) => s.frigates);
-  const settlements = useMissionsStore((s) => s.settlements);
-  const loading = useMissionsStore((s) => s.loading);
-  const getMissions = useMissionsStore((s) => s.getMissions);
+  const frigates = useSaveStore((s) => s.missions.frigates);
+  const settlements = useSaveStore((s) => s.missions.settlements);
+  const getSave = useSaveStore((s) => s.getSave);
+  const loading = useSaveStore((s) => s.loading);
+
   const startAutoRefresh = useAutoRefreshStore((s) => s.start);
   const getCommunityMission = useMetaStore((s) => s.getCommunityMission);
   const communityMission = useMetaStore((s) => s.communityMission);
@@ -22,7 +23,7 @@ export default function MissionsPage () {
   useEffect(() => {
     getCommunityMission();
     startAutoRefresh();
-    getMissions();
+    getSave();
   }, []);
 
   return (

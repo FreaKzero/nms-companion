@@ -1,11 +1,11 @@
 import Glyphs from './Glyphs';
 
-import usePositionStore from '../stores/usePositionStore';
+import useSaveStore from '../stores/useSaveStore';
 
 const TopNavigation = () => {
-  const portalCode = usePositionStore((state) => state.PortalCode);
-  const galaxy = usePositionStore((state) => state.GalaxyName);
-  const summary = usePositionStore((state) => state.Summary);
+  const portalCode = useSaveStore((state) => state.position.PortalCode);
+  const galaxy = useSaveStore((state) => state.position.GalaxyName);
+  const summary = useSaveStore((state) => state.position.Summary);
 
   return portalCode
     ? (

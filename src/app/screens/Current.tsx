@@ -14,14 +14,14 @@ import { FormTextArea } from '../components/FormTextArea';
 import Loader from '../components/Loader';
 import useListStore from '../stores/useLocationStore';
 import useMetaStore from '../stores/useMetaStore';
-import usePositionStore from '../stores/usePositionStore';
 import { useAutoRefreshStore } from '../stores/useRefreshStore';
+import useSaveStore from '../stores/useSaveStore';
 
 function CurrentPage () {
-  const position = usePositionStore();
+  const position = useSaveStore((s) => s.position);
   const handleAddLocation = useListStore((state) => state.add);
-  const getCurrentPosition = usePositionStore((s) => s.getCurrent);
-  const loading = usePositionStore((s) => s.loading);
+  const getCurrentPosition = useSaveStore((s) => s.getSave);
+  const loading = useSaveStore((s) => s.loading);
   const getTags = useMetaStore((s) => s.getTags);
   const optionTags = useMetaStore((s) => s.optionTags);
   const stopAutoRefresh = useAutoRefreshStore((s) => s.stop);
