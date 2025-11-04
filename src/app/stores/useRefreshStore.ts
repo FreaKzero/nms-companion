@@ -27,6 +27,7 @@ export const useAutoRefreshStore = create<AutoRefreshStore>((set, get) => {
 
   const start = () => {
     if (!intervalId) {
+      getData();
       intervalId = window.setInterval(getData, 2 * 60 * 1000);
       set({ autoRefresh: true });
     }

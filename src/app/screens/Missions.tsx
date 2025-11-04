@@ -13,7 +13,6 @@ import useSaveStore from '../stores/useSaveStore';
 export default function MissionsPage () {
   const frigates = useSaveStore((s) => s.missions.frigates);
   const settlements = useSaveStore((s) => s.missions.settlements);
-  const getSave = useSaveStore((s) => s.getSave);
   const loading = useSaveStore((s) => s.loading);
 
   const startAutoRefresh = useAutoRefreshStore((s) => s.start);
@@ -23,7 +22,6 @@ export default function MissionsPage () {
   useEffect(() => {
     getCommunityMission();
     startAutoRefresh();
-    getSave();
   }, []);
 
   return (

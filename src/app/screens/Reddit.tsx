@@ -84,7 +84,6 @@ export default function RedditPage () {
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (search.trim() === '') {
-        getFeed();
         startAutoRefresh();
       } else {
         searchFeed(search);
