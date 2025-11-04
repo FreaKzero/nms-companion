@@ -24,7 +24,7 @@
 # Learning Refactor 1 - Backend
 ## Goal
 Data from Savegame should be only parsed once - not for each kind (missions, positions, etc)
-Only 1 API - parses all Data always from the Savefile
+Only 1 API - parses all Data always from the Savefile and uses 1 Store for all Components which need Savedata
 
 ## Brainstorm
 only 1 IPC for complete Data from Savefile - named GET_SAVEFILE, because we dont want to open and parse the Savefile multiple times 
@@ -53,7 +53,7 @@ Lots of data to parse for 1 Base - Check Performance
 ```
 Array[0].Name => Name of Base  
 Array[0].BaseType.PersistentBaseTypes => HomePlanetBase as Value  
-Array[0].Owner.USN => <NICKNAME> => Player  
+Array[0].Owner.USN => NICKNAME (Player)  
 ```
 --
 ## Import/Export
