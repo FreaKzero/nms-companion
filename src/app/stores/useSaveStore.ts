@@ -1,3 +1,5 @@
+import { BasesType } from '@/ipc/nmsIPC';
+
 import { create } from 'zustand';
 
 import useDiscoveriesStore from './useDiscoveriesStore';
@@ -14,6 +16,7 @@ interface SaveStoreState {
     needAction: number;
   };
   position: PositionType;
+  bases: BasesType[];
 
   getSave: () => Promise<void>;
 
@@ -30,6 +33,7 @@ const defState: Omit<SaveStoreState, 'getSave' | 'setFrigates' | 'setSettlements
     settlements: [],
     needAction: 0
   },
+  bases: [],
   position: {
     GalaxyName: '',
     PortalCode: '',
@@ -57,6 +61,7 @@ const useSaveStore = create<SaveStoreState>()((set) => ({
           settlements: SettlementType[];
         };
         position: PositionType;
+        bases: BasesType[];
       } = await electron.ipcRenderer.invoke('GET_SAVEFILE');
 
       set({
@@ -65,6 +70,7 @@ const useSaveStore = create<SaveStoreState>()((set) => ({
           needAction: calculateNeedAction(saveData.missions.frigates, saveData.missions.settlements)
         },
         position: saveData.position,
+        bases: saveData.bases,
         loading: false,
         error: false
       });

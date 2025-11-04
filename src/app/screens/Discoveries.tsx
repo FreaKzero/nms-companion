@@ -1,5 +1,3 @@
-import { Discoveries } from '@/ipc/discoveriesIPC';
-
 import { LocateFixed } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -7,15 +5,15 @@ import { useNavigate } from 'react-router-dom';
 import { FormInput } from '../components/FormInput';
 import IconButton from '../components/IconButton';
 import Loader from '../components/Loader';
-import useDiscoveriesStore from '../stores/useDiscoveriesStore';
+import useDiscoveriesStore, { EnhancedDiscoveries } from '../stores/useDiscoveriesStore';
 import { useAutoRefreshStore } from '../stores/useRefreshStore';
 import useSaveStore from '../stores/useSaveStore';
 
-interface EnhancedDiscoveries extends Discoveries {
+interface ConnectedDiscoveries extends EnhancedDiscoveries {
   onSelect: (galaxy: string) => void;
 }
 
-const Fish: React.FC<EnhancedDiscoveries> = ({ GalaxyIndex, GalaxyName, DiscoveryDate, PortalCount, onSelect }) => {
+const Galaxy: React.FC<ConnectedDiscoveries> = ({ GalaxyIndex, GalaxyName, DiscoveryDate, PortalCount, BaseCount, onSelect }) => {
   const hasPortals = PortalCount > 0;
 
   return (
@@ -30,12 +28,18 @@ const Fish: React.FC<EnhancedDiscoveries> = ({ GalaxyIndex, GalaxyName, Discover
           : <span className='cursor-default'>{GalaxyName}</span>}
       </div>
 
-      <div className='text-gray-300 text-sm min-w-[500px] text-right'>
+      <div className='text-gray-300 text-sm min-w-[200px] text-right'>
+        <div className='relative inline-block'>
+          <span>{BaseCount} Bases</span>
+        </div>
+      </div>
+
+      <div className='text-gray-300 text-sm min-w-[100px] text-right'>
         <div className='relative inline-block'>
           <span>{PortalCount} Portals</span>
         </div>
-
       </div>
+
       <div className='text-gray-300 text-sm text-right min-w-[100px]'>
         <span>{new Date(DiscoveryDate).toLocaleDateString('en-EN')}</span>
       </div>
@@ -107,7 +111,7 @@ export default function DiscoveriesPage () {
           <ul>
             {entries.length > 0
               ? (
-                  entries.map((fish, idx) => <Fish key={`fish-${idx}`} {...fish} onSelect={handleOnSelect} />)
+                  entries.map((galaxy, idx) => <Galaxy key={`galaxy-${idx}`} {...galaxy} onSelect={handleOnSelect} />)
                 )
               : (
                 <p className='text-gray-400 text-center py-4'>No Galaxy found.</p>

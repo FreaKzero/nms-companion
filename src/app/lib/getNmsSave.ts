@@ -83,6 +83,39 @@ export function voxelToPortal (P: number, X: number, Y: number, Z: number, SSI: 
 
 export const getGalaxyName = (galaxy: number) => GalaxyNames[galaxy] || `Unknown (${galaxy})`;
 
+export const getGalaxyNumber = (hx: string): number => {
+  let hex: string;
+
+  if (hx.startsWith('0x')) {
+    hex = hx.slice(2);
+  } else {
+    hex = Number(hx).toString(16)
+      .toUpperCase();
+  }
+
+  hex = hex.toUpperCase().padStart(16, '0'); // auf 16 Zeichen auffüllen
+  const b3 = hex.slice(-10, -8); // Galaxie-Teil
+
+  return parseInt(b3, 16);
+};
+
+export const createBases = (BaseContext: BaseContext) => {
+  try {
+    const x = BaseContext.PlayerStateData.PersistentPlayerBases
+      .filter((i) => i.BaseType.PersistentBaseTypes === 'HomePlanetBase')
+      .map((item) => {
+        return {
+          name: item.Name,
+          GalaxyIndex: getGalaxyNumber(String(item.GalacticAddress))
+        };
+      });
+
+    return x;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const createSettlementMissions = (BaseContext: BaseContext, owner: string): SettlementType[] => {
   const x = BaseContext.PlayerStateData.SettlementStatesV2
     .filter((item) => item.Owner.USN === owner)

@@ -3,7 +3,7 @@ import https from 'https';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import getSave, { createFrigateMissions, createPosition, createSettlementMissions, FrigateType, SettlementType } from '@/app/lib/getNmsSave';
+import getSave, { createBases, createFrigateMissions, createPosition, createSettlementMissions, FrigateType, SettlementType } from '@/app/lib/getNmsSave';
 import OptionManager from '@/app/lib/OptionManager';
 
 import { ipcMain } from 'electron';
@@ -23,6 +23,11 @@ export interface PositionType {
   Summary: string;
 }
 
+export interface BasesType {
+  GalaxyIndex: number;
+  name: string;
+}
+
 export interface SaveType {
   loading: boolean;
   error: boolean;
@@ -31,7 +36,8 @@ export interface SaveType {
     frigates: FrigateType[];
     settlements: SettlementType[];
   };
-  positionData: PositionType;
+  position: PositionType;
+  bases: BasesType[];
 }
 
 const OPTIONS = OptionManager.load();
@@ -103,6 +109,7 @@ const registerNmsIpc = () => {
     try {
       const saveData = await getSave(OPTIONS.savePath);
 
+      const bases = createBases(saveData.BaseContext);
       const frigates = createFrigateMissions(saveData.BaseContext);
       const settlements = OPTIONS.charName.trim() !== '' ? createSettlementMissions(saveData.BaseContext, OPTIONS.charName) : [];
       const position: PositionType = createPosition(
@@ -114,7 +121,8 @@ const registerNmsIpc = () => {
         missions: {
           frigates, settlements
         },
-        position
+        position,
+        bases
       };
     } catch (err) {
       return { error: err };

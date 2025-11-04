@@ -12,7 +12,9 @@
 - [ ] Emptystates for all List Components
 - [x] Remove RAW from Positiontype, not needed anymore (was debug)
 - [ ] Fix Devsave in DeveloperPage
-
+- [ ] Discoveries -> Bases combination - maybe in backend ?
+- [ ] "Base Import" in Supply 
+- [ ] 
 # Bugs / Subfeatures
 - [ ] Locations -> Edit: Screenshots should be editable
 # Learning Refactor 1 - Backend (Proto Done - in Testing)
@@ -39,10 +41,7 @@ Savefile should return following properties:
 ---
 
 # Features/Ideas
-## Show bases in Discoveries -> wait for Big Refactor 1
-### Brainstorm
-- [ ] "Base Import" in Supply 
-
+## Show bases in Discoveries -> wait for Big Refactor 1 (Proto Done - in Testing)
 ### Research (devSave)
 BaseContext.PlayerStateData.NPCWorkers.PersistentPlayerbases => Array
 Lots of data to parse for 1 Base - Check Performance  

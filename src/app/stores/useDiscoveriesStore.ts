@@ -2,11 +2,17 @@ import { Discoveries } from '@/ipc/discoveriesIPC';
 
 import { create } from 'zustand';
 
+import useSaveStore from './useSaveStore';
+
 import { confirmModal } from '../components/ConfirmModal';
+
+export interface EnhancedDiscoveries extends Discoveries {
+  BaseCount?: number;
+}
 
 interface DiscoveriesStore {
   loading: boolean;
-  entries: Discoveries[];
+  entries: EnhancedDiscoveries[];
   add: (item: Discoveries) => Promise<void>;
   getAll: (search?: string) => Promise<void>;
   check: (data: Discoveries) => Promise<Discoveries | null>;
@@ -31,7 +37,19 @@ const useDiscoveriesStore = create<DiscoveriesStore>()((set, get) => ({
   getAll: async (search = '') => {
     set({ loading: true });
     const list: Discoveries[] = await electron.ipcRenderer.invoke('db.discoveries.getAll', search);
-    set({ loading: false, entries: list, totalEntries: list.length });
+    const bases = useSaveStore.getState().bases;
+
+    const baseCountMap = bases.reduce<Record<number, number>>((acc, b) => {
+      acc[b.GalaxyIndex] = (acc[b.GalaxyIndex] || 0) + 1;
+      return acc;
+    }, {});
+
+    const entries: EnhancedDiscoveries[] = list.map((d) => ({
+      ...d,
+      BaseCount: baseCountMap[d.GalaxyIndex] || 0
+    }));
+
+    set({ loading: false, entries, totalEntries: list.length });
   },
 
   check: async (data) => {
