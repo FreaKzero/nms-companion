@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 
+import useDiscoveriesStore from './useDiscoveriesStore';
+
 import { FrigateType, SettlementType, PositionType } from '../lib/getNmsSave';
 
 interface SaveStoreState {
@@ -65,6 +67,11 @@ const useSaveStore = create<SaveStoreState>()((set) => ({
         position: saveData.position,
         loading: false,
         error: false
+      });
+
+      await useDiscoveriesStore.getState().check({
+        GalaxyIndex: saveData.position.GalaxyIndex,
+        GalaxyName: saveData.position.GalaxyName
       });
     } catch (_err) {
       console.log(_err);

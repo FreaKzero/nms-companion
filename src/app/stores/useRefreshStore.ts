@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 
+import useRedditStore from './useRedditStore';
 import useSaveStore from './useSaveStore';
 
 interface AutoRefreshStore {
@@ -18,6 +19,7 @@ export const useAutoRefreshStore = create<AutoRefreshStore>((set, get) => {
     isRunning = true;
     try {
       await useSaveStore.getState().getSave();
+      await useRedditStore.getState().getFeed();
     } finally {
       isRunning = false;
     }
