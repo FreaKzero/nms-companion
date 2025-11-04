@@ -25,6 +25,14 @@
 Data from Savegame should be only parsed once - not for each kind (missions, positions, etc)
 Only 1 API - parses all Data always from the Savefile
 
+## Research
+BaseContext.PlayerStateData.NPCWorkers.PersistentPlayerbases => Array
+Lots of data to parse for 1 Base - Check Performance
+Array[0].Name => Name of Base
+Array[0].BaseType.PersistentBaseTypes => HomePlanetBase as Value
+Array[0].Owner.USN => <NICKNAME> => Player
+
+
 ## Brainstorm
 only 1 IPC for complete Data from Savefile - named GET_SAVEFILE
 Savefile should return following properties:
