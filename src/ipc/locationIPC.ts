@@ -36,6 +36,7 @@ export function registerLocationIpc (db: Database.Database) {
   `).run();
 
   ipcMain.handle('db.list.create', (_ev, data: ListState) => {
+    data.Tag = data.Tag.toLowerCase();
     const stmt = db.prepare(`
       INSERT INTO locations 
       (GalaxyName, PortalCode, ShareCode, Description, Screenshot, GalaxyIndex, Tag, Biome)
@@ -64,6 +65,8 @@ export function registerLocationIpc (db: Database.Database) {
   });
 
   ipcMain.handle('db.list.update', (_ev, id: number, data: ListState) => {
+    data.Tag = data.Tag.toLowerCase();
+
     const stmt = db.prepare(`
       UPDATE locations SET
         GalaxyName = ?,

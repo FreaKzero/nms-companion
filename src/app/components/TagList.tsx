@@ -1,4 +1,4 @@
-import { HeartIcon } from 'lucide-react';
+import { HeartIcon, SkullIcon } from 'lucide-react';
 import React from 'react';
 
 interface TagListProps {
@@ -9,6 +9,7 @@ interface TagListProps {
 interface TagPillProps extends React.HTMLAttributes<HTMLSpanElement> {
   children: React.ReactNode;
   fav: boolean;
+  pirate: boolean;
 }
 
 export const TagPill: React.FC<TagPillProps> = ({ children, ...props }) => {
@@ -16,6 +17,10 @@ export const TagPill: React.FC<TagPillProps> = ({ children, ...props }) => {
 
   if (props.fav) {
     color = 'border-yellow-400 bg-amber-900/50 text-yellow-300 hover:bg-amber-800/70 hover:text-yellow-200';
+  }
+
+  if (props.pirate) {
+    color = 'border-red-400 bg-red-900/50 text-red-300 hover:bg-red-800/70 hover:text-red-200';
   }
 
   return (
@@ -35,20 +40,22 @@ export const TagList: React.FC<TagListProps> = ({ tags, onClick }) => {
     .split(' ')
     .map((t) => t.trim())
     .filter((t) => t.length > 0)
-    .sort((a) => (a.includes('fav') ? 1 : -1));
+    .sort((a) => (a.includes('fav') || a.includes('pirate') ? 1 : -1));
 
   return (
     <div className='flex flex-wrap gap-2'>
       {tagArray.map((tag, i) => {
         const isFav = tag.includes('fav');
+        const isPirate = tag.includes('pirate');
 
         return (
           <TagPill
             key={`tag-${i}`}
             onClick={() => onClick?.(tag)}
             fav={isFav}
+            pirate={isPirate}
           >
-            {isFav ? <HeartIcon size='15' /> : tag}
+            {isFav ? <HeartIcon size='15' /> : isPirate ? <SkullIcon size='15' /> : tag}
           </TagPill>
         );
       })}

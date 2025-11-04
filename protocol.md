@@ -18,7 +18,7 @@
 - [ ] Locations -> Edit: Screenshots should be editable
 - [x] Community Research -> 39% means the process of the current Tier - not the whole Research
 - [x] Supply Depots -> on "Grab" the list is not updated
-
+- [x] Add "pirate" and "fav" filters for tags - make sure Tags are always lowercase
 
 # Learning Refactor 1 - Backend
 ## Goal
