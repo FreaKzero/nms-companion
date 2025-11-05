@@ -1,7 +1,7 @@
 import { OptionManagerType } from '@/app/lib/OptionManager';
 import { fetchReddit, parseRSS } from '@/app/lib/redditParser';
 
-import { ipcMain } from 'electron';
+import { ipcMain, shell } from 'electron';
 
 const registerRedditIPC = (opt: OptionManagerType) => {
   ipcMain.handle('GET_REDDIT', async (_ev, lastRead: Date) => {
@@ -17,6 +17,10 @@ const registerRedditIPC = (opt: OptionManagerType) => {
     const xml = await fetchReddit(opt.redditFeed, search);
     const posts = parseRSS(xml);
     return posts;
+  });
+
+  ipcMain.handle('OPEN_REDDIT_SHARE', async (_ev, title: string) => {
+    shell.openExternal(`https://www.reddit.com/r/${opt.redditFeed}/submit/?type=IMAGE&title=${encodeURI(title)}`);
   });
 };
 

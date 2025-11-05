@@ -37,9 +37,10 @@ const GlyphModal: React.FC<ListState> = (props) => {
   const handlePortalCopy = async () => {
     await navigator.clipboard.writeText(`https://nmsportals.github.io/#${props.PortalCode}`);
   };
-  const handleShare = () => {
-    navigator.clipboard.writeText(`${GalaxyName} - ${Description} \nhttps://nmsportals.github.io/#${props.PortalCode}`);
-    electron.ipcRenderer.invoke('SHOW_FILE', Screenshot);
+  const handleShare = async () => {
+    await navigator.clipboard.writeText(`https://nmsportals.github.io/#${props.PortalCode}`);
+    await electron.ipcRenderer.invoke('OPEN_REDDIT_SHARE', `${GalaxyName} - ${Description}`);
+    await electron.ipcRenderer.invoke('SHOW_FILE', Screenshot);
   };
 
   return (
