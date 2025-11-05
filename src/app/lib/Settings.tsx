@@ -42,12 +42,20 @@ function SettingsPage () {
     }
   };
 
-  const handleEmptyCache = () => {
-    electron.ipcRenderer.invoke('EMPTY_CACHE');
-    confirmModal({
-      message: 'Cache Cleared',
-      info: true
+  const handleEmptyCache = async () => {
+    const conf = await confirmModal({
+      message: 'Clear Cache and temporary Flags ?'
     });
+
+    if (conf) {
+      electron.ipcRenderer.invoke('EMPTY_CACHE');
+      localStorage.removeItem('hideCommunityProgress');
+      localStorage.removeItem('reddit_lastRead');
+      confirmModal({
+        message: 'Cache Cleared',
+        info: true
+      });
+    }
   };
   return (
     <div className='w-full'>

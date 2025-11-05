@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Card from './Card';
 
@@ -6,39 +6,61 @@ interface CommunityProgressBarProps {
   currentTier: number;
   percentage: number;
   totalTiers: number;
+  loading: boolean;
 }
 
 export default function CommunityProgressBar ({
   currentTier,
   percentage,
-  totalTiers
+  totalTiers,
+  loading
 }: CommunityProgressBarProps) {
+  const [hidden, setHidden] = useState(false);
+
+  const allComplete = currentTier === totalTiers && percentage === 100;
+
+  useEffect(() => {
+    if (loading) return;
+
+    const flag = localStorage.getItem('hideCommunityProgress') === 'true';
+
+    if (!allComplete && flag) {
+      localStorage.setItem('hideCommunityProgress', 'false');
+      setHidden(false);
+    } else {
+      setHidden(flag);
+    }
+  }, [loading, allComplete]);
+
+  const handleHide = () => {
+    localStorage.setItem('hideCommunityProgress', 'true');
+    setHidden(true);
+  };
+
+  if (loading) return null;
+  if (allComplete && hidden) return null;
+
   const sectionWidth = 100 / totalTiers;
   const filledUntil = (currentTier - 1) * sectionWidth;
   const currentProgress = filledUntil + (percentage / 100) * sectionWidth;
 
-  let gradient: string;
-
-  if (currentTier === totalTiers && percentage === 100) {
-    gradient = `linear-gradient(
-      to right,
-      #b45309 0%,
-      #d97706 100%
-    )`;
-  } else {
-    gradient = `linear-gradient(
-      to right,
-      #b45309 0%,
-      #d97706 ${filledUntil}%,
-      #166534 ${filledUntil}%,
-      #15803d ${currentProgress}%,
-      transparent ${currentProgress}%,
-      transparent 100%
-    )`;
-  }
+  const gradient = allComplete
+    ? 'linear-gradient(to right, #b45309 0%, #d97706 100%)'
+    : `linear-gradient(
+        to right,
+        #b45309 0%,
+        #d97706 ${filledUntil}%,
+        #166534 ${filledUntil}%,
+        #15803d ${currentProgress}%,
+        transparent ${currentProgress}%,
+        transparent 100%
+      )`;
 
   return (
-    <Card title={`Universal Community Research Progress • Tier ${currentTier} (${percentage}%)`} className='p-5 pt-10'>
+    <Card
+      title={`Universal Community Research Progress • Tier ${currentTier} (${percentage}%)`}
+      className='p-5 pt-10'
+    >
       <div className='w-full'>
         <div className='relative w-full h-3 bg-gray-700 rounded-sm overflow-hidden border border-gray-600'>
           <div
@@ -54,7 +76,7 @@ export default function CommunityProgressBar ({
             <div
               key={i}
               className='absolute top-0 h-full w-[2px] bg-gray-900/50'
-              style={{ left: `${(i + 1) * sectionWidth}%` }}
+              style={{ left: `${(i + 1) * (100 / totalTiers)}%` }}
             />
           ))}
         </div>
@@ -64,7 +86,7 @@ export default function CommunityProgressBar ({
             const tierNumber = i + 1;
             const isActive = tierNumber === currentTier;
             const isCompleted = tierNumber < currentTier;
-            const isFinal = currentTier === totalTiers && percentage === 100;
+            const isFinal = allComplete;
 
             return (
               <div key={i} className='text-center w-full'>
@@ -82,7 +104,9 @@ export default function CommunityProgressBar ({
                       )
                     : isCompleted
                       ? (
-                        <span className='text-amber-600 font-semibold'>Tier {tierNumber} ✓</span>
+                        <span className='text-amber-600 font-semibold'>
+                          Tier {tierNumber} ✓
+                        </span>
                         )
                       : (
                         <span>Tier {tierNumber}</span>
@@ -91,6 +115,17 @@ export default function CommunityProgressBar ({
             );
           })}
         </div>
+
+        {allComplete && !hidden && (
+          <div className='mt-4 text-center'>
+            <button
+              onClick={handleHide}
+              className='button tiny'
+            >
+              Done
+            </button>
+          </div>
+        )}
       </div>
     </Card>
   );

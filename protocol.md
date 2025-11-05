@@ -14,6 +14,7 @@
 # Bugs / Subfeatures
 - [ ] Locations -> Edit: Screenshots should be editable
 - [ ] Settings -> File Selectors => default paths
+- [ ] Open Reddit Post Site => https://www.reddit.com/r/NMSCoordinateExchange/submit/?type=IMAGE
 
 ## Backend Refactor 2 
 ### Tasks

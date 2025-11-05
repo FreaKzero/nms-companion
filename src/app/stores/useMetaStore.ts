@@ -41,7 +41,12 @@ const defState = {
   optionTags: [] as Option[],
   optionGalaxies: [] as Option[],
   optionBiomes: [] as Option[],
-  communityMission: {} as CommunityMissionType
+  communityMission: {
+    missionId: 0,
+    currentTier: 5,
+    percentage: 100,
+    totalTiers: 5
+  } as CommunityMissionType
 };
 
 const useMetaStore = create<MetaStoreState>((set) => ({

@@ -27,6 +27,7 @@ export default function MissionsPage () {
   return (
     <div>
       {loading && <Loader message='Loading Missions ...' />}
+      <CommunityProgressBar percentage={communityMission.percentage} totalTiers={communityMission.totalTiers} currentTier={communityMission.currentTier} loading={loading} />
       <div className='mt-3 flex flex-1 gap-5'>
         <Card
           className='max-h-[331px] overflow-y-scroll p-5'
@@ -62,8 +63,6 @@ export default function MissionsPage () {
               )}
         </Card>
       </div>
-
-      <CommunityProgressBar percentage={communityMission.percentage} totalTiers={communityMission.totalTiers} currentTier={communityMission.currentTier} />
 
       <div className='grid lg:grid-cols-3 gap-5'>
         <TimerMission storageKey='timer1' />
