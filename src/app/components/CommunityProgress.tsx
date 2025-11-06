@@ -122,7 +122,7 @@ export default function CommunityProgressBar ({
               onClick={handleHide}
               className='button tiny'
             >
-              Done
+              Done and Hide
             </button>
           </div>
         )}
