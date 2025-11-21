@@ -48,8 +48,8 @@ const registerSystemIpc = (opt: OptionManagerType) => {
     app.exit(0);
   });
 
-  ipcMain.handle('DEBUG_SAVE', () => {
-    const saveData = getSave(opt.savePath);
+  ipcMain.handle('DEBUG_SAVE', async () => {
+    const saveData = await getSave(opt.savePath);
     writeFileSync('./devSave.json', JSON.stringify(saveData, null, 2));
   });
 
