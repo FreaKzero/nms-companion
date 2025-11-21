@@ -16,11 +16,9 @@ export default function MissionsPage () {
   const loading = useSaveStore((s) => s.loading);
 
   const startAutoRefresh = useAutoRefreshStore((s) => s.start);
-  const getCommunityMission = useMetaStore((s) => s.getCommunityMission);
   const communityMission = useMetaStore((s) => s.communityMission);
 
   useEffect(() => {
-    getCommunityMission();
     startAutoRefresh();
   }, []);
 

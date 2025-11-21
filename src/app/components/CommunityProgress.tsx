@@ -38,7 +38,7 @@ export default function CommunityProgressBar ({
   };
 
   if (loading) return null;
-  if (allComplete && hidden) return null;
+  if ((allComplete && hidden)) return null;
 
   const sectionWidth = 100 / totalTiers;
   const filledUntil = (currentTier - 1) * sectionWidth;
@@ -58,7 +58,7 @@ export default function CommunityProgressBar ({
 
   return (
     <Card
-      title={`Universal Community Research Progress • Tier ${currentTier} (${percentage}%)`}
+      title={`Universal Community Research Progress • Tier ${currentTier}/${totalTiers} (${percentage}%)`}
       className='p-5 pt-10'
     >
       <div className='w-full'>

@@ -45,7 +45,7 @@ const Glyphs = ({ portalCode, width = 'w-10' }: { portalCode?: string; width?: s
     if (!portalCode) return;
 
     try {
-      await navigator.clipboard.writeText(`https://nmsportals.github.io/#${portalCode}`);
+      await navigator.clipboard.writeText(portalCode);
 
       setTooltipText('Copied!');
 
