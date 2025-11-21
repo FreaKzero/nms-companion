@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 
+import useMetaStore from './useMetaStore';
 import useRedditStore from './useRedditStore';
 import useSaveStore from './useSaveStore';
 
@@ -18,6 +19,7 @@ export const useAutoRefreshStore = create<AutoRefreshStore>((set, get) => {
     if (isRunning) return;
     isRunning = true;
     try {
+      await useMetaStore.getState().getCommunityMission();
       await useSaveStore.getState().getSave();
       await useRedditStore.getState().getFeed();
     } finally {
@@ -26,8 +28,8 @@ export const useAutoRefreshStore = create<AutoRefreshStore>((set, get) => {
   };
 
   const start = () => {
+    getData();
     if (!intervalId) {
-      getData();
       intervalId = window.setInterval(getData, 2 * 60 * 1000);
       set({ autoRefresh: true });
     }

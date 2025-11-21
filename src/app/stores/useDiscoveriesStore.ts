@@ -58,9 +58,8 @@ const useDiscoveriesStore = create<DiscoveriesStore>()((set, get) => ({
 
     if (entries !== null) {
       if (entriesBefore !== entries.length) {
-        const found = entries[entries.length - 1];
         confirmModal({
-          message: `Galaxy ${found.GalaxyName}, number ${found.GalaxyIndex} discovered!`,
+          message: `Galaxy ${data.GalaxyName}, number ${data.GalaxyIndex} discovered!`,
           title: 'Discovered new Galaxy',
           info: true
         });
