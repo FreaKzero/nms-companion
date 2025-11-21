@@ -32,14 +32,16 @@ interface ScreenshotProps {
 }
 
 const GlyphModal: React.FC<ListState> = (props) => {
-  const { GalaxyName, Description, Screenshot, PortalCode } = props;
+  const { GalaxyName, Description, Screenshot, PortalCode, Biome } = props;
 
   const handlePortalCopy = async () => {
-    await navigator.clipboard.writeText(`https://nmsportals.github.io/#${props.PortalCode}`);
+    await navigator.clipboard.writeText(`https://nmsportals.github.io/#${PortalCode}`);
   };
+
   const handleShare = async () => {
-    await navigator.clipboard.writeText(`https://nmsportals.github.io/#${props.PortalCode}`);
-    await electron.ipcRenderer.invoke('OPEN_REDDIT_SHARE', `${GalaxyName} - ${Description}`);
+    const title = Biome ? `${GalaxyName} - (${Biome})` : GalaxyName;
+    await navigator.clipboard.writeText(`https://nmsportals.github.io/#${PortalCode}`);
+    await electron.ipcRenderer.invoke('OPEN_REDDIT_SHARE', `${title} - ${Description}`);
     await electron.ipcRenderer.invoke('SHOW_FILE', Screenshot);
   };
 
