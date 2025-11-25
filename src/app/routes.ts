@@ -1,4 +1,4 @@
-import { PlusCircle, ListChecksIcon, MapPlusIcon, SettingsIcon, MapPinIcon, Rss, FishIcon, ContainerIcon, GlobeIcon } from 'lucide-react';
+import { PlusCircle, ListChecksIcon, MapPlusIcon, SettingsIcon, MapPinIcon, Rss, ContainerIcon, GlobeIcon, PlaneIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import LocationForm from './components/LocationForm';
@@ -7,6 +7,7 @@ import CurrentPage from './screens/Current';
 import DiscoveriesPage from './screens/Discoveries';
 import EditLocationPage from './screens/EditLocation';
 import FishTrackerPage from './screens/Fishtracker';
+import FlightlogPage from './screens/Flightlog';
 import ListPage from './screens/Locations';
 import MissionsPage from './screens/Missions';
 import RedditPage from './screens/Reddit';
@@ -55,7 +56,8 @@ export const routes = [
     location: '/current',
     Icon: PlusCircle,
     Component: CurrentPage,
-    order: 4
+    order: 4,
+    hideMultiplayer: true
   },
   {
     text: 'Save Manual Location',
@@ -76,11 +78,12 @@ export const routes = [
     order: 7
   },
   {
-    text: 'Legendary Fishtracker',
-    location: '/fish',
-    Icon: FishIcon,
-    Component: FishTrackerPage,
-    order: 7.5
+    text: 'Flight Log',
+    location: '/log',
+    Icon: PlaneIcon,
+    Component: FlightlogPage,
+    order: 7.5,
+    hideMultiplayer: true
   },
   {
     text: 'Discovered Galaxies',
@@ -97,6 +100,13 @@ export const routes = [
     order: 8
   },
   {
+    text: 'log',
+    location: '/log',
+    Icon: null,
+    Component: FlightlogPage,
+    order: 10
+  },
+  {
     text: 'dev',
     location: '/dev',
     Icon: null,
@@ -109,6 +119,13 @@ export const routes = [
     Icon: null,
     Component: EditLocationPage,
     order: 11
+  },
+  {
+    text: 'Legendary Fishtracker',
+    location: '/fish',
+    Icon: null,
+    Component: FishTrackerPage,
+    order: 7.5
   }
 
 ].sort((a, b) => a.order - b.order);

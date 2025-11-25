@@ -38,6 +38,7 @@ export interface SaveType {
   };
   position: PositionType;
   bases: BasesType[];
+  isMultiplayer: boolean;
 }
 
 const CACHE_TTL = 1 * 60 * 60 * 1000;
@@ -121,7 +122,8 @@ const registerNmsIpc = (opt: OptionManagerType) => {
           frigates, settlements
         },
         position,
-        bases
+        bases,
+        isMultiplayer: saveData.BaseContext.PlayerStateData.MultiplayerLobbyID !== 0
       };
     } catch (err) {
       return { error: err };

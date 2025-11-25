@@ -6,9 +6,18 @@ const TopNavigation = () => {
   const portalCode = useSaveStore((state) => state.position.PortalCode);
   const galaxy = useSaveStore((state) => state.position.GalaxyName);
   const summary = useSaveStore((state) => state.position.Summary);
+  const isMultiplayer = useSaveStore((state) => state.isMultiplayer);
 
-  return portalCode
-    ? (
+  if (isMultiplayer) {
+    return (
+      <div className='top-navigation'>
+        <div className='flex flex-row items-center justify-between p-2'>
+          <h2 className='font-bold font-nms text-2xl ml-8 text-gray-400'>In Multiplayer Lobby • Tracking Disabled</h2>
+        </div>
+      </div>
+    );
+  } else if (portalCode) {
+    return (
       <div className='top-navigation'>
         <div className='flex flex-row items-center justify-between p-2'>
           <div>
@@ -18,8 +27,10 @@ const TopNavigation = () => {
           <Glyphs portalCode={portalCode} />
         </div>
       </div>
-      )
-    : null;
+    );
+  } else {
+    return JSON.stringify(isMultiplayer);
+  }
 };
 
 export default TopNavigation;

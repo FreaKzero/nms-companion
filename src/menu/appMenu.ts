@@ -43,8 +43,8 @@ const MenuItems: Electron.MenuItemConstructorOptions[] = [
       },
       {
         id: 'fish',
-        label: 'Legendary Fish Tracker',
-        click: () => emitEvent('MENU-ROUTE', '/fish'),
+        label: 'Flight Log',
+        click: () => emitEvent('MENU-ROUTE', '/log'),
         accelerator: 'F7'
       },
       {
@@ -83,6 +83,11 @@ const MenuItems: Electron.MenuItemConstructorOptions[] = [
         label: 'Biome Decoder',
         click: () => emitEvent('MENU_BIOME'),
         accelerator: 'CmdOrCtrl+B'
+      },
+      {
+        id: 'fishtracker',
+        label: 'Legendary Fish Tracker',
+        click: () => emitEvent('MENU-ROUTE', '/fish')
       }
     ]
   },

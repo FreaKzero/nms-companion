@@ -9,6 +9,7 @@ import OptionManager from './app/lib/OptionManager';
 import { registerDialogIpc } from './ipc/dialogIPC';
 import { registerDiscoveriesIpc } from './ipc/discoveriesIPC';
 import registerFishTrackerIpc from './ipc/fishtrackerIPC';
+import { registerFlightLogIpc } from './ipc/flightlogIPC';
 import { registerLocationIpc } from './ipc/locationIPC';
 import registerNmsIpc from './ipc/nmsIPC';
 import registerRedditIPC from './ipc/redditIPC';
@@ -100,6 +101,7 @@ function registerMainIPC () {
   registerFishTrackerIpc(opt);
   registerSupplyIpc(db);
   registerDiscoveriesIpc(db);
+  registerFlightLogIpc(db);
 
   registerDialogIpc(appWindow);
 }

@@ -49,6 +49,7 @@ function SettingsPage () {
 
     if (conf) {
       electron.ipcRenderer.invoke('EMPTY_CACHE');
+      electron.ipcRenderer.invoke('db.flightlog.truncate');
       localStorage.removeItem('hideCommunityProgress');
       localStorage.removeItem('reddit_lastRead');
       confirmModal({

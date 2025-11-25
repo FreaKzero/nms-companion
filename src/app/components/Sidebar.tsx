@@ -13,6 +13,7 @@ const SideBar = () => {
   const loc = useLocation();
   const newEntries = useRedditStore((s) => s.newEntries);
   const needSettlementAction = useSaveStore((s) => s.missions.needAction);
+  const isMultiplayer = useSaveStore((s) => s.isMultiplayer);
 
   const getBadgeCount = (route: RouteItem) => {
     let badgeCount = 0;
@@ -32,14 +33,22 @@ const SideBar = () => {
                     bg-gray-900 shadow-lg'
     >
       <SidebarAutorefresh />
-      {routes.map((route, idx) => {
+      {routes.filter((item) => {
+        if ((item.hideMultiplayer && isMultiplayer)) {
+          return false;
+        }
+
+        if (item.Icon === null) {
+          return false;
+        }
+
+        return true;
+      }).map((route, idx) => {
         return route.divider
           ? <Divider key={`loc-${idx}`} />
-          : route.Icon !== null
-            ? (
-              <SideBarIcon badgeCount={getBadgeCount(route)} key={`loc-${route.location}`} location={route.location} text={route.text} Icon={route.Icon} active={loc.pathname === route.location} />
-              )
-            : null;
+          : (
+            <SideBarIcon badgeCount={getBadgeCount(route)} key={`loc-${route.location}`} location={route.location} text={route.text} Icon={route.Icon} active={loc.pathname === route.location} />
+            );
       })}
     </div>
   );

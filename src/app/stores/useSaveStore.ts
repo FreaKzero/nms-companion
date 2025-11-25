@@ -1,25 +1,19 @@
-import { BasesType } from '@/ipc/nmsIPC';
+import { SaveType } from '@/ipc/nmsIPC';
 
 import { create } from 'zustand';
 
 import useDiscoveriesStore from './useDiscoveriesStore';
+import useFlightlogStore from './useFlightlogStore';
 
 import { FrigateType, SettlementType, PositionType } from '../lib/getNmsSave';
 
-interface SaveStoreState {
-  loading: boolean;
-  error: boolean;
-
+interface SaveStoreState extends SaveType {
   missions: {
     frigates: FrigateType[];
     settlements: SettlementType[];
     needAction: number;
   };
-  position: PositionType;
-  bases: BasesType[];
-
   getSave: () => Promise<void>;
-
   setFrigates: (frigates: FrigateType[]) => void;
   setSettlements: (settlements: SettlementType[]) => void;
   setPosition: (data: PositionType) => void;
@@ -40,7 +34,8 @@ const defState: Omit<SaveStoreState, 'getSave' | 'setFrigates' | 'setSettlements
     ShareCode: '',
     GalaxyIndex: 0,
     Summary: ''
-  }
+  },
+  isMultiplayer: false
 };
 
 const calculateNeedAction = (frigates: FrigateType[], settlements: SettlementType[]) => {
@@ -55,14 +50,7 @@ const useSaveStore = create<SaveStoreState>()((set) => ({
   getSave: async () => {
     set({ loading: true });
     try {
-      const saveData: {
-        missions: {
-          frigates: FrigateType[];
-          settlements: SettlementType[];
-        };
-        position: PositionType;
-        bases: BasesType[];
-      } = await electron.ipcRenderer.invoke('GET_SAVEFILE');
+      const saveData: SaveType = await electron.ipcRenderer.invoke('GET_SAVEFILE');
 
       set({
         missions: {
@@ -71,14 +59,19 @@ const useSaveStore = create<SaveStoreState>()((set) => ({
         },
         position: saveData.position,
         bases: saveData.bases,
+        isMultiplayer: saveData.isMultiplayer,
         loading: false,
         error: false
       });
 
+      const pos = saveData.position;
+
       await useDiscoveriesStore.getState().check({
-        GalaxyIndex: saveData.position.GalaxyIndex,
-        GalaxyName: saveData.position.GalaxyName
+        GalaxyIndex: pos.GalaxyIndex,
+        GalaxyName: pos.GalaxyName
       });
+
+      await useFlightlogStore.getState().add(pos.Summary, pos.GalaxyIndex, pos.PortalCode);
     } catch (_err) {
       console.log(_err);
       set({ ...defState, loading: false, error: true });

@@ -24,16 +24,36 @@
 - [ ] Database Migration: UpdateDate in location table (needed for Import/Export)
 - [ ] Fix Devsave in Developer Page (and rename it)
 --
+
 ## Import/Export
 ### Brainstorm
 ---
-
 ## Glyph Roulette
 ### Brainstorm
 ---
-## Weekendmission Widget
+## Flight Log
 ### Brainstorm
+Should log glyphs and galaxies all 2 minutes and write into a database
+maybe we could use glyphs and galaxy as uniqueID so they doesnt get logged twice
+
+should have a glyph add feature 
+should be clearable
+
+### Structure
+ID -> GalaxyIndex:PortalCode UNIQUE TEXT
+Summary
+GalaxyIndex
+PortalCode
+
+## Iteration Ideas
+- Duration (add edittimer add 1 when edited)
+- add => create
 ---
+
+
+
+routes = hideOnMultiplayer
+
 
 
 
