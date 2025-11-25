@@ -103,6 +103,7 @@ const Glyphs = ({ portalCode, width = 'w-10' }: { portalCode?: string; width?: s
           scale-0 group-hover:scale-100
           origin-center
           whitespace-nowrap
+          font-nms
         `}
       >
         {tooltipText}

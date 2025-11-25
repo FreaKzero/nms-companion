@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import useMetaStore from './useMetaStore';
 import useRedditStore from './useRedditStore';
 import useSaveStore from './useSaveStore';
+import useSupplyStore from './useSupplyStore';
 
 interface AutoRefreshStore {
   autoRefresh: boolean;
@@ -22,6 +23,7 @@ export const useAutoRefreshStore = create<AutoRefreshStore>((set, get) => {
       await useMetaStore.getState().getCommunityMission();
       await useSaveStore.getState().getSave();
       await useRedditStore.getState().getFeed();
+      await useSupplyStore.getState().getAll();
     } finally {
       isRunning = false;
     }

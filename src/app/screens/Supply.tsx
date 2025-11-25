@@ -198,7 +198,6 @@ function SupplyPage () {
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (search.trim() === '') {
-        getAll();
         startAutoRefresh();
       } else {
         getAll(search);

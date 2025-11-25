@@ -58,7 +58,7 @@ export default function CommunityProgressBar ({
 
   return (
     <Card
-      title={`Universal Community Research Progress • Tier ${currentTier}/${totalTiers} (${percentage}%)`}
+      title={`Universal Community Research Progress • Tier ${currentTier}/${totalTiers} • ${percentage}%`}
       className='p-5 pt-10'
     >
       <div className='w-full'>
