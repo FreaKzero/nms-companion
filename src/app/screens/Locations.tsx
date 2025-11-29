@@ -2,6 +2,7 @@ import noscreen from 'assets/noscreen.png';
 
 import { Trash2Icon, Pencil, OmegaIcon, Share2Icon } from 'lucide-react';
 import React, { useEffect, useState, useMemo } from 'react';
+import Markdown from 'react-markdown';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { ListState } from '../../ipc/locationIPC';
@@ -16,7 +17,6 @@ import { Nullable } from '../stores/apiInterfaces';
 import useListStore from '../stores/useLocationStore';
 import useMetaStore from '../stores/useMetaStore';
 import { useAutoRefreshStore } from '../stores/useRefreshStore';
-
 interface EnhancedListState extends ListState {
   onDelete?: (key: number) => Promise<void>;
   onCopy?: (portalCode: string) => void;
@@ -122,7 +122,7 @@ const ListItem: React.FC<EnhancedListState> = (loc) => {
 
         <div className='flex items-end justify-between gap-3 mt-3'>
           <p className='text-gray-300 line-clamp-2 flex-1'>
-            {loc.Description}
+            <Markdown>{loc.Description}</Markdown>
           </p>
 
           <div className='flex gap-3 self-end'>

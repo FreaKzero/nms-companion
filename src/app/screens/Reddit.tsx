@@ -13,17 +13,15 @@ import useRedditStore from '../stores/useRedditStore';
 import { useAutoRefreshStore } from '../stores/useRefreshStore';
 
 const ContentModal: React.FC<{ content?: string; link: string; title: string }> = ({ content, link, title }) => {
-  const handleUrl = (link: string) => electron.ipcRenderer.invoke('OPEN_URL', link);
-
   return (
     <div className='text-left w-full'>
       <h3 className='font-nms text-indigo-400 font-bold text-2xl transition-colors duration-300 mb-2'>
         {title}
       </h3>
       <div dangerouslySetInnerHTML={{ __html: content }} />
-      <button className='button tiny mt-5' onClick={() => handleUrl(link)}>
+      <a className='button tiny mt-5' href={link}>
         Open in Browser
-      </button>
+      </a>
     </div>
   );
 };
@@ -40,7 +38,6 @@ const Thumbnail: React.FC<{ screen?: string; alt: string; onClick: () => void }>
 const RedditPost: React.FC<redditFeed & {
   onSelect: (title: string, link: string, content: string) => void;
 }> = ({ title, author, imageUrl, link, published, content, isNew, onSelect }) => {
-  const openInBrowser = () => electron.ipcRenderer.invoke('OPEN_URL', link);
   const titleColor = isNew ? 'text-amber-400 hover:text-amber-300' : 'text-indigo-400 hover:text-indigo-300';
 
   return (
@@ -59,11 +56,11 @@ const RedditPost: React.FC<redditFeed & {
         </div>
       </div>
       <div className='absolute bottom-2 right-2'>
-        <button
+        <a
           className='cursor-pointer'
-          onClick={openInBrowser}
+          href={link}
         > <ExternalLink size='20' className={`transition duration-250 ${titleColor}`} />
-        </button>
+        </a>
       </div>
     </div>
   );

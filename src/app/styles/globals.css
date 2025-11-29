@@ -109,6 +109,18 @@
     @apply border-border outline-ring/50;
   }
   
+  a {
+    @apply text-indigo-400 hover:text-indigo-500 transition cursor-pointer
+  }
+
+  strong {
+    @apply font-bold
+  }
+
+  i {
+    @apply italic
+  }
+
   @font-face {
     font-family: 'NMS-Glyphs-Mono';
     src: url('../../../assets/NMS-Glyphs-Mono.ttf');

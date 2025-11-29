@@ -3,7 +3,7 @@ import path from 'node:path';
 import appMenu from '@/menu/appMenu';
 
 import Database from 'better-sqlite3';
-import { BrowserWindow, Menu, app } from 'electron';
+import { BrowserWindow, Menu, app, shell } from 'electron';
 
 import OptionManager from './app/lib/OptionManager';
 import { registerDialogIpc } from './ipc/dialogIPC';
@@ -47,6 +47,21 @@ export function createAppWindow (): BrowserWindow {
 
   // Create new window instance
   appWindow = new BrowserWindow(windowOptions);
+
+  appWindow.webContents.setWindowOpenHandler(({ url }) => {
+    if (url.startsWith('http')) {
+      shell.openExternal(url);
+      return { action: 'deny' };
+    }
+    return { action: 'allow' };
+  });
+
+  appWindow.webContents.on('will-navigate', (event, url) => {
+    if (url.startsWith('http')) {
+      event.preventDefault();
+      shell.openExternal(url);
+    }
+  });
 
   // Load the index.html of the app window.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {

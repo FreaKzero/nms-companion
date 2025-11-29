@@ -16,6 +16,7 @@
 - [ ] Settings -> File Selectors => default paths
 - [x] Open Reddit Post Site => https://www.reddit.com/r/NMSCoordinateExchange/submit/?type=IMAGE
 - [x] No Scroll when loading
+- [x] Locations => Markdown
 
 ## Backend Refactor 2 
 ### Tasks
@@ -34,5 +35,6 @@
 ---
 ## Savestates
 ### Brainstorm
+
 
 

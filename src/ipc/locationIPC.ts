@@ -18,6 +18,15 @@ export interface ListState {
   Biome?: string | null;
 }
 
+const createLink = (text: string) => {
+  const urlPattern = /(?:https?|ftp):\/\/[^\s/$.?#].[^\s]*/gi;
+  return text.replace(urlPattern, (url) => {
+    const u = new URL(url);
+
+    return `[${u.hostname}](${url})`;
+  });
+};
+
 export function registerLocationIpc (opt: OptionManagerType, db: Database.Database) {
   // db.prepare('DROP TABLE locations').run();
 
@@ -46,7 +55,7 @@ export function registerLocationIpc (opt: OptionManagerType, db: Database.Databa
       data.GalaxyName,
       data.PortalCode,
       data.ShareCode,
-      data.Description,
+      createLink(data.Description),
       data.Screenshot,
       data.GalaxyIndex,
       data.Tag,
@@ -83,7 +92,7 @@ export function registerLocationIpc (opt: OptionManagerType, db: Database.Databa
       data.GalaxyName,
       data.PortalCode,
       data.ShareCode,
-      data.Description,
+      createLink(data.Description),
       data.Screenshot,
       data.GalaxyIndex,
       data.Tag,
