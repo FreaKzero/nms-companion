@@ -9,7 +9,7 @@ interface iListStore {
   entries: ListState[];
   add: (item: ListState, file?: Nullable<ArrayBuffer>) => Promise<void>;
   delete: (id: number) => Promise<void>;
-  update: (id: number, item: ListState) => Promise<void>;
+  update: (id: number, item: ListState, file?: Nullable<ArrayBuffer>) => Promise<void>;
   getAll: () => Promise<void>;
   getPage: (page?: number, pageSize?: number, search?: string) => Promise<void>;
   getId: (id: number) => Promise<void>;
@@ -50,8 +50,15 @@ const useListStore = create<iListStore>()((set, get) => ({
     });
   },
 
-  update: async (id: number, item: ListState) => {
+  update: async (id: number, item: ListState, file?: Nullable<ArrayBuffer>) => {
     set({ loading: true });
+
+    if (file) {
+      const fileName = await electron.ipcRenderer.invoke('SAVE_SCREEN', file, id);
+      item.Screenshot = fileName;
+      await electron.ipcRenderer.invoke('db.list.update', id, item);
+    }
+
     await electron.ipcRenderer.invoke('db.list.update', id, item);
     set({
       loading: false,

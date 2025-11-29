@@ -8,28 +8,30 @@ export interface ScreenshotValue {
 
 interface FormScreenshotPasterProps {
   label: string;
+  screenshot?: ScreenshotValue;
   onScreenshotChange?: (screenshot: ScreenshotValue) => void;
 }
 
 export const FormScreenShotPaster: React.FC<FormScreenshotPasterProps> = ({
   label,
+  screenshot,
   onScreenshotChange
 }) => {
-  const [screenshot, setScreenshot] = useState<ScreenshotValue>({
-    preview: null,
-    buffer: null
-  });
   const [isFocused, setIsFocused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const setScreenshot = onScreenshotChange;
+
+  useEffect(() => {
+    if (screenshot) {
+      setScreenshot(screenshot);
+    }
+  }, [screenshot]);
 
   const handlePaste = async (e: React.ClipboardEvent<HTMLDivElement>) => {
     e.preventDefault();
-
-    const imageUrlRegex =
-      /^(https?:\/\/)?((([a-z0-9-]+\.)+[a-z]{2,}|localhost|(\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[^\s?#]*)\.(?:jpe?g|png|gif|webp|svg|bmp|tiff|ico)(\?[^\s#]*)?(#[^\s]*)?$/i;
-
     try {
       const pastedText = e.clipboardData.getData('text/plain');
+      const imageUrlRegex = /^(https?:\/\/)?((([a-z0-9-]+\.)+[a-z]{2,}|localhost|(\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[^\s?#]*)\.(?:jpe?g|png|gif|webp|svg|bmp|tiff|ico)(\?[^\s#]*)?(#[^\s]*)?$/i;
       if (pastedText && imageUrlRegex.test(pastedText)) {
         const arrayBuffer = await electron.ipcRenderer.invoke('ARRAYBUFFER_SCREEN_URL', pastedText);
         const newScreenshot = { buffer: arrayBuffer, preview: pastedText };
@@ -37,7 +39,6 @@ export const FormScreenShotPaster: React.FC<FormScreenshotPasterProps> = ({
         onScreenshotChange?.(newScreenshot);
         return;
       }
-
       const file = e.clipboardData.files?.[0];
       if (file && file.type.startsWith('image/')) {
         const arrayBuffer = await file.arrayBuffer();
@@ -45,6 +46,8 @@ export const FormScreenShotPaster: React.FC<FormScreenshotPasterProps> = ({
         setScreenshot(newScreenshot);
         onScreenshotChange?.(newScreenshot);
       }
+
+      setIsFocused(false);
     } catch (err) {
       console.error(err);
     }
@@ -63,7 +66,6 @@ export const FormScreenShotPaster: React.FC<FormScreenshotPasterProps> = ({
   return (
     <div className='flex flex-col gap-1'>
       <label className='input-text-label'>{label}</label>
-
       <div
         ref={containerRef}
         tabIndex={0}
@@ -73,13 +75,15 @@ export const FormScreenShotPaster: React.FC<FormScreenshotPasterProps> = ({
         className={`bg-white/5 w-44 h-28 border rounded-md p-2 flex flex-col items-center justify-center text-center transition-all duration-100
           ${isFocused ? 'border-indigo-600 text-indigo-400 border-2' : 'border-white/10 text-gray-500'}`}
       >
-        {screenshot.preview
+        {screenshot?.preview && !isFocused
           ? (
-            <img
-              src={screenshot.preview}
-              alt='Screenshot preview'
-              className='max-h-full max-w-full object-contain'
-            />
+            <>
+              <img
+                src={screenshot?.preview}
+                alt='Screenshot preview'
+                className='max-h-full max-w-full object-contain'
+              />
+            </>
             )
           : (
             <div className='flex flex-col items-center justify-center gap-2 text-xs uppercase tracking-wide cursor-pointer'>

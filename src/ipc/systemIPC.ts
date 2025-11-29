@@ -1,4 +1,5 @@
-import { existsSync, mkdirSync, unlinkSync, writeFile, writeFileSync } from 'node:fs';
+import { promises as fsPromises } from 'fs';
+import { existsSync, unlinkSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 import OptionManager, { OptionManagerType } from '@/app/lib/OptionManager';
@@ -6,6 +7,8 @@ import OptionManager, { OptionManagerType } from '@/app/lib/OptionManager';
 import { ipcMain, app, shell, nativeImage } from 'electron';
 
 import getSave from '../app/lib/getNmsSave';
+
+const { writeFile, mkdir } = fsPromises;
 
 const registerSystemIpc = (opt: OptionManagerType) => {
   ipcMain.handle('GET_SETTINGS', () => {
@@ -27,15 +30,8 @@ const registerSystemIpc = (opt: OptionManagerType) => {
       const outBuffer = resized.toPNG();
       const outPath = path.join(opt.locationThumbDir, `${id}.png`);
 
-      if (!existsSync(opt.locationThumbDir)) {
-        mkdirSync(opt.locationThumbDir);
-      }
-
-      await writeFile(outPath, outBuffer, (err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
+      await mkdir(opt.locationThumbDir, { recursive: true });
+      await writeFile(outPath, outBuffer);
 
       return outPath;
     } catch (err) {

@@ -99,6 +99,8 @@ function LocationForm ({ editItem }: ManualPageProps) {
       Tag: editItem?.Tag ?? '',
       Biome: editItem?.Biome ?? ''
     });
+
+    setScreenshot({ preview: editItem?.Screenshot, buffer: null });
   }, [
     qsGalaxy,
     qsPortal,
@@ -119,7 +121,7 @@ function LocationForm ({ editItem }: ManualPageProps) {
     data.GalaxyName = GalaxyNames[data.GalaxyIndex];
 
     if (editItem?.id) {
-      await handleUpdateLocation(editItem.id, data);
+      await handleUpdateLocation(editItem.id, data, screenshot?.buffer);
     } else {
       await handleAddLocation(data, screenshot?.buffer);
     }
@@ -236,12 +238,11 @@ function LocationForm ({ editItem }: ManualPageProps) {
         </div>
 
         <div className='flex gap-5 mt-5'>
-          {!editItem && (
-            <FormScreenShotPaster
-              label='Screenshot'
-              onScreenshotChange={setScreenshot}
-            />
-          )}
+          <FormScreenShotPaster
+            label='Screenshot'
+            screenshot={screenshot}
+            onScreenshotChange={setScreenshot}
+          />
 
           <div className='w-full'>
             <FormTextArea

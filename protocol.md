@@ -12,9 +12,9 @@
 - [x] Empty Caches in Settings
 
 # Bugs / Subfeatures
-- [ ] Locations -> Edit: Screenshots should be editable
+- [x] Locations -> Edit: Screenshots should be editable
 - [ ] Settings -> File Selectors => default paths
-- [ ] Open Reddit Post Site => https://www.reddit.com/r/NMSCoordinateExchange/submit/?type=IMAGE
+- [x] Open Reddit Post Site => https://www.reddit.com/r/NMSCoordinateExchange/submit/?type=IMAGE
 
 ## Backend Refactor 2 
 ### Tasks
@@ -31,29 +31,5 @@
 ## Glyph Roulette
 ### Brainstorm
 ---
-## Flight Log
-### Brainstorm
-Should log glyphs and galaxies all 2 minutes and write into a database
-maybe we could use glyphs and galaxy as uniqueID so they doesnt get logged twice
-
-should have a glyph add feature 
-should be clearable
-
-### Structure
-ID -> GalaxyIndex:PortalCode UNIQUE TEXT
-Summary
-GalaxyIndex
-PortalCode
-
-## Iteration Ideas
-- Duration (add edittimer add 1 when edited)
-- add => create
----
-
-
-
-routes = hideOnMultiplayer
-
-
 
 
