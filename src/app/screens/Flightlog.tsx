@@ -5,23 +5,22 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { confirmModal } from '../components/ConfirmModal';
-import Glyphs from '../components/Glyphs';
 import useFlightlogStore from '../stores/useFlightlogStore';
 
 const Log: React.FC<FlightLog> = ({ GalaxyIndex, GalaxyName, PortalCode, Created, Summary, inLocations }) => {
   const d = new Date(Created);
   const nav = useNavigate();
   return (
-    <li className='flex items-center justify-between py-3 px-3 hover:bg-gray-800 transition rounded-lg gap-4'>
-      <div className='text-gray-300 text-sm'>
+    <li className={`flex text-sm items-center justify-between py-3 px-3 hover:bg-gray-800 transition rounded-lg gap-4 ${inLocations ? 'text-gray-400' : 'text-white'}`}>
+      <div>
         {d.toLocaleDateString('en-EN')} {d.toLocaleTimeString('at-AT')}
       </div>
       <div className='flex-1 text-sm font-bold'>
         {GalaxyName} {Summary}
       </div>
 
-      <div className='flex-1 text-right'>
-        <Glyphs portalCode={PortalCode} width='w-7' />
+      <div className='flex-1 text-right font-glyph'>
+        {PortalCode}
       </div>
       <div className='flex1 text-right'>
         {inLocations
