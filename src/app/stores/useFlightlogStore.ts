@@ -1,19 +1,12 @@
-import { create } from 'zustand';
+import { FlightLog } from '@/ipc/flightlogIPC';
 
-export interface FlightLogItem {
-  ID: string;
-  Summary: string;
-  GalaxyIndex: number;
-  GalaxyName: string | null;
-  PortalCode: string;
-  Created: string;
-}
+import { create } from 'zustand';
 
 interface FlightlogStoreState {
   loading: boolean;
   error: boolean;
-  items: FlightLogItem[];
-  loadAll: () => Promise<void>;
+  items: FlightLog[];
+  getAll: () => Promise<void>;
   add: (summary: string, galaxyIndex: number, portalCode: string) => Promise<void>;
   truncate: () => Promise<void>;
 }
@@ -21,16 +14,16 @@ interface FlightlogStoreState {
 const defState = {
   loading: false,
   error: false,
-  items: [] as FlightLogItem[]
+  items: [] as FlightLog[]
 };
 
 const useFlightlogStore = create<FlightlogStoreState>((set) => ({
   ...defState,
 
-  loadAll: async () => {
+  getAll: async () => {
     set({ ...defState, loading: true });
     try {
-      const rows: FlightLogItem[] = await electron.ipcRenderer.invoke('db.flightlog.getAll');
+      const rows: FlightLog[] = await electron.ipcRenderer.invoke('db.flightlog.getAll');
       set({ items: rows, loading: false, error: false });
     } catch (_err) {
       set({ ...defState, loading: false, error: true });
@@ -50,7 +43,7 @@ const useFlightlogStore = create<FlightlogStoreState>((set) => ({
         PortalCode: portalCode
       });
 
-      const rows: FlightLogItem[] = await electron.ipcRenderer.invoke('db.flightlog.getAll');
+      const rows: FlightLog[] = await electron.ipcRenderer.invoke('db.flightlog.getAll');
       set({ items: rows, loading: false, error: false });
     } catch (_err) {
       set({ ...defState, loading: false, error: true });

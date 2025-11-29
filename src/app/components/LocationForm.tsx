@@ -2,7 +2,7 @@ import { ListState } from '@/ipc/locationIPC';
 
 import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { confirmModal } from '../components/ConfirmModal';
 import { FormBiomeInput } from '../components/FormBiomeInput';
@@ -33,19 +33,44 @@ interface ManualPageProps {
 }
 
 function LocationForm ({ editItem }: ManualPageProps) {
+  const navigate = useNavigate();
+  const [search] = useSearchParams();
+
+  const handleAddLocation = useListStore((s) => s.add);
+  const handleUpdateLocation = useListStore((s) => s.update);
+
+  const getTags = useMetaStore((s) => s.getTags);
+  const optionTags = useMetaStore((s) => s.optionTags);
+
+  const stopAutoRefresh = useAutoRefreshStore((s) => s.stop);
+
+  const [glyphInput, setGlyphInput] = useState(false);
   const [screenshot, setScreenshot] = useState<ScreenshotValue>({
     preview: null,
     buffer: null
   });
 
-  const handleAddLocation = useListStore((state) => state.add);
-  const handleUpdateLocation = useListStore((state) => state.update);
-  const navigate = useNavigate();
+  const qsGalaxy = search.get('galaxy');
+  const qsPortal = search.get('portalcode');
+  const qsDesc = search.get('description');
 
-  const getTags = useMetaStore((s) => s.getTags);
-  const optionTags = useMetaStore((s) => s.optionTags);
-  const stopAutoRefresh = useAutoRefreshStore((s) => s.stop);
-  const [glyphInput, setGlyphInput] = useState(false);
+  const defaultGalaxyIndex =
+    qsGalaxy ? Number(qsGalaxy) : editItem?.GalaxyIndex ?? 0;
+
+  const defaultPortal = qsPortal ?? editItem?.PortalCode ?? '';
+  const defaultShare = qsPortal ?? editItem?.ShareCode ?? '';
+  const defaultDesc = qsDesc ?? editItem?.Description ?? '';
+
+  const defaultValues: FormValues = {
+    GalaxyIndex: defaultGalaxyIndex,
+    GalaxyName: GalaxyNames[defaultGalaxyIndex] ?? '',
+    PortalCode: defaultPortal,
+    ShareCode: defaultShare,
+    Description: defaultDesc,
+    Screenshot: editItem?.Screenshot ?? '',
+    Tag: editItem?.Tag ?? '',
+    Biome: editItem?.Biome ?? ''
+  };
 
   const {
     register,
@@ -53,30 +78,40 @@ function LocationForm ({ editItem }: ManualPageProps) {
     setValue,
     getValues,
     control,
+    reset,
     formState: { errors }
-  } = useForm<FormValues>();
+  } = useForm<FormValues>({ defaultValues });
 
   useEffect(() => {
     stopAutoRefresh();
     getTags();
 
-    if (editItem) {
-      setValue('GalaxyIndex', editItem.GalaxyIndex);
-      setValue('GalaxyName', editItem.GalaxyName);
-      setValue('PortalCode', editItem.PortalCode);
-      setValue('ShareCode', editItem.ShareCode);
-      setValue('Description', editItem.Description);
-      setValue('Tag', editItem.Tag);
-      setValue('Biome', editItem.Biome || '');
-      setValue('Screenshot', editItem.Screenshot);
-    }
-  }, [editItem]);
+    const galaxyIdx =
+      qsGalaxy ? Number(qsGalaxy) : editItem?.GalaxyIndex ?? 0;
+
+    reset({
+      GalaxyIndex: galaxyIdx,
+      GalaxyName: GalaxyNames[galaxyIdx],
+      PortalCode: qsPortal ?? editItem?.PortalCode ?? '',
+      ShareCode: qsPortal ?? editItem?.ShareCode ?? '',
+      Description: qsDesc ?? editItem?.Description ?? '',
+      Screenshot: editItem?.Screenshot ?? '',
+      Tag: editItem?.Tag ?? '',
+      Biome: editItem?.Biome ?? ''
+    });
+  }, [
+    qsGalaxy,
+    qsPortal,
+    editItem,
+    reset
+  ]);
 
   const handleSelectGlyph = (glyph: string) => {
-    const x = getValues();
-    if (x.PortalCode.length < 12) {
-      setValue('PortalCode', x.PortalCode + glyph);
-      setValue('ShareCode', x.PortalCode + glyph);
+    const values = getValues();
+    if (values.PortalCode.length < 12) {
+      const newCode = values.PortalCode + glyph;
+      setValue('PortalCode', newCode);
+      setValue('ShareCode', newCode);
     }
   };
 
@@ -92,7 +127,10 @@ function LocationForm ({ editItem }: ManualPageProps) {
     navigate('/locations');
   };
 
-  const galaxyOptions = GalaxyNames.map((i, idx) => ({ label: i, value: String(idx) }));
+  const galaxyOptions = GalaxyNames.map((name, idx) => ({
+    label: name,
+    value: String(idx)
+  }));
 
   function extractPortalCode (input: string) {
     const matches = input.match(/:portal([a-zA-Z0-9]):/g);
@@ -107,19 +145,21 @@ function LocationForm ({ editItem }: ManualPageProps) {
   const handlePastePortalCode = async () => {
     try {
       let text = (await navigator.clipboard.readText()).trim();
-      const isDiscordCode = /^(?::portal[a-zA-Z0-9]: ){11}:portal[a-zA-Z0-9]:$/;
+      const isDiscordCode =
+        /^(?::portal[a-zA-Z0-9]: ){11}:portal[a-zA-Z0-9]:$/;
 
       if (isDiscordCode.test(text)) {
         text = extractPortalCode(text);
       }
 
       const isValidHex = (/^[0-9A-Fa-f]{12}$/).test(text);
-
       if (isValidHex) {
         setValue('PortalCode', text);
+        setValue('ShareCode', text);
       } else {
         await confirmModal({
-          message: 'Pasted Data is not an valid Portal Code (12 Chars Hexadecimal)',
+          message:
+            'Pasted Data is not a valid Portal Code (12 chars hexadecimal)',
           title: 'Portal Code invalid',
           info: true
         });
@@ -138,9 +178,11 @@ function LocationForm ({ editItem }: ManualPageProps) {
         onSubmit={handleSubmit(onSubmit)}
       >
         <FormHidden id='ShareCode' register={register('ShareCode')} />
-        <FormHidden id='ShareCode' register={register('GalaxyIndex')} />
+        <FormHidden id='GalaxyIndex' register={register('GalaxyIndex')} />
 
-        <h2 className='font-bold font-nms text-3xl mb-8'>{editItem ? 'Update Location' : 'Save Location'}</h2>
+        <h2 className='font-bold font-nms text-3xl mb-8'>
+          {editItem ? 'Update Location' : 'Save Location'}
+        </h2>
 
         <div className='grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-2'>
           <div>
@@ -167,10 +209,15 @@ function LocationForm ({ editItem }: ManualPageProps) {
               id='PortalCode'
               register={register('PortalCode', {
                 required: 'Portal code is required',
-                validate: (value) => value?.length === 12 || 'Portal code must be exactly 12 characters'
+                validate: (value) => value?.length === 12 ||
+                  'Portal code must be exactly 12 characters'
               })}
             />
-            {errors.PortalCode && <p className='text-indigo-500 text-sm'>{errors.PortalCode.message}</p>}
+            {errors.PortalCode && (
+              <p className='text-indigo-500 text-sm'>
+                {errors.PortalCode.message}
+              </p>
+            )}
           </div>
 
           <FormBiomeInput control={control} label='Biome' name='Biome' />
@@ -189,19 +236,36 @@ function LocationForm ({ editItem }: ManualPageProps) {
         </div>
 
         <div className='flex gap-5 mt-5'>
-          {!editItem && <FormScreenShotPaster label='Screenshot' onScreenshotChange={setScreenshot} />}
+          {!editItem && (
+            <FormScreenShotPaster
+              label='Screenshot'
+              onScreenshotChange={setScreenshot}
+            />
+          )}
+
           <div className='w-full'>
             <FormTextArea
               label='Description'
               id='Description'
               rows={4}
-              register={register('Description', { required: 'Description is required' })}
+              register={register('Description', {
+                required: 'Description is required'
+              })}
             />
-            {errors.Description && <p className='text-indigo-500 text-sm mt-1'>{errors.Description.message}</p>}
+            {errors.Description && (
+              <p className='text-indigo-500 text-sm mt-1'>
+                {errors.Description.message}
+              </p>
+            )}
           </div>
         </div>
+
         <div className='mt-10 text-right'>
-          <button type='button' className='button2' onClick={() => navigate('/locations')}>
+          <button
+            type='button'
+            className='button2'
+            onClick={() => navigate('/locations')}
+          >
             Cancel
           </button>
 

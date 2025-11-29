@@ -8,6 +8,7 @@ export interface FlightLog {
   PortalCode: string;
   Created?: string;
   GalaxyName: string | null;
+  inLocations: number;
 }
 
 export function registerFlightLogIpc (db: Database.Database) {
@@ -57,12 +58,32 @@ export function registerFlightLogIpc (db: Database.Database) {
       f.GalaxyIndex,
       f.PortalCode,
       f.Created,
-      d.GalaxyName
+      d.GalaxyName,
+
+      -- TRUE/FALSE ob passender Eintrag in locations existiert
+      CASE 
+        WHEN l.id IS NOT NULL THEN 1 
+        ELSE 0 
+      END AS inLocations
+
     FROM flightlog f
+
     LEFT JOIN discoveries d
       ON f.GalaxyIndex = d.GalaxyIndex
-    ORDER BY f.Created DESC LIMIT 300
+
+    LEFT JOIN locations l
+      ON l.GalaxyIndex = f.GalaxyIndex
+     AND l.PortalCode = f.PortalCode
+
+    ORDER BY f.Created DESC
+    LIMIT 300
   `;
-    return db.prepare(sql).all();
+
+    const rows = db.prepare(sql).all() as FlightLog[];
+
+    return rows.map((r) => ({
+      ...r,
+      inLocations: !!r.inLocations
+    }));
   });
 }

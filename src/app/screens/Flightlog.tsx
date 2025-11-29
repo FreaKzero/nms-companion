@@ -1,16 +1,16 @@
+import { FlightLog } from '@/ipc/flightlogIPC';
+
+import { CircleSlash, PlusCircleIcon } from 'lucide-react';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { confirmModal } from '../components/ConfirmModal';
 import Glyphs from '../components/Glyphs';
-import useFlightlogStore, { FlightLogItem } from '../stores/useFlightlogStore';
+import useFlightlogStore from '../stores/useFlightlogStore';
 
-// fix loadall => getall
-// create entry from click
-interface LogProps extends FlightLogItem {
-}
-
-const Log: React.FC<LogProps> = ({ GalaxyName, PortalCode, Created, Summary }) => {
+const Log: React.FC<FlightLog> = ({ GalaxyIndex, GalaxyName, PortalCode, Created, Summary, inLocations }) => {
   const d = new Date(Created);
+  const nav = useNavigate();
   return (
     <li className='flex items-center justify-between py-3 px-3 hover:bg-gray-800 transition rounded-lg gap-4'>
       <div className='text-gray-300 text-sm'>
@@ -23,13 +23,30 @@ const Log: React.FC<LogProps> = ({ GalaxyName, PortalCode, Created, Summary }) =
       <div className='flex-1 text-right'>
         <Glyphs portalCode={PortalCode} width='w-7' />
       </div>
+      <div className='flex1 text-right'>
+        {inLocations
+          ? (
+            <div className='text-gray-400'>
+              <CircleSlash size={20} />
+            </div>
+            )
+          : (
+
+            <button
+              onClick={() => nav(`/manual?galaxy=${GalaxyIndex}&portalcode=${PortalCode}&description=${Summary}`)}
+              className='text-indigo-400 hover:text-indigo-500 transition cursor-pointer'
+            >
+              <PlusCircleIcon size={20} />
+            </button>
+            )}
+      </div>
 
     </li>
   );
 };
 
 function FlightlogPage () {
-  const getAll = useFlightlogStore((s) => s.loadAll);
+  const getAll = useFlightlogStore((s) => s.getAll);
   const truncate = useFlightlogStore((s) => s.truncate);
   const logs = useFlightlogStore((s) => s.items);
 

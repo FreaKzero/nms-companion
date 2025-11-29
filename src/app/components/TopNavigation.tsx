@@ -29,7 +29,7 @@ const TopNavigation = () => {
       </div>
     );
   } else {
-    return JSON.stringify(isMultiplayer);
+    return null;
   }
 };
 
