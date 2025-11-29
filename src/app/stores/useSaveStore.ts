@@ -59,8 +59,7 @@ const useSaveStore = create<SaveStoreState>()((set) => ({
         },
         position: saveData.position,
         bases: saveData.bases,
-        // isMultiplayer: saveData.isMultiplayer,
-        isMultiplayer: false,
+        isMultiplayer: saveData.isMultiplayer,
         loading: false,
         error: false
       });
