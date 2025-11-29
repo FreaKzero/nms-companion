@@ -5,7 +5,14 @@ export default function Loader ({ message }: { message: string }) {
 
   useEffect(() => {
     const timeout = setTimeout(() => setVisible(true), 10);
-    return () => clearTimeout(timeout);
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      clearTimeout(timeout);
+      document.body.style.overflow = originalOverflow;
+    };
   }, []);
 
   return (

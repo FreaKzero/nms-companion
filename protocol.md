@@ -15,6 +15,7 @@
 - [x] Locations -> Edit: Screenshots should be editable
 - [ ] Settings -> File Selectors => default paths
 - [x] Open Reddit Post Site => https://www.reddit.com/r/NMSCoordinateExchange/submit/?type=IMAGE
+- [x] No Scroll when loading
 
 ## Backend Refactor 2 
 ### Tasks
@@ -31,5 +32,7 @@
 ## Glyph Roulette
 ### Brainstorm
 ---
+## Savestates
+### Brainstorm
 
 
