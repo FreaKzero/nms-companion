@@ -10,7 +10,10 @@ export default function TestPage () {
 
   const handleDebugSave = async () => {
     await electron.ipcRenderer.invoke('DEBUG_SAVE');
-    await confirmModal('Debug Save done');
+    await confirmModal({
+      message: 'Debug Save done',
+      info: true
+    });
   };
 
   useEffect(() => {

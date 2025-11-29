@@ -12,7 +12,7 @@ const TopNavigation = () => {
     return (
       <div className='top-navigation'>
         <div className='flex flex-row items-center justify-between p-2'>
-          <h2 className='font-bold font-nms text-2xl ml-8 text-gray-400'>In Multiplayer Lobby • Tracking Disabled</h2>
+          <h2 className='font-bold font-nms text-xl text-gray-400'>In Multiplayer Lobby • Tracking Disabled</h2>
         </div>
       </div>
     );

@@ -38,6 +38,10 @@ const useFlightlogStore = create<FlightlogStoreState>((set) => ({
   },
 
   add: async (summary: string, galaxyIndex: number, portalCode: string) => {
+    if (summary.includes('Space Anomaly')) {
+      return;
+    }
+
     set({ ...defState, loading: true });
     try {
       await electron.ipcRenderer.invoke('db.flightlog.add', {
