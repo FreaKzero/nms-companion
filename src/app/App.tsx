@@ -4,6 +4,7 @@ import { Route, HashRouter as Router, Routes } from 'react-router-dom';
 
 import { registerBiomeSearch } from './BiomeSearchModal';
 import ContentContainer from './components/ContentContainer';
+import { registerRouletteModal } from './components/RouletteModal';
 import RouterListener from './components/RouterListener';
 import SideBar from './components/Sidebar';
 import { routes } from './routes';
@@ -11,7 +12,7 @@ import { registerWikiSearch } from './WikiSearchModal';
 
 registerBiomeSearch();
 registerWikiSearch();
-
+registerRouletteModal();
 export default function App () {
   return (
     <ThemeProvider storageKey='vite-ui-theme'>

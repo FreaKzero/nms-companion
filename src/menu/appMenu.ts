@@ -85,6 +85,12 @@ const MenuItems: Electron.MenuItemConstructorOptions[] = [
         accelerator: 'CmdOrCtrl+B'
       },
       {
+        id: 'roulette',
+        label: 'Glyph Roulette',
+        click: () => emitEvent('MENU_ROULETTE'),
+        accelerator: 'CmdOrCtrl+R'
+      },
+      {
         id: 'fishtracker',
         label: 'Legendary Fish Tracker',
         click: () => emitEvent('MENU-ROUTE', '/fish')

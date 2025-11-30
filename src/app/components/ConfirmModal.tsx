@@ -40,8 +40,16 @@ const ConfirmDialog: React.FC<{
       if (e.key === 'Escape') handleClose(false);
     };
     window.addEventListener('keydown', onKeyDown);
+
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
     setVisible(true);
-    return () => window.removeEventListener('keydown', onKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = previous;
+    };
   }, []);
 
   return (

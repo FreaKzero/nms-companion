@@ -173,6 +173,15 @@
 }
 
 @layer utilities {
+  @keyframes roll {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(calc(-100% * 16)); }
+  }
+
+  .slot-roll {
+    animation: roll 1s linear infinite;
+  }
+
   .animate-spin-slow {
     animation: spin 6s linear infinite;
   }

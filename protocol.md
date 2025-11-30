@@ -10,6 +10,7 @@
 - [x] "Base Import" in Supply 
 - [x] fix importbutton FOUC in Supply
 - [x] Empty Caches in Settings
+- [ ] generalize Glyphmap (roulette and glyphs)
 
 # Bugs / Subfeatures
 - [x] Locations -> Edit: Screenshots should be editable
@@ -17,6 +18,7 @@
 - [x] Open Reddit Post Site => https://www.reddit.com/r/NMSCoordinateExchange/submit/?type=IMAGE
 - [x] No Scroll when loading
 - [x] Locations => Markdown
+- [x] Custom Modals - Overlay locked scrolling
 
 ## Backend Refactor 2 
 ### Tasks
@@ -28,9 +30,6 @@
 --
 
 ## Import/Export
-### Brainstorm
----
-## Glyph Roulette
 ### Brainstorm
 ---
 ## Savestates

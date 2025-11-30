@@ -49,7 +49,7 @@ export function createAppWindow (): BrowserWindow {
   appWindow = new BrowserWindow(windowOptions);
 
   appWindow.webContents.setWindowOpenHandler(({ url }) => {
-    if (url.startsWith('http')) {
+    if (url.startsWith('http') && !url.includes('localhost')) {
       shell.openExternal(url);
       return { action: 'deny' };
     }
@@ -57,7 +57,7 @@ export function createAppWindow (): BrowserWindow {
   });
 
   appWindow.webContents.on('will-navigate', (event, url) => {
-    if (url.startsWith('http')) {
+    if (url.startsWith('http') && !url.includes('localhost')) {
       event.preventDefault();
       shell.openExternal(url);
     }

@@ -243,5 +243,11 @@
       "Ultramarine",
       "Monochrome"
     ]
+  },
+  {
+    "name": "Gas Giant",
+    "altname": [
+     "Gas Giant"
+    ]
   }
 ]   

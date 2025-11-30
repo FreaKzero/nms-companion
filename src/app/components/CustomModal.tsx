@@ -29,9 +29,16 @@ const CustomModal: React.FC<CustomModalProps> = ({ root, container, children, cl
       if (e.key === 'Escape') handleClose();
     };
     window.addEventListener('keydown', onKeyDown);
+
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
     setVisible(true);
 
-    return () => window.removeEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = previous;
+    };
   }, []);
 
   return (
