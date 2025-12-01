@@ -13,6 +13,7 @@ import { registerFlightLogIpc } from './ipc/flightlogIPC';
 import { registerLocationIpc } from './ipc/locationIPC';
 import registerNmsIpc from './ipc/nmsIPC';
 import registerRedditIPC from './ipc/redditIPC';
+import { registerSavestatesIPC } from './ipc/savestatesIPC';
 import { registerSupplyIpc } from './ipc/supplyIPC';
 import registerSystemIpc from './ipc/systemIPC';
 
@@ -113,10 +114,11 @@ function registerMainIPC () {
   registerSystemIpc(opt);
   registerRedditIPC(opt);
   registerNmsIpc(opt);
+  registerSavestatesIPC(opt);
+
   registerFishTrackerIpc(opt);
   registerSupplyIpc(db);
   registerDiscoveriesIpc(db);
   registerFlightLogIpc(db);
-
   registerDialogIpc(appWindow);
 }

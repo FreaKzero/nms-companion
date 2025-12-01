@@ -11,6 +11,7 @@ import FlightlogPage from './screens/Flightlog';
 import ListPage from './screens/Locations';
 import MissionsPage from './screens/Missions';
 import RedditPage from './screens/Reddit';
+import SaveStatePage from './screens/SaveStates';
 import SupplyPage from './screens/Supply';
 import TestPage from './screens/Test';
 
@@ -126,6 +127,13 @@ export const routes = [
     Icon: null,
     Component: FishTrackerPage,
     order: 7.5
+  },
+  {
+    text: 'Savestates',
+    location: '/savestates',
+    Icon: null,
+    Component: SaveStatePage,
+    order: 8
   }
 
 ].sort((a, b) => a.order - b.order);

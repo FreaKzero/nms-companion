@@ -26,6 +26,7 @@ function SettingsPage () {
       setValue('redditFeed', settings.redditFeed);
       setValue('picSize', settings.picSize);
       setValue('cacheDir', settings.cacheDir);
+      setValue('savestateDir', settings.savestateDir);
     };
     stopAutoRefresh();
     getSettings();
@@ -108,6 +109,12 @@ function SettingsPage () {
             control={control}
           />
 
+          <FormDirectoryPicker
+            label='Select Savestate Folder'
+            name='savestateDir'
+            control={control}
+          />
+
           <FormInput
             id='picSize'
             label='Picture Resize (px)'
@@ -123,7 +130,6 @@ function SettingsPage () {
             </button>
           </div>
           <div>
-
             <button type='button' className='button2' onClick={() => navigate('/')}>
               Cancel
             </button>
