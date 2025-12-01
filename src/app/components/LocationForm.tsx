@@ -1,6 +1,6 @@
 import { ListState } from '@/ipc/locationIPC';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
@@ -82,6 +82,8 @@ function LocationForm ({ editItem }: ManualPageProps) {
     formState: { errors }
   } = useForm<FormValues>({ defaultValues });
 
+  const glyphRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     stopAutoRefresh();
     getTags();
@@ -109,11 +111,24 @@ function LocationForm ({ editItem }: ManualPageProps) {
   ]);
 
   const handleSelectGlyph = (glyph: string) => {
-    const values = getValues();
-    if (values.PortalCode.length < 12) {
-      const newCode = values.PortalCode + glyph;
-      setValue('PortalCode', newCode);
-      setValue('ShareCode', newCode);
+    const input = glyphRef.current;
+    if (!input) return;
+
+    if (input.value.length < 12) {
+      const start = input.selectionStart ?? 0;
+      const end = input.selectionEnd ?? 0;
+      const value = input.value;
+
+      const newValue = value.slice(0, start) + glyph + value.slice(end);
+
+      setValue('PortalCode', newValue);
+      setValue('ShareCode', newValue);
+
+      // Hacky way to fix the Cursorposition
+      setTimeout(() => {
+        input.selectionStart = input.selectionEnd = start + glyph.length;
+        input.focus();
+      }, 0);
     }
   };
 
@@ -206,6 +221,7 @@ function LocationForm ({ editItem }: ManualPageProps) {
               onClickPaste={handlePastePortalCode}
               onFocus={() => setGlyphInput(true)}
               onBlur={() => setGlyphInput(false)}
+              ref={glyphRef}
             />
             <FormHidden
               id='PortalCode'
