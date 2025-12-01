@@ -5,7 +5,7 @@ import CommunityProgressBar from '../components/CommunityProgress';
 import FrigateList from '../components/FrigatesList';
 import Loader from '../components/Loader';
 import SettlementsList from '../components/SettlementList';
-import { TimerMission } from '../components/TimerMission';
+import { TimerList } from '../components/TimerList';
 import useMetaStore from '../stores/useMetaStore';
 import { useAutoRefreshStore } from '../stores/useRefreshStore';
 import useSaveStore from '../stores/useSaveStore';
@@ -62,15 +62,7 @@ export default function MissionsPage () {
         </Card>
       </div>
 
-      <div className='grid lg:grid-cols-3 gap-5'>
-        <TimerMission storageKey='timer1' />
-        <TimerMission storageKey='timer2' />
-        <TimerMission storageKey='timer3' />
-        <TimerMission storageKey='timer4' />
-        <TimerMission storageKey='timer5' />
-        <TimerMission storageKey='timer6' />
-
-      </div>
+      <TimerList />
 
     </div>
   );

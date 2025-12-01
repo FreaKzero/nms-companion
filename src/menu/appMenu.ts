@@ -73,6 +73,12 @@ const MenuItems: Electron.MenuItemConstructorOptions[] = [
     label: 'Tools',
     submenu: [
       {
+        id: 'timer',
+        label: 'Add New Tiumer',
+        click: () => emitEvent('MENU_TIMER'),
+        accelerator: 'CmdOrCtrl+T'
+      },
+      {
         id: 'nmswiki',
         label: 'Search in NMS Wiki',
         click: () => emitEvent('MENU_WIKISEARCH'),

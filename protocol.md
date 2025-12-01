@@ -19,7 +19,7 @@
 - [x] No Scroll when loading
 - [x] Locations => Markdown
 - [x] Custom Modals - Overlay locked scrolling
-
+- [ ] checkbox hover style (fishtracker)
 ## Backend Refactor 2 
 ### Tasks
 - [ ] All IPC Methods should use try fetch and return an error object when error occurs with errormessage
@@ -34,6 +34,8 @@
 ---
 ## Savestates
 ### Brainstorm
+---
+## Refactor Timer
 
 
 
