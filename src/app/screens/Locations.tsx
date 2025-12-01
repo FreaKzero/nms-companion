@@ -121,9 +121,9 @@ const ListItem: React.FC<EnhancedListState> = (loc) => {
         </div>
 
         <div className='flex items-end justify-between gap-3 mt-3'>
-          <p className='text-gray-300 line-clamp-2 flex-1'>
+          <div className='text-gray-300 line-clamp-2 flex-1'>
             <Markdown>{loc.Description}</Markdown>
-          </p>
+          </div>
 
           <div className='flex gap-3 self-end'>
             <button

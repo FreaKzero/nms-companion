@@ -110,6 +110,7 @@ function CurrentPage () {
         <div className='flex gap-5 mt-5'>
           <FormScreenShotPaster
             label='Screenshot'
+            screenshot={screenshot}
             onScreenshotChange={setScreenshot}
           />
           <div className='w-full'>
