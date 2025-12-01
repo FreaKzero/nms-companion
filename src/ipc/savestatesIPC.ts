@@ -24,25 +24,36 @@ async function unpackDirectory (tarGzFile: string, destDir: string) {
   );
 }
 
+function formatSize (bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+}
+
 async function listArchives (dir: string) {
   const files = await fs.readdir(dir);
 
-  return files
-    .filter((f) => f.endsWith('.tar.gz'))
-    .map((filename) => {
-      const match = filename.match(/(\d{13})/);
-      const ts = match ? Number(match[1]) : null;
+  return (
+    await Promise.all(files
+      .filter((f) => f.endsWith('.tar.gz'))
+      .map(async (filename) => {
+        const full = path.join(dir, filename);
+        const stat = await fs.stat(full);
 
-      return {
-        filename,
-        created: ts ? new Date(ts).toISOString() : null
-      };
-    })
-    .sort((a, b) => {
-      const ta = a.created ? new Date(a.created).getTime() : 0;
-      const tb = b.created ? new Date(b.created).getTime() : 0;
-      return tb - ta;
-    });
+        const match = filename.match(/(\d{13})/);
+        const ts = match ? Number(match[1]) : null;
+
+        return {
+          filename,
+          created: ts ? new Date(ts).toISOString() : null,
+          size: formatSize(stat.size)
+        };
+      }))
+  ).sort((a, b) => {
+    const ta = a.created ? new Date(a.created).getTime() : 0;
+    const tb = b.created ? new Date(b.created).getTime() : 0;
+    return tb - ta;
+  });
 }
 
 export function registerSavestatesIPC (opt: OptionManagerType) {

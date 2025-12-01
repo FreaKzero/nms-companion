@@ -103,18 +103,10 @@ export function registerTimerModal () {
   if (isInitialized) return;
   isInitialized = true;
 
-  const handleShortcut = (e: KeyboardEvent) => {
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'r' && !isOpen) {
-      e.preventDefault();
+  electron.ipcRenderer.on('MENU_TIMER', () => {
+    if (!isOpen) {
       openCustomModal(<TimerModal />, '', () => { isOpen = false; });
       isOpen = true;
     }
-  };
-
-  window.addEventListener('keydown', handleShortcut);
-
-  electron.ipcRenderer.on('MENU_TIMER', () => {
-    openCustomModal(<TimerModal />, '', () => { isOpen = false; });
-    isOpen = true;
   });
 }

@@ -37,10 +37,12 @@ export const FormCheckbox: React.FC<FormCheckboxProps> = ({
         <div
           className={`
             w-5 h-5 rounded-md 
+            peer-hover:bg-indigo-500 
+            peer-hover:border-indigo-300 
             bg-white/5 border border-white/10 
             flex items-center justify-center
             peer-checked:bg-indigo-500 
-            peer-checked:border-indigo-500 
+            peer-checked:border-indigo-300 
             peer-focus:outline-2 peer-focus:outline-offset-2 peer-focus:outline-indigo-500
             transition
           `}

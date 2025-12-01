@@ -36,17 +36,10 @@ export function registerWikiSearch () {
   if (isInitialized) return;
   isInitialized = true;
 
-  const handleShortcut = (e: KeyboardEvent) => {
-    if (((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'f') && !isOpen) {
-      e.preventDefault();
+  if (!isOpen) {
+    electron.ipcRenderer.on('MENU_WIKISEARCH', () => {
       openCustomModal(<Custom />, '', () => { isOpen = false; });
       isOpen = true;
-    }
-  };
-
-  window.addEventListener('keydown', handleShortcut);
-  electron.ipcRenderer.on('MENU_WIKISEARCH', () => {
-    openCustomModal(<Custom />, '', () => { isOpen = false; });
-    isOpen = true;
-  });
+    });
+  }
 }

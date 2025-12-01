@@ -10,7 +10,7 @@ interface SaveStateProps extends SavestateItem {
   handleRestore: (filename: string) => Promise<void>;
 }
 
-const SaveState = ({ created, filename, handleDelete, handleRestore }: SaveStateProps) => {
+const SaveState = ({ created, filename, size, handleDelete, handleRestore }: SaveStateProps) => {
   const d = new Date(created);
 
   return (
@@ -21,7 +21,9 @@ const SaveState = ({ created, filename, handleDelete, handleRestore }: SaveState
 
       <div className='flex-1 text-sm font-bold'>{filename}</div>
 
-      <div className='flex-1 text-right'>
+      <div className='flex-1 text-sm text-right w-full'>{size}</div>
+
+      <div className='flex text-right w-20'>
         <button
           onClick={() => handleRestore(filename)}
           className='text-indigo-400 hover:text-indigo-500 transition cursor-pointer mr-3'

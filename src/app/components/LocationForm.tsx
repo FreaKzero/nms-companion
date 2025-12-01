@@ -76,7 +76,6 @@ function LocationForm ({ editItem }: ManualPageProps) {
     register,
     handleSubmit,
     setValue,
-    getValues,
     control,
     reset,
     formState: { errors }

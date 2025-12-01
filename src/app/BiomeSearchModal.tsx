@@ -20,17 +20,10 @@ export function registerBiomeSearch () {
   if (isInitialized) return;
   isInitialized = true;
 
-  const handleShortcut = (e: KeyboardEvent) => {
-    if (((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b') && !isOpen) {
-      e.preventDefault();
+  electron.ipcRenderer.on('MENU_BIOME', () => {
+    if (!isOpen) {
       openCustomModal(<Custom />, '', () => { isOpen = false; });
       isOpen = true;
     }
-  };
-
-  window.addEventListener('keydown', handleShortcut);
-  electron.ipcRenderer.on('MENU_BIOME', () => {
-    openCustomModal(<Custom />, '', () => { isOpen = false; });
-    isOpen = true;
   });
 }

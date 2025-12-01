@@ -3,6 +3,7 @@ import { create } from 'zustand';
 export interface SavestateItem {
   filename: string;
   created: string | null;
+  size: string;
 }
 
 interface SavestatesState {
