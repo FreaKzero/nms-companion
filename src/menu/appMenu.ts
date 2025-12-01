@@ -94,15 +94,16 @@ const MenuItems: Electron.MenuItemConstructorOptions[] = [
         type: 'separator'
       },
       {
+        id: 'savestates',
+        label: 'Save States',
+        click: () => emitEvent('MENU-ROUTE', '/savestates'),
+        accelerator: 'CmdOrCtrl+S'
+
+      },
+      {
         id: 'fishtracker',
         label: 'Legendary Fish Tracker',
         click: () => emitEvent('MENU-ROUTE', '/fish')
-      },
-      {
-        id: 'savestates',
-        label: 'Save States',
-        click: () => emitEvent('MENU-ROUTE', '/savestates')
-
       }
     ]
   },
