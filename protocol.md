@@ -12,7 +12,7 @@
 - [x] Empty Caches in Settings
 - [ ] generalize Glyphmap (roulette and glyphs)
 
-# Bugs / Subfeatures
+# Bugs / Subfeaturesr
 - [x] Locations -> Edit: Screenshots should be editable
 - [ ] Settings -> File Selectors => default paths
 - [x] Open Reddit Post Site => https://www.reddit.com/r/NMSCoordinateExchange/submit/?type=IMAGE

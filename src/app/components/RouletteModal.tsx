@@ -19,6 +19,8 @@ import React, { useEffect, useState } from 'react';
 
 import { openCustomModal } from './CustomModal';
 
+import { voxelToPortal } from '../lib/utils';
+
 let isInitialized = false;
 let isOpen = false;
 
@@ -43,21 +45,31 @@ export const glyphMap: Record<string, string> = {
 
 const glyphKeys = Object.keys(glyphMap);
 
+const rand = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
+
 const Roulette: React.FC = () => {
   const [slots, setSlots] = useState<string[]>(Array(12).fill('0'));
   const [spinning, setSpinning] = useState<boolean[]>(Array(12).fill(false));
 
-  const [offsets] = useState<number[]>(() => Array(12).fill(0)
+  const [offsets] = useState<number[]>(() => Array(12)
+    .fill(0)
     .map(() => Math.floor(Math.random() * glyphKeys.length)));
 
   const roll = () => {
     setSpinning(Array(12).fill(true));
 
-    const result = Array(12)
-      .fill('')
-      .map(() => glyphKeys[Math.floor(Math.random() * glyphKeys.length)]);
+    const portalGlyphs = (() => {
+      const P = rand(1, 5);
+      const X = rand(-2048, 2047);
+      const Y = rand(-128, 127);
+      const Z = rand(-2048, 2047);
+      const SSI = 0;
 
-    result.forEach((glyph, i) => {
+      const portalCode = voxelToPortal(P, X, Y, Z, SSI);
+      return portalCode.split('');
+    })();
+
+    portalGlyphs.forEach((glyph, i) => {
       setTimeout(() => {
         setSlots((prev) => {
           const cp = [...prev];
@@ -113,10 +125,8 @@ const Roulette: React.FC = () => {
           </div>
         ))}
       </div>
-      <button
-        onClick={roll}
-        className='button mt-5 w-full'
-      >
+
+      <button onClick={roll} className='button mt-5 w-full'>
         Re-Spin
       </button>
     </>
@@ -124,9 +134,7 @@ const Roulette: React.FC = () => {
 };
 
 const RouletteModal: React.FC = () => {
-  return (
-    <Roulette />
-  );
+  return <Roulette />;
 };
 
 export function registerRouletteModal () {

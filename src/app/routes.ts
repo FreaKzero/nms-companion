@@ -83,8 +83,7 @@ export const routes = [
     location: '/log',
     Icon: PlaneIcon,
     Component: FlightlogPage,
-    order: 7.5,
-    hideMultiplayer: true
+    order: 7.5
   },
   {
     text: 'Discovered Galaxies',
