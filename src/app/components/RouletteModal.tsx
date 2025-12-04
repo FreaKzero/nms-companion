@@ -46,28 +46,34 @@ export const glyphMap: Record<string, string> = {
 const glyphKeys = Object.keys(glyphMap);
 
 const rand = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
+const getGlyphs = () => {
+  const P = rand(1, 5);
+  const X = rand(-2048, 2047);
+  const Y = rand(-128, 127);
+  const Z = rand(-2048, 2047);
+  const SSI = 0;
+
+  const portalCode = voxelToPortal(P, X, Y, Z, SSI);
+  return portalCode.split('');
+};
 
 const Roulette: React.FC = () => {
   const [slots, setSlots] = useState<string[]>(Array(12).fill('0'));
   const [spinning, setSpinning] = useState<boolean[]>(Array(12).fill(false));
-
+  const [glyphs, setGlyphs] = useState('');
   const [offsets] = useState<number[]>(() => Array(12)
     .fill(0)
     .map(() => Math.floor(Math.random() * glyphKeys.length)));
 
+  const copy = async () => {
+    await navigator.clipboard.writeText(glyphs);
+  };
   const roll = () => {
     setSpinning(Array(12).fill(true));
 
-    const portalGlyphs = (() => {
-      const P = rand(1, 5);
-      const X = rand(-2048, 2047);
-      const Y = rand(-128, 127);
-      const Z = rand(-2048, 2047);
-      const SSI = 0;
+    const portalGlyphs = getGlyphs();
 
-      const portalCode = voxelToPortal(P, X, Y, Z, SSI);
-      return portalCode.split('');
-    })();
+    setGlyphs(portalGlyphs.join(''));
 
     portalGlyphs.forEach((glyph, i) => {
       setTimeout(() => {
@@ -125,10 +131,14 @@ const Roulette: React.FC = () => {
           </div>
         ))}
       </div>
-
-      <button onClick={roll} className='button mt-5 w-full'>
-        Re-Spin
-      </button>
+      <div className='flex gap-5'>
+        <button onClick={copy} className='button mt-5 w-full' disabled={!spinning.every((a) => a === false)}>
+          Copy
+        </button>
+        <button onClick={roll} className='button mt-5 w-full' disabled={!spinning.every((a) => a === false)}>
+          Respin
+        </button>
+      </div>
     </>
   );
 };
