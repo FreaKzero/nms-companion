@@ -13,6 +13,7 @@ interface iListStore {
   getAll: () => Promise<void>;
   getPage: (page?: number, pageSize?: number, search?: string) => Promise<void>;
   getId: (id: number) => Promise<void>;
+  getEdit: (id: number) => Promise<void>;
   totalEntries: number;
   currentPage: number;
   pageSize: number;
@@ -72,10 +73,16 @@ const useListStore = create<iListStore>()((set, get) => ({
     set({ loading: false, entries: list, totalEntries: list.length });
   },
 
-  getId: async (id: number) => {
+  getEdit: async (id: number) => {
     set({ loading: true, edit: null });
     const edit: ListState = await electron.ipcRenderer.invoke('db.list.getId', id);
     set({ loading: false, edit });
+  },
+
+  getId: async (id: number) => {
+    set({ loading: true, edit: null });
+    const edit: ListState = await electron.ipcRenderer.invoke('db.list.getId', id);
+    set({ loading: false, entries: [edit], totalEntries: 1 });
   },
 
   getPage: async (page = 1, pageSize = 20, search = '') => {

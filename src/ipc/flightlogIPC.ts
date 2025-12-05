@@ -8,7 +8,7 @@ export interface FlightLog {
   PortalCode: string;
   Created?: string;
   GalaxyName: string | null;
-  inLocations: number;
+  locationsID: number;
 }
 
 export function registerFlightLogIpc (db: Database.Database) {
@@ -60,11 +60,10 @@ export function registerFlightLogIpc (db: Database.Database) {
       f.Created,
       d.GalaxyName,
 
-      -- TRUE/FALSE ob passender Eintrag in locations existiert
       CASE 
-        WHEN l.id IS NOT NULL THEN 1 
-        ELSE 0 
-      END AS inLocations
+        WHEN l.id IS NOT NULL THEN l.id
+        ELSE -1
+      END AS locationsID
 
     FROM flightlog f
 
@@ -83,7 +82,7 @@ export function registerFlightLogIpc (db: Database.Database) {
 
     return rows.map((r) => ({
       ...r,
-      inLocations: !!r.inLocations
+      locationsID: Number(r.locationsID)
     }));
   });
 }

@@ -7,11 +7,11 @@ import useListStore from '../stores/useLocationStore';
 
 function EditLocationPage () {
   const { id } = useParams();
-  const getId = useListStore((s) => s.getId);
+  const getEdit = useListStore((s) => s.getEdit);
   const edit = useListStore((s) => s.edit);
   const loading = useListStore((s) => s.loading);
   useEffect(() => {
-    getId(Number(id));
+    getEdit(Number(id));
   }, [id]);
 
   return (

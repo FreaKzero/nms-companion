@@ -149,6 +149,7 @@ function ListPage () {
   const {
     getPage,
     delete: deleteEntry,
+    getId,
     entries,
     currentPage,
     pageSize,
@@ -159,6 +160,7 @@ function ListPage () {
   const [search, setSearch] = useState(searchParams.get('search') || '');
   const [searchGalaxy, setSearchGalaxy] = useState('');
   const [searchBiome, setSearchBiome] = useState('');
+  const [qs] = useSearchParams();
 
   const getGalaxies = useMetaStore((s) => s.getGalaxies);
   const getBiomes = useMetaStore((s) => s.getBiomes);
@@ -168,6 +170,7 @@ function ListPage () {
 
   const startAutoRefresh = useAutoRefreshStore((s) => s.start);
   const nav = useNavigate();
+  const qsId = qs.get('id');
 
   const searchQuery = useMemo(() => {
     return `${searchBiome} ${searchGalaxy} ${search}`
@@ -183,25 +186,26 @@ function ListPage () {
     startAutoRefresh();
     getGalaxies();
     getBiomes();
-    getPage(1, pageSize);
   }, [
     startAutoRefresh,
     getGalaxies,
-    getBiomes,
-    getPage,
-    pageSize
+    getBiomes
   ]);
 
-  // Debounced search
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      getPage(1, pageSize, searchQuery);
-    }, 300);
-    return () => clearTimeout(timeout);
+    if (qsId) {
+      getId(Number(qsId));
+    } else {
+      const timeout = setTimeout(() => {
+        getPage(1, pageSize, searchQuery);
+      }, 300);
+      return () => clearTimeout(timeout);
+    }
   }, [
     searchQuery,
     pageSize,
-    getPage
+    getPage,
+    qsId
   ]);
 
   const handleDelete = async (id: number) => {
@@ -242,54 +246,66 @@ function ListPage () {
   const handleEdit = (id: number) => nav(`/edit/${id}`);
 
   return (
-    <div className='bg-gray-900 text-white rounded-lg shadow-md p-4 w-full'>
-      <div className='flex gap-2 mb-4'>
-        <FormInput
-          id='search'
-          label='Search'
-          placeholder='Search ...'
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          onClear={() => setSearch('')}
-          className='w-full'
-        />
+    <>
+      <div className='bg-gray-900 text-white rounded-lg shadow-md p-4 w-full'>
+        {!qsId && (
+          <div className='flex gap-2 mb-4'>
+            <FormInput
+              id='search'
+              label='Search'
+              placeholder='Search ...'
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onClear={() => setSearch('')}
+              className='w-full'
+            />
 
-        <FormDropdown
-          label='Biome'
-          name='searchBiome'
-          options={optionBiomes}
-          onChange={(value: string) => setSearchBiome(value)}
-        />
+            <FormDropdown
+              label='Biome'
+              name='searchBiome'
+              options={optionBiomes}
+              onChange={(value: string) => setSearchBiome(value)}
+            />
 
-        <FormDropdown
-          label='Galaxy'
-          name='searchGalaxy'
-          options={optionGalaxies}
-          onChange={(value: string) => setSearchGalaxy(value)}
+            <FormDropdown
+              label='Galaxy'
+              name='searchGalaxy'
+              options={optionGalaxies}
+              onChange={(value: string) => setSearchGalaxy(value)}
+            />
+          </div>
+        )}
+
+        <div className='divide-y divide-gray-800'>
+          {entries.map((loc) => (
+            <ListItem
+              key={loc.id}
+              {...loc}
+              onDelete={handleDelete}
+              onTagClick={handleTagClick}
+              onCopy={handleOnCopy}
+              onSelect={handleOnSelect}
+              onEdit={handleEdit}
+            />
+          ))}
+        </div>
+
+        <Pagination
+          currentPage={currentPage}
+          totalEntries={totalEntries}
+          pageSize={pageSize}
+          onPageChange={handlePageChange}
         />
       </div>
 
-      <div className='divide-y divide-gray-800'>
-        {entries.map((loc) => (
-          <ListItem
-            key={loc.id}
-            {...loc}
-            onDelete={handleDelete}
-            onTagClick={handleTagClick}
-            onCopy={handleOnCopy}
-            onSelect={handleOnSelect}
-            onEdit={handleEdit}
-          />
-        ))}
-      </div>
-
-      <Pagination
-        currentPage={currentPage}
-        totalEntries={totalEntries}
-        pageSize={pageSize}
-        onPageChange={handlePageChange}
-      />
-    </div>
+      {qsId && (
+        <div className='text-right'>
+          <button onClick={() => window.history.go(-1)} className='button mt-5'>
+            Back
+          </button>
+        </div>
+      )}
+    </>
   );
 }
 

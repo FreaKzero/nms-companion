@@ -1,17 +1,17 @@
 import { FlightLog } from '@/ipc/flightlogIPC';
 
-import { CircleSlash, PlusCircleIcon } from 'lucide-react';
+import { MapPin, PlusCircleIcon } from 'lucide-react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { confirmModal } from '../components/ConfirmModal';
 import useFlightlogStore from '../stores/useFlightlogStore';
 
-const Log: React.FC<FlightLog> = ({ GalaxyIndex, GalaxyName, PortalCode, Created, Summary, inLocations }) => {
+const Log: React.FC<FlightLog> = ({ GalaxyIndex, GalaxyName, PortalCode, Created, Summary, locationsID }) => {
   const d = new Date(Created);
   const nav = useNavigate();
   return (
-    <li className={`flex text-sm items-center justify-between py-3 px-3 hover:bg-gray-800 transition rounded-lg gap-4 ${inLocations ? 'text-gray-400' : 'text-white'}`}>
+    <li className={`flex text-sm items-center justify-between py-3 px-3 hover:bg-gray-800 transition rounded-lg gap-4 ${locationsID > -1 ? 'text-gray-400' : 'text-white'}`}>
       <div>
         {d.toLocaleDateString('en-EN')} {d.toLocaleTimeString('at-AT')}
       </div>
@@ -23,11 +23,14 @@ const Log: React.FC<FlightLog> = ({ GalaxyIndex, GalaxyName, PortalCode, Created
         {PortalCode}
       </div>
       <div className='flex1 text-right'>
-        {inLocations
+        {locationsID > -1
           ? (
-            <div className='text-gray-400'>
-              <CircleSlash size={20} />
-            </div>
+            <button
+              onClick={() => nav(`/locations?id=${locationsID}`)}
+              className='text-indigo-400 hover:text-indigo-500 transition cursor-pointer'
+            >
+              <MapPin size={20} />
+            </button>
             )
           : (
 
