@@ -39,42 +39,6 @@ export interface PositionType {
   Summary: string;
 }
 
-export function portalToVoxel (portalCode: string) {
-  const b6 = portalCode.substring(portalCode.length - 3);
-  const b5 = portalCode.substring(portalCode.length - 6, portalCode.length - 3);
-  const b4 = portalCode.substring(portalCode.length - 8, portalCode.length - 6);
-  const b3 = portalCode.substring(portalCode.length - 11, portalCode.length - 8);
-  const b2 = portalCode.substring(portalCode.length - 12, portalCode.length - 11);
-
-  const dec1 = parseInt('1000', 16);
-  const dec2 = parseInt('100', 16);
-  const dec3 = parseInt('7F', 16);
-  const dec4 = parseInt('7FF', 16);
-
-  const ssidec = parseInt(b3, 16);
-  const decY = parseInt(b4, 16);
-  const decZ = parseInt(b5, 16);
-  const decX = parseInt(b6, 16);
-
-  const calc1 = (decX + dec4) % dec1;
-  const calc2 = (decY + dec3) % dec2;
-  const calc3 = (decZ + dec4) % dec1;
-
-  const iPlanet = parseInt(b2, 16);
-  const iX = calc1 - 2047;
-  const iY = calc2 - 127;
-  const iZ = calc3 - 2047;
-  const iSSI = ssidec;
-
-  return {
-    VoxelX: iX,
-    VoxelY: iY,
-    VoxelZ: iZ,
-    SolarSystemIndex: iSSI,
-    PlanetIndex: iPlanet
-  };
-}
-
 // https:// github.com/NMSCD/nms-save-web-editor
 
 export const getGalaxyName = (galaxy: number) => GalaxyNames[galaxy] || `Unknown (${galaxy})`;

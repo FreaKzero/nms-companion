@@ -97,6 +97,12 @@ const MenuItems: Electron.MenuItemConstructorOptions[] = [
         accelerator: 'CmdOrCtrl+R'
       },
       {
+        id: 'compass',
+        label: 'Open Compass',
+        click: () => emitEvent('MENU_COMPASS'),
+        accelerator: 'CmdOrCtrl+K'
+      },
+      {
         type: 'separator'
       },
       {

@@ -41,4 +41,13 @@
 ## Refactor Timer
 
 
+Compass
+LAT LON
+
+N E S W
+
+N +LAT
+E +LON
+S -LAT
+W -LON
 

@@ -3,6 +3,7 @@ import { ThemeProvider } from '@/app/components/theme-provider';
 import { Route, HashRouter as Router, Routes } from 'react-router-dom';
 
 import { registerBiomeSearch } from './BiomeSearchModal';
+import { registerCompassModal } from './components/CompassModal';
 import ContentContainer from './components/ContentContainer';
 import { registerRouletteModal } from './components/RouletteModal';
 import RouterListener from './components/RouterListener';
@@ -15,6 +16,7 @@ registerBiomeSearch();
 registerWikiSearch();
 registerRouletteModal();
 registerTimerModal();
+registerCompassModal();
 
 export default function App () {
   return (
