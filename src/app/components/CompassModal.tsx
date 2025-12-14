@@ -69,10 +69,10 @@ export default function Compass () {
           className='absolute w-60 h-60 rounded-full border-4 border-gray-500 flex items-center justify-center transition-transform duration-300'
           style={{ transform: `rotate(${angle}deg)` }}
         >
-          <span className='absolute top-2 font-bold text-xl'>S</span>
-          <span className='absolute bottom-2 font-bold text-xl'>N</span>
-          <span className='absolute left-2 font-bold text-xl'>E</span>
-          <span className='absolute right-2 font-bold text-xl'>W</span>
+          <span className='absolute top-2 font-bold text-xl'>N</span>
+          <span className='absolute bottom-2 font-bold text-xl'>S</span>
+          <span className='absolute left-2 font-bold text-xl'>W</span>
+          <span className='absolute right-2 font-bold text-xl'>E</span>
         </div>
 
         <div

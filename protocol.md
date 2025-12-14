@@ -16,7 +16,7 @@
 - [ ] On Error reroute to /settings and open an Dialogwindow with the Errormessage Info Dialog
 - [ ] Database Migration: UpdateDate in location table (needed for Import/Export)
 - [ ] Fix Devsave in Developer Page (and rename it)
-- [ ] Flightlog truncate bug - await ?
+- [x] Flightlog truncate bug - await ?
 --
 
 ## Import/Export

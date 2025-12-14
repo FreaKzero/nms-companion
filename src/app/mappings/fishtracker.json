@@ -24,10 +24,10 @@
   {"id":20,"fish":"Gamma Squid","biome":"Irradiated","onlyNight":false,"done":false,"value":"150.000","size":"Large","depth":50},
   {"id":21,"fish":"Helix Sawfish","biome":"Irradiated","onlyNight":false,"done":false,"value":"200.000","size":"Colossal","depth":55},
 
-  {"id":22,"fish":"Bleached Bonefish","biome":"Toxic","onlyNight":false,"done":false,"value":"150,000","size":"Large","depth":50},
-  {"id":23,"fish":"Emeril Sunstar","biome":"Toxic","onlyNight":false,"done":false,"value":"50,000","size":"Small","depth":20},
-  {"id":24,"fish":"Vampire Squid","biome":"Toxic","onlyNight":true,"done":false,"value":"100,000","size":"Medium","depth":25},
-  {"id":25,"fish":"Whispering Bonefish","biome":"Toxic","onlyNight":true,"done":false,"value":"10,000","size":"Large","depth":55},
+  {"id":22,"fish":"Bleached Bonefish","biome":"Toxic","onlyNight":false,"done":false,"value":"150.000","size":"Large","depth":50},
+  {"id":23,"fish":"Emeril Sunstar","biome":"Toxic","onlyNight":false,"done":false,"value":"50.000","size":"Small","depth":20},
+  {"id":24,"fish":"Vampire Squid","biome":"Toxic","onlyNight":true,"done":false,"value":"100.000","size":"Medium","depth":25},
+  {"id":25,"fish":"Translucent Gulper","biome":"Toxic","onlyNight":false,"done":false,"value":"200.000","size":"Colossal","depth":55},
 
   {"id":26,"fish":"Fragile Icthyoscale","biome":"Barren","onlyNight":false,"done":false,"value":"50.000","size":"Small","depth":20},
   {"id":27,"fish":"Titanworm Larva","biome":"Barren","onlyNight":false,"done":false,"value":"100.000","size":"Medium","depth":25},

@@ -56,8 +56,8 @@ function FlightlogPage () {
     getAll();
   }, []);
 
-  const handleTruncate = () => {
-    const res = confirmModal('Do you really to remove all Logs ?');
+  const handleTruncate = async () => {
+    const res = await confirmModal('Do you really to remove all Logs ?');
     if (res) {
       truncate();
     }
